@@ -35,3 +35,12 @@ Popup a "categorize" window that allows the user to add tags to the information.
 
 # Import User's Existing Bookmarks
 Allow the user to import and easily categorize any bookmarks they already have in Chrome
+
+# Possible Useful Links
+Realitime Filtration, Fuzzing searching libraries:
+http://fusejs.io/
+
+Alternative ORMs:
+https://knexjs.org/
+
+http://www.chartjs.org/
