@@ -22,9 +22,7 @@ https://boostnote.io/
 https://alternativeto.net/software/boostnote/
 
 # Add Search of GitHub 
-Provide a list of repositories/users that align with the user's preferences
-
-
+Provide a list of repositories/users that align with the user's preferences 
 
 # Passport-Based Login System
 http://www.passportjs.org/
@@ -44,3 +42,15 @@ Alternative ORMs:
 https://knexjs.org/
 
 http://www.chartjs.org/
+
+#API Pastebin
+similar to our idea and gists from github.  Code snippet repo. We could pull this in so users can search comparable code?
+https://pastebin.com/api
+
+#API GitHub
+https://developer.github.com/v3/search/#search-code
+github has an api that allows searching. Can input very narrow searches by using their meta tags.
+
+saw lots of API's: email validation; checking IP address origin and comparing to Blacklisted IP's; facial recognition, silly stuff too
+
+- also API that screenshots entire webpage and converts to PDF. Prob not useful for us, but I want to save it on our App for another time!! lol
