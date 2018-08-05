@@ -300,17 +300,18 @@ CREATE TABLE `projectcomments` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='This table holds comments made by project members on full urls or snippets';
 
+-- 
 -- DROP TABLE IF EXISTS `projectcomment_tags`;
-CREATE TABLE `projectcomment_tags` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `commentid` int(11) DEFAULT NULL,
-  `tagid` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `commentid_idx` (`commentid`),
-  KEY `tagid_idx` (`tagid`),
-  CONSTRAINT `projectcomment_tags_commentid` FOREIGN KEY (`commentid`) REFERENCES `projectcomments` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `projectcomment_tags_tagid` FOREIGN KEY (`tagid`) REFERENCES `tags` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='This table is used to relate a projectcomment with all tags assigned to that comment';
+-- CREATE TABLE `projectcomment_tags` (
+--   `id` int(11) NOT NULL AUTO_INCREMENT,
+--   `commentid` int(11) DEFAULT NULL,
+--   `tagid` int(11) DEFAULT NULL,
+--   PRIMARY KEY (`id`),
+--   KEY `commentid_idx` (`commentid`),
+--   KEY `tagid_idx` (`tagid`),
+--   CONSTRAINT `projectcomment_tags_commentid` FOREIGN KEY (`commentid`) REFERENCES `projectcomments` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+--   CONSTRAINT `projectcomment_tags_tagid` FOREIGN KEY (`tagid`) REFERENCES `tags` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+-- ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='This table is used to relate a projectcomment with all tags assigned to that comment';
 
 
 -- When a comment is added by a user in the project, both this table and the projectcomments table will need to be updated
