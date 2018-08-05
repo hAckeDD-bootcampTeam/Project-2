@@ -58,4 +58,8 @@ INSERT INTO projectreference_comments(projectid,userid,fullurlid,snippetid,comme
 
 INSERT INTO projectreference_fullurls(projectid,userid,fullurlid,upvotes,downvotes) VALUES('1','1','1','3','1'),('1','2','2','8','3'),('2','3','2','8','3'),('3','4','3','1','1'),('3','4','1','1','1');
 
--- To do: need to add relations for tags
+INSERT INTO projectfullurl_tags(fullurlid,tagid) VALUES('1','3'),('1','7'),('2','1');
+
+INSERT INTO projectsnippet_tags(snippetid,tagid) VALUES('2','3'),('3','7'),('1','1');
+
+INSERT INTO projectcomment_tags(commentid,tagid) VALUES('1','3'),('1','7'),('2','2');
