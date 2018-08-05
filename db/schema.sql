@@ -235,6 +235,17 @@ CREATE TABLE `projectfullurls` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='This table holds full complete url that the user has added to a project';
 
+-- DROP TABLE IF EXISTS `projectfullurl_tags`;
+CREATE TABLE `projectfullurl_tags` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `fullurlid` int(11) DEFAULT NULL,
+  `tagid` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fullurlid_idx` (`fullurlid`),
+  KEY `tagid_idx` (`tagid`),
+  CONSTRAINT `projectfullurl_tags_fullurlid` FOREIGN KEY (`fullurlid`) REFERENCES `projectfullurls` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `projectfullurl_tags_tagid` FOREIGN KEY (`tagid`) REFERENCES `tags` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='This table is used to relate a projectfullurl with all tags assigned to it';
 
 
 -- DROP TABLE IF EXISTS `projectsnippets`;
@@ -244,6 +255,18 @@ CREATE TABLE `projectsnippets` (
   `snippet` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='This table holds all the text snippets for projects';
+
+-- DROP TABLE IF EXISTS `projectsnippet_tags`;
+CREATE TABLE `projectsnippet_tags` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `snippetid` int(11) DEFAULT NULL,
+  `tagid` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `snippetid_idx` (`snippetid`),
+  KEY `tagid_idx` (`tagid`),
+  CONSTRAINT `projectsnippet_tags_snippetid` FOREIGN KEY (`snippetid`) REFERENCES `projectsnippets` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `projectsnippet_tags_tagid` FOREIGN KEY (`tagid`) REFERENCES `tags` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='This table is used to relate a projectsnippet with all tags assigned to that snippet';
 
 
 -- Do we need this extra relationship? If we already can relate the fullurls to the project/group, and we relate snippets to full urls - are there any cases where that one single user-fullurl relationship is not enough?
@@ -276,6 +299,18 @@ CREATE TABLE `projectcomments` (
   `lastupdated` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='This table holds comments made by project members on full urls or snippets';
+
+-- DROP TABLE IF EXISTS `projectcomment_tags`;
+CREATE TABLE `projectcomment_tags` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `commentid` int(11) DEFAULT NULL,
+  `tagid` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `commentid_idx` (`commentid`),
+  KEY `tagid_idx` (`tagid`),
+  CONSTRAINT `projectcomment_tags_commentid` FOREIGN KEY (`commentid`) REFERENCES `projectcomments` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `projectcomment_tags_tagid` FOREIGN KEY (`tagid`) REFERENCES `tags` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='This table is used to relate a projectcomment with all tags assigned to that comment';
 
 
 -- When a comment is added by a user in the project, both this table and the projectcomments table will need to be updated
