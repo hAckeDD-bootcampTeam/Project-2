@@ -43,6 +43,11 @@ https://knexjs.org/
 
 http://www.chartjs.org/
 
+Website Documentation:
+https://www.docsie.io/
+
+https://graphql.org/learn/
+
 #API Pastebin
 similar to our idea and gists from github.  Code snippet repo. We could pull this in so users can search comparable code?
 https://pastebin.com/api
