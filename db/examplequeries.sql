@@ -48,4 +48,33 @@ In this case, we're using user 2, which is Elizabeth
 	LEFT JOIN tags as fullurltags on fullurltags.id = fullurl_tags.tagid
 	WHERE users.id = '2' AND user_fullurls.userid='2' AND user_snippets.userid='2';    
 
+-- Projects
+
+	SELECT
+	projects.projectname,
+	projects.description,
+	projects.created as projectcreated,
+	projects.lastupdated as projectlastupdated,
+	projectaccesstypes.accesstype,
+	-- each fullurl shows the user that added it, comments associated with it, and any upvotes/downvotes (don't forget the tag)
+	fullurlusers.displayname as fullurladdedby,
+	projectfullurls.url as fullurl,
+	projectfullurls.pagetitle,
+	projectfullurls.userdescription,
+	fullurlcommentusers.displayname as fullurlcommentdisplayname,
+	fullurlcomments.commenttext as fullurlcommenttext,
+	projectreference_fullurls.upvotes as fullurlupvotes,
+	projectreference_fullurls.downvotes as fullurldownvotes
+	FROM projects
+	LEFT JOIN projectaccesstypes ON projects.accesstype = projectaccesstypes.id
+	-- each fullurl shows the user that added it, comments associated with it, and any upvotes/downvotes
+	LEFT JOIN projectreference_fullurls ON projectreference_fullurls.projectid = projects.id
+	RIGHT JOIN projectfullurls ON projectreference_fullurls.fullurlid = projectfullurls.id -- only include fullurls that are assigned to this project
+	LEFT JOIN users as fullurlusers ON projectreference_fullurls.userid = fullurlusers.id
+	LEFT JOIN projectreference_comments as projectreference_fullurlcomments ON projectreference_fullurlcomments.projectid = projects.id 
+	RIGHT JOIN projectcomments as fullurlcomments ON fullurlcomments.id = projectreference_fullurlcomments.fullurlid
+	LEFT JOIN users as fullurlcommentusers ON fullurlcommentusers.id = projectreference_fullurlcomments.userid
+	WHERE projects.id='1' AND projectreference_fullurls.projectid='1' AND projectreference_fullurlcomments.projectid='1' 
+
+
 */
