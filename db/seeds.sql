@@ -62,4 +62,4 @@ INSERT INTO projectfullurl_tags(fullurlid,tagid) VALUES('1','3'),('1','7'),('2',
 
 INSERT INTO projectsnippet_tags(snippetid,tagid) VALUES('2','3'),('3','7'),('1','1');
 
-INSERT INTO projectcomment_tags(commentid,tagid) VALUES('1','3'),('1','7'),('2','2');
+-- INSERT INTO projectcomment_tags(commentid,tagid) VALUES('1','3'),('1','7'),('2','2');
