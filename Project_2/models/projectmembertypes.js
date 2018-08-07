@@ -14,7 +14,5 @@ module.exports = function (sequelize, DataTypes) {
             onUpdate: "no action"
         });
     };
-
-
     return Projectmembertypes;
 };

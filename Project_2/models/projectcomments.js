@@ -10,12 +10,12 @@ module.exports = function (sequelize, DataTypes) {
         Projectcomments.belongsToMany(models.Tags, {
             through: models.Projectcomment_tags,
             onDelete: "no action",
-            onUpdate: "no action"
+            onUpdate: "cascade"
 
         });
         Projectcomments.hasMany(models.Projectreference_comments, {
             onDelete: "no action",
-            onUpdate: "no action"
+            onUpdate: "cascade"
 
         });
     };

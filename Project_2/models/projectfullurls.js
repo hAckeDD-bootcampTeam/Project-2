@@ -22,15 +22,15 @@ module.exports = function (sequelize, DataTypes) {
             through: models.Projectfullurl_tags,
             foreignKey: "Projfullurlid",
             onDelete: "no action",
-            onUpdate: "no action"
+            onUpdate: "cascade"
         });
         Projectfullurls.hasMany(models.Projectreference_comments, {
             onDelete: "no action",
-            onUpdate: "no action"
+            onUpdate: "cascade"
         });
         Projectfullurls.hasMany(models.Projectreference_fullurls, {
             onDelete: "no action",
-            onUpdate: "no action"
+            onUpdate: "cascade"
         });
     };
     return Projectfullurls;

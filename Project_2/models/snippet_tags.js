@@ -1,8 +1,6 @@
 module.exports = function (sequelize, DataTypes) {
-    var User_snippets = sequelize.define("User_snippets", {
+    var Snippet_tags = sequelize.define("Snippet_tags", {
         status: DataTypes.STRING
     });
-    
-
-    return User_snippets;
+    return Snippet_tags;
 };

@@ -20,14 +20,18 @@ app.use(express.static("public"));
 
 // Routes
 // =============================================================
-// require("./routes/html-routes.js")(app);
-// require("./routes/author-api-routes.js")(app);
-// require("./routes/post-api-routes.js")(app);
+require("./routes/snippets-api-routes.js")(app);
+require("./routes/fullurls-api-routes.js")(app);
+require("./routes/users-api-routes.js")(app);
+require("./routes/tags-api-routes.js")(app);
+require("./routes/projectaccesstypes-api-routes.js")(app);
+
+
 
 // Syncing our sequelize models and then starting our Express app
 // =============================================================
-db.sequelize.sync({ force: true }).then(function() {
-  app.listen(PORT, function() {
+db.sequelize.sync({ force: true}).then(function () {
+  app.listen(PORT, function () {
     console.log("App listening on PORT " + PORT);
   });
 });

@@ -3,19 +3,16 @@ module.exports = function (sequelize, DataTypes) {
         accesstype: {
             type: DataTypes.STRING,
             allowNull: false,
-            defaultValue: "",
-            unique: true
+            defaultValue: "Public"
+            // unique: true
         }
     });
     Projectaccesstypes.associate = function (models) {
         Projectaccesstypes.hasMany(models.Projects, {
             foreignKey: "accesstypeId",
             onDelete: "no action",
-            onUpdate: "no action"
+            onUpdate: "cascade"
         });
     }
-
-
-
     return Projectaccesstypes;
 };
