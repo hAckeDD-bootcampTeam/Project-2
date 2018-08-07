@@ -18,16 +18,18 @@ module.exports = function (sequelize, DataTypes) {
     });
 
     Fullurls.associate = function (models) {
+        //many Fullurls can have many Snippets, and vice versa, they area associated through the Snippet_fullurls table
         Fullurls.belongsToMany(models.Snippets, {
             through: models.Snippet_fullurls,
             foreignKey: "fullurlid",
             onDelete: "no action",
-            onUpdate: "no action"
+            onUpdate: "cascade"
         });
+         //many Fullurls can have many tags, and vice versa, they area associated through the Fullurl_tags table
         Fullurls.belongsToMany(models.Tags, {
             through: models.Fullurl_tags,
             onDelete: "no action",
-            onUpdate: "no action"
+            onUpdate: "cascade"
         });
     };
     return Fullurls;

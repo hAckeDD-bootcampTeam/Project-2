@@ -9,13 +9,12 @@ module.exports = function (sequelize, DataTypes) {
     Projectsnippets.associate = function (models) {
         Projectsnippets.hasMany(models.Projectreference_snippets, {
             onDelete: "no action",
-            onUpdate: "no action"
+            onUpdate: "cascade"
         });
         Projectsnippets.hasMany(models.Projectreference_comments, {
             onDelete: "no action",
-            onUpdate: "no action"
+            onUpdate: "cascade"
         });
     };
-
     return Projectsnippets
 };

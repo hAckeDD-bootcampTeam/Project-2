@@ -23,7 +23,7 @@ module.exports = function (sequelize, DataTypes) {
     Projects.associate = function (models) {
         Projects.hasMany(models.Projectreference_fullurls, {
             onDelete: "no action",
-            onUpdate: "no action"
+            onUpdate: "cascade"
         });
     };
     return Projects;
