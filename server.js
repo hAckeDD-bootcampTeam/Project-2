@@ -1,37 +1,43 @@
-var express = require("express");
-var bodyParser = require("body-parser");
 
-// Sets up the Express App
-// =============================================================
-var app = express();
-var PORT = process.env.PORT || 8080;
+// Package dependenies
+const express = require('express');
+const bodyParser = require('body-parser');
 
-// Requiring our models for syncing
-var db = require("./models");
-// Sets up the Express app to handle data parsing
+// Configure express. Allow getting port from the bound environment variable
+const app = express();
+const PORT = process.env.PORT || 8080;
 
-// parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: true }));
-// parse application/json
+// Use the models
+const db = require('./models');
+
+// Sets up parts of the express app that will be used, including static directory 
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.text());
+app.use(express.static('public'));
 
-// Static directory
-app.use(express.static("public"));
+// Set Handlebars.
+const exphbs = require('express-handlebars');
+app.engine('handlebars', exphbs({ defaultLayout: 'main' }));
+app.set('view engine', 'handlebars');
 
-// Routes
-// =============================================================
+// Import routes and give the server access to them.
+require('./routes/html-routes.js')(app);
 require("./routes/snippets-api-routes.js")(app);
 require("./routes/fullurls-api-routes.js")(app);
 require("./routes/users-api-routes.js")(app);
 require("./routes/tags-api-routes.js")(app);
 require("./routes/projectaccesstypes-api-routes.js")(app);
+// require('./routes/api-routes.js')(app);
 
-
-
-// Syncing our sequelize models and then starting our Express app
-// =============================================================
-db.sequelize.sync({ force: true}).then(function () {
-  app.listen(PORT, function () {
-    console.log("App listening on PORT " + PORT);
-  });
+// Instantiate listener
+// db.sequelize.sync({ force: true}).then(function () {
+db.sequelize.sync().then(function () {
+	app.listen(PORT, function () {
+    
+		/*eslint-disable */
+		//suppress all warnings between comments
+		console.log("App listening on PORT" + PORT);
+		/*eslint-enable */
+});
 });
