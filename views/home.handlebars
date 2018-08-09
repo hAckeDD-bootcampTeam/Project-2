@@ -36,11 +36,11 @@
                 <input class="form-control mr-md-2" type="search" placeholder="Search Tag" aria-label="Search">
                 <button class="btn cache-btn my-2 my-sm-0">Search</button>
             </form>
-        </nav> 
+        </nav>
         <div class="container-fluid">
             <div class="row p-2">
                 <div class="card-deck">
-                    <div class="card rounded-0 p-2">
+                    <div class="card rounded-0 p-2 shadow-lg">
                         <div class="card-header pr-0 pl-0 pb-2">
                             <span class="badge snippet-badge badge-pill badge-warning" value="">Sample Tag</span>
                         </div>
@@ -58,7 +58,8 @@
                                     <button class="btn btn-block mt-3 mb-3 btn-danger">Delete Snippet</button>
                                     <button class="btn btn-block mt-3 mb-3 cache-btn">Remove Tag</button>
                                     <button class="btn btn-block mt-3 mb-3 cache-btn">Share With Group</button>
-                                    {{!-- <div id="share-group-snip" class="mb-2 content-font">
+                                    {{!--
+                                    <div id="share-group-snip" class="mb-2 content-font">
                                         <span class="badge badge-pill badge-dark">Group</span>
                                     </div> --}}
                                     <div class="input-group mb-3">
@@ -87,17 +88,94 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> 
     <div id="projs-div" class="home-main-div mx-auto">
-
+        <div class="m-2">
+            <button id="add-proj-btn" type="button" class="btn btn-circle btn-xl m-1 shadow" data-toggle="modal" data-target="#add-project-modal">
+                <i class="fas fa-plus-circle"></i>
+            </button>
+            <h5 class="tile-header d-inline p-2 mt-5 rounded heading-font">Launch New Project</h5>
+        </div>
+        <div class="card-deck p-2">
+            <div class="card card-inverse mb-3">
+                <img class="card-img rounded-0" src="images/proj-card-br.jpg" alt="Card image">
+                <div class="card-img-overlay">
+                    <div class="d-flex flex-column justify-content-center align-items-center">
+                        <h5 class="card-title heading-font text-center proj-card">Project Title</h5>
+                        <div>
+                            <span class="badge snippet-badge badge-pill badge-warning" value="">Sample Tag</span>
+                            <span class="badge snippet-badge badge-pill badge-warning" value="">Sample Tag</span>
+                            <span class="badge snippet-badge badge-pill badge-warning" value="">Sample Tag</span>
+                            <span class="badge snippet-badge badge-pill badge-warning" value="">Sample Tag</span>
+                            <span class="badge snippet-badge badge-pill badge-warning" value="">Sample Tag</span>
+                            <span class="badge snippet-badge badge-pill badge-warning" value="">Sample Tag</span>
+                            <span class="badge snippet-badge badge-pill badge-warning" value="">Sample Tag</span>
+                        </div>
+                        <div class="card-footer text-muted proj-card-footer">
+                            <button type="submit" class="btn login-btn btn-block heading-font open-proj-console" data-toggle="modal" data-target=".proj-display-modal">Open Console</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer content-font">
+        <i class="far fa-copyright"></i> HACKEDD Development Team 2018
     </div>
 </div>
-<div class="footer content-font">
-    <i class="far fa-copyright"></i> HACKEDD Development Team 2018
-</div>
+
+ 
+{{!-- Group Showing Modal --}}
+<div class="modal fade proj-display-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            ...
+        </div>
+    </div>
 </div>
 
-{{!-- Modals --}}
+{{!-- New Project Modal --}}
+<div class="modal fade" id="add-project-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content heading-font p-2">
+            <div class="modal-header text-center">
+                <h5 class="modal-title w-100 font-weight-bold">Time to share that good idea!</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="form-group mt-2 mb-2">
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <i class="far fa-lightbulb m-2 text-secondary"></i>
+                    </span>
+                    <input id="new-proj-name" type="text" class="form-control" placeholder="Project Name" required="required">
+                </div>
+            </div>
+            <div class="form-group mt-2 mb-2">
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <i class="far fa-comments text-secondary m-2"></i>
+                    </span>
+                    <input id="new-proj-desc" type="password" class="form-control" placeholder="Description" required="required">
+                </div>
+            </div>
+            <div class="form-group mt-2 mb-2">
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <i class="fas fa-tags m-2 text-secondary"></i>
+                    </span>
+                    <input id="new-proj-tag" type="password" class="form-control" placeholder="Begginner tag">
+                </div>
+            </div>
+            <div class="modal-footer d-flex justify-content-center">
+                <button id="new-proj-btn" class="btn btn-default rounded-0">Start Project!</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{!-- Query Reddit Modal --}}
 <div class="modal fade" id="reddit-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content rounded-0">
@@ -143,7 +221,7 @@
         </div>
     </div>
 </div>
-
+{{!-- Add Snippet Modal --}}
 <div class="modal fade" id="add-snip-modal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content rounded-0">
