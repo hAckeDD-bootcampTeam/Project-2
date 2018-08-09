@@ -7,12 +7,12 @@ module.exports = function (sequelize, DataTypes) {
             unique: true
         }
     });
-    Projectmembertypes.associate = function (models) {
-        Projectmembertypes.hasMany(models.Projectgroupmembers, {
-            foreignKey: "membertypeid",
-            onDelete: "no action",
-            onUpdate: "no action"
-        });
-    };
+    // Projectmembertypes.associate = function (models) {
+    //     Projectmembertypes.hasMany(models.Projectgroupmembers, {
+    //         foreignKey: "membertypeid",
+    //         onDelete: "no action",
+    //         onUpdate: "no action"
+    //     });
+    // };
     return Projectmembertypes;
 };

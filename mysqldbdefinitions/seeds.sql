@@ -47,7 +47,7 @@ INSERT INTO projectfullurls(url,pagetitle,userdescription) VALUES('https://www.r
 -- for testing, I just kept the information that same as the text info for the user
 INSERT INTO projectsnippets(snippet) VALUES('This is some interesting text about data structures'),('Here is some text relating to Sequelize'),('This text was copied from a travel blog'),('this sure is interesting'),('this is some text about an interesting subject');
 
-INSERT INTO projectreference_snippets(projectid,userid,snippetid,upvotes,downvotes) VALUES('1','1','1','5','2'),('1','2','3','1','1'),('1','3','2','4','0'),('2','4','3','2','0');
+
 
 INSERT INTO projectcomments(commenttext,created,lastupdated) VALUES('Hi, my name is Derek and I approve of this message',NOW(),NOW()),('I think that this link is really helpful - David',NOW(),NOW()),('This sounds perfect for what we want to accomplish - Angelina',NOW(),NOW()),('Elizabeth: There are some really good data structure examples here',NOW(),NOW());
 
@@ -57,9 +57,8 @@ INSERT INTO projectreference_comments(projectid,userid,fullurlid,snippetid,comme
 INSERT INTO projectreference_comments(projectid,userid,fullurlid,snippetid,commentid,upvotes,downvotes) VALUES('1','1',null,'2','4','44','44');
 
 INSERT INTO projectreference_fullurls(projectid,userid,fullurlid,upvotes,downvotes) VALUES('1','1','1','3','1'),('1','2','2','8','3'),('2','3','2','8','3'),('3','4','3','1','1'),('3','4','1','1','1');
-
 INSERT INTO projectfullurl_tags(fullurlid,tagid) VALUES('1','3'),('1','7'),('2','1');
-
 INSERT INTO projectsnippet_tags(snippetid,tagid) VALUES('2','3'),('3','7'),('1','1');
 
+INSERT INTO projectreference_snippets(projectid,userid,snippetid,upvotes,downvotes) VALUES('1','1','1','5','2'),('1','2','3','1','1'),('1','3','2','4','0'),('2','4','3','2','0');
 -- INSERT INTO projectcomment_tags(commentid,tagid) VALUES('1','3'),('1','7'),('2','2');

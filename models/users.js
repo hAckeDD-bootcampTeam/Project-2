@@ -1,5 +1,5 @@
 module.exports = function (sequelize, DataTypes) {
-  var Users = sequelize.define("Users", {
+  var Users = sequelize.define('users', {
     displayName: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -8,46 +8,27 @@ module.exports = function (sequelize, DataTypes) {
     },
     email: {
       type: DataTypes.STRING,
-      allowNull: true,
-      defaultValue: null
+      allowNull: false
+    },
+    credentials: {
+      type: DataTypes.STRING,
+      allowNull: false
     }
+    // commentsid
+    // projectid
+    // fullurlsid
   });
-
-  //associates this table, with Projects table via Projectgroupmembers table
-  Users.associate = function (models) {
-    Users.belongsToMany(models.Projects, {
-      through: models.Projectgroupmembers,
-      onDelete: "no action",
-      onUpdate: "cascade"
+	Users.associate = function (models) {
+    Users.belongsToMany(models.projects, {
+      //associates this table, with Projects table via Projectgroupmembers table
+      through: models.projectgroupmembers,
+      constraints: false
     });
-    //associate this table with the Fullurls table via User_fullurls
-    Users.belongsToMany(models.Fullurls, {
-      through: models.User_fullurls,
-      onDelete: "no action",
-      onUpdate: "cascade"
+    Users.hasMany(models.fullurls, {
+      //one to many=> each user can have many urls
     });
-    //associates this table with the Snippets table via User_snippets
-    Users.belongsToMany(models.Snippets, {
-      through: models.User_snippets,
-      onDelete: "no action",
-      onUpdate: "cascade"
-    });
-    //associates this table with the Projects table via the Projectreference_snippets
-    Users.belongsToMany(models.Projects, {
-      through: models.Projectreference_snippets,
-      onDelete: "no action",
-      onUpdate: "cascade"
-    });
-    //associates this table with the Projects table via Projectreference_comments
-    Users.belongsToMany(models.Projects, {
-      through: models.Projectreference_comments,
-      onDelete: "no action",
-      onUpdate: "cascade"
-    });
-    //associates this table Users have many Projectreference_fullurls
-    Users.hasMany(models.Projectreference_fullurls, {
-      onDelete: "no action",
-      onUpdate: "cascade"
+    Users.hasMany(models.comments, {
+      //one to many=> each user can have many comments
     });
   };
   return Users;

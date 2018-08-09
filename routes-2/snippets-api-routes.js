@@ -1,8 +1,8 @@
-var db = require('../models');
+var db = require("../models");
 
 module.exports = function (app) {
 
-  db.snippets.bulkCreate([
+  db.Snippets.bulkCreate([
     { snippet: 'This is some interesting text about data structures'},
     { snippet: 'Here is some text relating to Sequelize'},
     { snippet: 'This text was copied from a travel blog'},
