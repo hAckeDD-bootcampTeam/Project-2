@@ -1,5 +1,7 @@
 module.exports = function (sequelize, DataTypes) {
     var Projectreference_comments = sequelize.define("Projectreference_comments", {
+        Userid:
+        Projectid:,
         upvotes: {
             type: DataTypes.INTEGER(11),
             allowNull: true,

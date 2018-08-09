@@ -1,8 +1,8 @@
-var db = require('../models');
+var db = require("../models");
 
 module.exports = function (app) {
 
-  db.tags.bulkCreate([
+  db.Tags.bulkCreate([
     { tag: 'Javascript'},
     { tag:'Travel'},
     { tag: 'Programming'},

@@ -27,17 +27,21 @@ require("./routes/snippets-api-routes.js")(app);
 require("./routes/fullurls-api-routes.js")(app);
 require("./routes/users-api-routes.js")(app);
 require("./routes/tags-api-routes.js")(app);
-require("./routes/projectaccesstypes-api-routes.js")(app);
+require("./routes/projects-api-routes.js")(app);
+require("./routes/projectgroupmembers-api-routes.js")(app);
+require("./routes/comments-api-routes.js")(app);
+require("./routes/projectreference-api-routes.js")(app);
+
 // require('./routes/api-routes.js')(app);
 
 // Instantiate listener
-// db.sequelize.sync({ force: true}).then(function () {
-db.sequelize.sync().then(function () {
+db.sequelize.sync({ force: true }).then(function () {
+	//db.sequelize.sync().then(function () {
 	app.listen(PORT, function () {
-    
+
 		/*eslint-disable */
 		//suppress all warnings between comments
 		console.log("App listening on PORT" + PORT);
 		/*eslint-enable */
-});
+	});
 });

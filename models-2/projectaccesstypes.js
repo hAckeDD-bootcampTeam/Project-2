@@ -4,15 +4,14 @@ module.exports = function (sequelize, DataTypes) {
             type: DataTypes.STRING,
             allowNull: false,
             defaultValue: "Public"
-            // unique: true
         }
     });
     Projectaccesstypes.associate = function (models) {
-        Projectaccesstypes.hasMany(models.Projects, {
-            foreignKey: "accesstypeId",
-            onDelete: "no action",
-            onUpdate: "cascade"
+        Projectaccesstypes.hasOne(models.Projects, {
+            foreignKey: 'accesstypeId',
+            onDelete: 'no action',
+            onUpdate: 'cascade'
         });
-    }
+    };
     return Projectaccesstypes;
 };
