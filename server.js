@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 // Package dependenies
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -17,10 +19,10 @@ app.use(bodyParser.text());
 app.use(express.static('public'));
 
 
-
+   
 // Set Handlebars.
 const exphbs = require('express-handlebars');
-app.engine('handlebars', exphbs({ defaultLayout: 'main' }));
+app.engine('handlebars', exphbs({ defaultLayout: 'main', partialsDir: __dirname + '/views/partials/' }));
 app.set('view engine', 'handlebars');
 
 
@@ -33,11 +35,6 @@ require('./routes/html-routes.js')(app);
 // Instantiate listener
 db.sequelize.sync().then(function () {
 	app.listen(PORT, function () {
-
-		/*eslint-disable */
-		//suppress all warnings between comments
 		console.log("App listening on PORT" + PORT);
-		/*eslint-enable */
-
 	});
 });

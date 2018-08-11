@@ -1,9 +1,12 @@
 /* eslint-disable */
 
+$(document).ready(function () {
 
-// Listjs used for creating search items
-var options = {
-    valueNames: [ 'searchTags' ]
-  };
-  
-  var userList = new List('search-tags', options);
+  // instantiate the list.js library for searching capabilities
+  let options = {
+    valueNames: ['searchTags']
+  }; 
+
+  let userList = new List('search-tags', options);
+ 
+}); 

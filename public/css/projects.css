@@ -5,6 +5,8 @@
     --yellow-color: #F8981D
 }
 
+/* General Style and alignment */
+
 html {
 height: 100%;
 box-sizing: border-box;
@@ -22,9 +24,29 @@ body {
     margin: 0;
     min-height: 100vh;
 }
+
+a {
+    text-decoration: none; 
+    color: inherit; 
+} 
+
+a:hover {
+    text-decoration: none; 
+    color: white; 
+}
+
+ul {
+    list-style-type: none;
+    padding: 0; 
+  }
+
+li {
+    display: inline; 
+    margin: 5px;  
+}
  
 .main {
-    margin: 0 20px 100px 20px; 
+    margin: 0 0 100px 0; 
 }
   
 
@@ -100,16 +122,6 @@ body {
     min-height: 50vh; 
 }
 
-ul {
-    list-style-type: none;
-    padding: 0; 
-  }
-
-li {
-    display: inline; 
-    margin: 5px;  
-}
-
 .searchTags {
     font-size: 15px; 
     padding: 5px; 
@@ -183,22 +195,13 @@ li {
     line-height: 1.33;
 }
 
-a {
-    text-decoration: none; 
-    color: inherit; 
-} 
-
-a:hover {
-    text-decoration: none; 
-    color: white; 
-}
-
 .project-card-text {
     color: var(--blue-color);
 } 
   
 
-   /* Media Queries */
+/* Media Queries */
+
    @media screen and (max-width: 768px) {
     .projs-img {
         width: 200px; 

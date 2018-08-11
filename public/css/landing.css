@@ -5,6 +5,9 @@
     --yellow-color: #F8981D
 }
 
+
+/* General Styles */
+
 html {
     height: 100%;
     box-sizing: border-box;
@@ -23,9 +26,9 @@ html {
     min-height: 100%;
   }
 
-  .main {
-    margin: 0 auto 100px auto; 
-  }
+.main {
+margin: 0 auto 100px auto; 
+}
 
 
 .heading-font { 
@@ -36,7 +39,8 @@ html {
     font-family: 'IBM Plex Serif', serif;
 } 
 
- /* Styles for the landing page only */
+ /* Navbar Styling  */
+                                                                                                                                                                                                   
 #navbar { 
     background-color: var(--blue-color); 
 }
@@ -67,7 +71,7 @@ html {
 
 #log-in:hover {
     text-decoration: none;
-    background-color: var(--light-grey-color); 
+    background-color: white; 
     color: var(--blue-color); 
 }
 
@@ -182,7 +186,7 @@ html {
     text-align: center;
   }
 
-  /* Modal Design */ 
+  /* Login Modal Styling*/ 
 
 .modal-content {
     border-style: inset; 
@@ -216,7 +220,7 @@ form i {
     color: var(--blue-color);
 }
 .form-control, .login-btn {
-    min-height: 38px;
+    min-height: 38px; 
     border-radius: 2px;
 }
 .input-group-addon .fa {
@@ -255,7 +259,9 @@ form i {
     top: -11px;
     z-index: 1;
 }    
-  /* Media Queries */
+
+
+/* Media Queries */
 
   @media screen and (max-width: 780px) {
 

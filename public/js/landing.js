@@ -1,10 +1,12 @@
 /* eslint-disable */
 
-// Landing page animations
-
-$('#about-div').hide(); 
 
 $(document).ready(function () {
+
+// Hide the side-drop about div whwnever the page loads
+	$('#about-div').hide(); 
+
+//'About' div toggle when question mark pressed
 	$('#landing-qMark').click(function () {
 		$('#about-div').animate({
 			width: 'toggle'
@@ -15,8 +17,9 @@ $(document).ready(function () {
 			$('#landing-page-br').css('filter', 'blur(5px)');
 		}
 	});
+	
 });
 
 
-// Javascript for login page
+
 
