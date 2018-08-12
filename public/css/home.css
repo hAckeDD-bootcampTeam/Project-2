@@ -379,17 +379,6 @@ li {
     background-color: var(--yellow-color); 
 }
 
-.moveInput-del, .moveInput-add,  {
-    width:100%;
-    -webkit-transition:width 0.3s ease-in-out;
-    transition: width 0.5s ease-in-out; 
-  }
-  
-  .moveInput-del:focus, .moveInput-add:focus	{
-    width:30%;
-    -webkit-transition:width 0.5s ease-in-out;
-    transition: width 0.5s ease-in-out
-  } 
 
   .home-proj-desc {
     background: rgba(91, 91, 92, 0.329);

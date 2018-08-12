@@ -205,7 +205,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="text-center alter-data-style">
-                                                            <input type="submit" value="Submit Changes" class="btn btn-block rounded-0 admin-alter-btn change-proj-btn">
+                                                            <button type="button" class="btn rounded-0 btn-block mt-3 admin-alter-btn change-proj-btn">Make Changes!</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -280,10 +280,10 @@
                     </div>
                     <div class="d-flex justify-content-center w-100">
                         <label class="checkbox-inline mr-2 h6">
-                            <input type="checkbox" id="proj-search-tag-param" value="">Search tag
+                            <input type="checkbox" class="proj-search-tag-param" value="">Search tag
                         </label>
                         <label class="checkbox-inline ml-2 mr-2 h6">
-                            <input type="checkbox" id="proj-search-text-param" value="">Search text
+                            <input type="checkbox" class="proj-search-text-param" value="">Search text
                         </label>
                     </div>
                 </div>
@@ -335,17 +335,16 @@
                                                         <img src="images/proj-text.jpg">
                                                     </div>
                                                     <div class="user-detail">
-                                                        <span class="p-3 .projSnipCreated">Shared: 8/18/2018</span>
+                                                        <span class="p-3 projSnipCreated">Shared: 8/18/2018</span>
                                                     </div>
                                                     <div style="clear:both;"></div>
                                                 </div>
                                                 <hr>
                                                 <div class="comment-content">
-                                                    <span class=".projText"> Some text about text in the textbox to test for text snippets</span>
+                                                    <span class="projText"> Some text about text in the textbox to test for text snippets</span>
                                                 </div>
                                                 <hr>
                                                 <div class="comment-box box">
-                                                    <div style="clear:both;"></div>
                                                 </div>
                                             </div>
                                         </div>
@@ -357,7 +356,7 @@
                                                     Action
                                                 </a>
                                             </h5>
-                                        </div>
+                                        </div> 
                                         <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo" data-parent="#accordion">
                                             <h5 class="heading-font ml-3 mt-3">Tags</h5>
                                             <div id="project-tags" class="row w-100 mx-auto mb-2">
@@ -390,6 +389,8 @@
                                                             <i class="fas fa-plus-circle"></i>
                                                         </button>
                                                     </div>
+                                                    <hr>
+                                                    <button type="button" class="btn btn-block mt-3 btn-danger text-white delete-proj-snippet">Delete Snippet</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -457,7 +458,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div class="row">
+                <div class="row reddit-query-col">
                     <div class="span12 w-100 d-flex justify-content-center">
                         <form id="custom-search-form" class="form-search form-horizontal w-100">
                             <div class="input-append span12 w-100 d-flex justify-content-center">
@@ -471,15 +472,15 @@
                 </div>
                 <div class="row reddit-query-row m-2 justify-content-center">
                     <div class="col-10 m-2 query-col">
-                        <h5 class="heading-font">Subreddit title</h5>
+                        <h5 class="heading-font reddit-query-title">Subreddit title</h5>
                     </div>
                     <div class="col-10  m-2 query-col">
                         <h5 class="heading-font">
-                            <a href="#">URL!</a>
+                            <a class="reddit-query-url" href="#" target="_blank" >URL!</a>
                         </h5>
                     </div>
                     <div class="col-10  m-2 query-col">
-                        <p class="content-font">"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
+                        <p class="content-font reddit-query-text">"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
                             et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi
                             ut aliquip ex ea commodo consequat.
                         </p>
