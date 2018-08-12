@@ -1,5 +1,7 @@
  {{!-- Landing Page StyleSheet --}}
-<link type="text/css" rel="stylesheet" href="css/landing.css"> 
+<link type="text/css" rel="stylesheet" href="css/landing.css">
+
+{{!-- Navbar --}}
 <nav id="navbar" class="navbar navbar-expand-md pt-2">
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup"
         aria-expanded="false" aria-label="Toggle navigation">
@@ -10,11 +12,14 @@
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav w-100 d-flex align-items-center pt-1 pb-1">
             <img id="landing-logo" src="images/usb_logo.png" class="mr-2">
-            <h2 id="landing-header" class="heading-font">Share and Store, Simply</h2>
-            <a id="log-in" data-toggle="modal" data-target="#exampleModalCenter" class="p-3 rounded-0 heading-font rounded ml-auto" target="_blank">Start Caching </a>
+            <h4 id="landing-header" class="heading-font">Share and Store, Simply</h4>
+            <a id="log-in" data-toggle="modal" data-target="#exampleModalCenter" class="p-2 rounded-0 heading-font rounded ml-auto" target="_blank">Start Caching </a>
         </div>
     </div>
-</nav> 
+</nav>
+
+{{!-- Modals --}}
+
 {{!-- Sign In modal --}}
 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered rounded-0" role="document">
@@ -31,13 +36,13 @@
             <div class="tab-content">
                 <div role="tabpanel" class="tab-pane fade in active" id="profile">
                     <form>
-                        <h2 class="text-center heading-font mt-2">Welcome Back</h2>
+                        <h2 class="text-center heading-font mt-2 welcome-text">Welcome Back</h2>
                         <div class="form-group">
                             <div class="input-group">
                                 <span class="input-group-addon">
                                     <i class="fa fa-user m-2"></i>
                                 </span>
-                                <input type="text" class="form-control" name="username" placeholder="Username" required="required">
+                                <input id="current-userName" type="text" class="form-control" name="username" placeholder="Username" required="required">
                             </div>
                         </div>
                         <div class="form-group">
@@ -45,42 +50,34 @@
                                 <span class="input-group-addon">
                                     <i class="fa fa-lock m-2"></i>
                                 </span>
-                                <input type="password" class="form-control" name="password" placeholder="Password" required="required">
+                                <input id="current-UserPassW"  class="form-control" name="password" placeholder="Password" required="required">
                             </div>
                         </div>
                         <div class="form-group">
-                            <button type="submit" class="btn login-btn btn-block">Sign in</button>
+                            <button id="current-UserBtn"  class="btn login-btn btn-block">Sign in</button>
                         </div>
                         <div class="or-seperator">
                             <i>or</i>
                         </div>
                         <p class="text-center content-font">Login with your social media account</p>
                         <div class="text-center social-btn">
-                            <a href="#" class="btn btn-danger">
+                            <a id="google-log-in" class="btn btn-danger">
                                 <i class="fab fa-google">&nbsp; Google</i>
                             </a>
-                        </div>
-                    </form>
+                        </div> 
+                    </form>  
                 </div>
                 <div role="tabpanel" class="tab-pane fade" id="newUser">
-                    <form>
-                        <h2 class="text-center heading-font mt-2">Welcome To Cache-it</h2>
-                        <p class="text-center content-font">Login with your social media account</p>
-                        <div class="text-center social-btn">
-                            <a href="#" class="btn btn-danger btn-block">
-                                <i class="fab fa-google">&nbsp; Google</i>
-                            </a>
-                        </div>
-                        <div class="or-seperator">
-                            <i>or</i>
-                        </div>
-                        <h2 class="text-center heading-font mt-1">Set your cred's!</h2>
+                    <form> 
+                        <h2 class="text-center heading-font mt-2 welcome-text">Welcome To Cache-it</h2>
+                        <hr>
+                        <h4 class="text-center heading-font mt-1">Set your cred's!</h4>
                         <div class="form-group">
                             <div class="input-group">
                                 <span class="input-group-addon">
                                     <i class="fa fa-user m-2"></i>
                                 </span>
-                                <input type="text" class="form-control" name="username" placeholder="Username" required="required">
+                                <input id="new-userName" type="text" class="form-control" name="username" placeholder="Username" required="required">
                             </div>
                         </div>
                         <div class="form-group">
@@ -88,18 +85,18 @@
                                 <span class="input-group-addon">
                                     <i class="fa fa-lock m-2"></i>
                                 </span>
-                                <input type="password" class="form-control" name="password" placeholder="Password" required="required">
+                                <input id="new-userPassW" class="form-control" name="password" placeholder="Password" required="required">
                             </div>
                         </div>
                         <div class="form-group">
-                            <button type="submit" class="btn login-btn btn-block">Sign Up</button>
+                            <button id="new-UserBtn" class="btn login-btn btn-block">Sign Up</button>
                         </div>
                     </form>
                 </div>
             </div>
         </div> 
     </div>
-</div>
+</div> 
 
 {{!-- Content section begins --}}
 <div class="main">
@@ -113,56 +110,53 @@
             <div id="about-div" class="col-lg-6 p-0">
                 <img id="landing-modal-br" src="images/landing_share_data.jpg">
                 <section id="landing-modal-section" class="heading-font p-4 d-flex align-items-center h6">
-                    <div>
+                    <div class="w-100"> 
                         Tired of having access to so much information and nowhere to put it?
-                        <hr>
-                        Cache-it is the last stop on the information superhighway.
-                        <hr>
-                        Consolidate all things you find interesting on the World Wide Web.
-                        <hr>
-                         Sound good? then GET CACHING! 
+                        <hr> Cache-it is the last stop on the information superhighway.
+                        <hr> Consolidate all things you find interesting on the World Wide Web.
+                        <hr> Sound good? then GET CACHING!
                     </div>
                 </section>
             </div>
         </div>
     </div>
     <div id="landing-page-about" class="row mt-3 mr-0 ml-0 p-3 justify-content-center">
-        <div class="col-lg-4 col-xl-3 tile-container">
+        <div class="col-lg-4 col-md-10 tile-container">
             <h2 class="heading-font text-center tile-header rounded">Store</h2>
             <div class="fade-container p-2 h-75 w-100">
                 <img src="images/landing_store_data.jpg" class="landing-tile-img">
             </div>
-            <div class="overlay">
-                <div class="overlay-info content-font h5 w-100">
+            <div class="overlay"> 
+                <div class="overlay-info content-font h5 w-100 p-2">
                     Store useful snippets of information from the internet.
-                    <br> Save the URL where you found it.
-                    <br> Search subreddits for related information!
+                    <hr class="border border-white"> Save the URL where you found it.
+                    <hr class="border border-white"> Search subreddits for related information!
                 </div>
             </div>
         </div>
-        <div class="col-lg-4 col-xl-3 tile-container">
+        <div class="col-lg-4 col-md-10 tile-container">
             <h2 class="heading-font text-center tile-header rounded">Share</h2>
             <div class="fade-container p-2 h-75 w-100">
-                <img src="images/landing_share_data.jpg" class="landing-tile-img">
+                <img src="images/landing_share_main.jpg" class="landing-tile-img">
             </div>
             <div class="overlay">
-                <div class="overlay-info content-font h5 w-100">
+                <div class="overlay-info content-font h5 w-100 p-2">
                     Start projects with other users who share a common interest
-                    <br> Share data and threads, whcih can be up/downvoted
-                    <br> Everything organized into one group.
+                    <hr class="border border-white"> Share data and threads, whcih can be up/downvoted
+                    <hr class="border border-white"> Everything organized into one group.
                 </div>
             </div>
-        </div>
-        <div class="col-lg-4 col-xl-3 tile-container">
+        </div> 
+        <div class="col-lg-4 col-md-10 tile-container">
             <h2 class="heading-font text-center tile-header rounded">Tag</h2>
             <div class="fade-container p-2 h-75 w-100">
                 <img src="images/landing_tag_data.jpg" class="landing-tile-img">
             </div>
             <div class="overlay">
-                <div class="overlay-info content-font h5 w-100">
+                <div class="overlay-info content-font h5 w-100 p-2">
                     Associate all your data with tags
-                    <br> Easily search everything you have stored
-                    <br> Apply tags to your group projects!
+                    <hr class="border border-white"> Easily search everything you have stored
+                    <hr class="border border-white"> Apply tags to your group projects!
                 </div>
             </div>
         </div>
@@ -170,5 +164,7 @@
     <div class="footer content-font">
         <i class="far fa-copyright"></i> HACKEDD Development Team 2018</div>
 </div>
+
+
 {{!-- Landing Page Javascript File --}}
 <script src="js/landing.js"></script>
