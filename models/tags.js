@@ -1,30 +1,29 @@
 module.exports = function (sequelize, DataTypes) {
-    var Tags = sequelize.define("Tags", {
+    var Tags = sequelize.define('Tags', {
         tag: {
             type: DataTypes.STRING,
-            // allowNull: false
-        },
+            allowNull: true
+        }
     });
+    //one to one=> each tag belongs to a certain snippet or many
     Tags.associate = function (models) {
-        //tags can have many snippets, and snippets can have many tags. These are assoc via Snippe-tags table
         Tags.belongsToMany(models.Snippets, {
-            through: models.Snippet_tags,
-            onDelete: "no action",
-            onUpdate: "cascade"
+            through: {
+                model: models.Taggable,
+                unique: false
+            },
+            foreignKey: 'tag_id',
+            constraints: false
         });
-         //tags can have many fullurls from a project, and fullurls from a project can have many tags. These are assoc via Projectfullurl_tags table
-        Tags.belongsToMany(models.Projectfullurls, {
-            through: models.Projectfullurl_tags,
-            onDelete: "no action",
-            onUpdate: "cascade"
+        Tags.belongsToMany(models.Fullurls, {
+            through: {
+                model: models.Taggable,
+                unique: false
+            },
+            foreignKey: 'tag_id',
+            constraints: false
         });
-        //tags can have many snippets from a project, and snippets from a project can have many tags. These are assoc via Projectsnippet_tags table
-        Tags.belongsToMany(models.Projectsnippets, {
-            through: models.Projectsnippet_tags,
-            onDelete: "no action",
-            onUpdate: "cascade"
-        });
-
-    };
+    }
+    //many to many=> each tag belongs to one url or many
     return Tags;
 };

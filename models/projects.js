@@ -1,29 +1,27 @@
 module.exports = function (sequelize, DataTypes) {
-    var Projects = sequelize.define("Projects", {
-
+    var Projects = sequelize.define('Projects', {
         projectName: {
             type: DataTypes.STRING,
             allowNull: false,
             defaultValue: '',
             unique: true,
-            indexes: {
-                unique: true
-            }
         },
         description: {
             type: DataTypes.STRING,
             allowNull: true,
             defaultValue: null
         },
-        accesstypeId: {
-            type: DataTypes.INTEGER(11),
-            allowNull: false
+        accesstype: {
+            type: DataTypes.ENUM,
+            values: ['Public', 'Private']
         }
+        //userid       
     });
     Projects.associate = function (models) {
-        Projects.hasMany(models.Projectreference_fullurls, {
-            onDelete: "no action",
-            onUpdate: "cascade"
+        Projects.belongsToMany(models.Users, {
+            through: models.Projectgroupmembers
+        });
+        Projects.hasMany(models.Owners, {
         });
     };
     return Projects;
