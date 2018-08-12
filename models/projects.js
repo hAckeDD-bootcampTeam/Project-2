@@ -1,5 +1,5 @@
 module.exports = function (sequelize, DataTypes) {
-    var Projects = sequelize.define('projects', {
+    var Projects = sequelize.define('Projects', {
         projectName: {
             type: DataTypes.STRING,
             allowNull: false,
@@ -18,8 +18,10 @@ module.exports = function (sequelize, DataTypes) {
         //userid       
     });
     Projects.associate = function (models) {
-        Projects.belongsToMany(models.users, {
-            through: models.projectgroupmembers
+        Projects.belongsToMany(models.Users, {
+            through: models.Projectgroupmembers
+        });
+        Projects.hasMany(models.Owners, {
         });
     };
     return Projects;

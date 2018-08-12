@@ -1,5 +1,5 @@
 module.exports = function (sequelize, DataTypes) {
-    var Fullurls = sequelize.define('fullurls', {
+    var Fullurls = sequelize.define('Fullurls', {
         url: {
             type: DataTypes.STRING,
             allowNull: true,
@@ -15,28 +15,38 @@ module.exports = function (sequelize, DataTypes) {
             allowNull: true,
             defaultValue: null
         }
-        // commentsid: 
-        // tagsid: 
+        // commentable_id: 
+        // tags_id: 
         // snippetsid:
-        // Projectreferenceid
-        // usersid
+        // ownersid
     });
     Fullurls.associate = function (models) {
-        Fullurls.hasMany(models.tags, {
-            //one to many => each url can have many tags
+        Fullurls.belongsToMany(models.Tags, {
+            through: {
+                model: models.Taggable,
+                unique: false,
+                scope: {
+                    taggable: 'Fullurls'
+                }
+            },
+            foreignKey: 'taggable_id',
+            constraints: false
         });
-        Fullurls.hasMany(models.comments, {
-            //one to many => each url can have many comments
+        //many to many => many urls can have many tags
+        Fullurls.hasMany(models.Commentable, {
+            foreignKey: 'commentable_id',
+            constraints: false,
+            scope: {
+                commentable: 'Fullurls'
+            }
         });
-        Fullurls.hasMany(models.snippets, {
+        //one to many => each url can have many comments
+        Fullurls.hasMany(models.Snippets, {
             //one to many => each url can have many snippets
         });
-        Fullurls.belongsTo(models.projectreference, {
-            //one to one => each url belongs to a certain project/group
-        });
-        Fullurls.belongsTo(models.users, {
-            //one to one => each url belongs to a certain user
-        });
+        Fullurls.belongsTo(models.Owners, {
+        })
+        //one to one => each url belongs to a certain project
     }
     return Fullurls;
 };

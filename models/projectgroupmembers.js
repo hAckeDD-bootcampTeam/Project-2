@@ -1,16 +1,11 @@
 module.exports = function (sequelize, DataTypes) {
-    var Projectgroupmembers = sequelize.define('projectgroupmembers', {
+    var Projectgroupmembers = sequelize.define('Projectgroupmembers', {
         membertype: {
             type: DataTypes.ENUM,
-            values: ['Viewer', 'Admin', 'Editor']
+            values: ['Viewer', 'Admin']
         }
         // projectid
         // userid
-        // projectreference
     });
-    Projectgroupmembers.associate = function (models) {
-        Projectgroupmembers.hasMany(models.projectreference, {
-        });
-    }
     return Projectgroupmembers;
 };
