@@ -36,13 +36,13 @@
             <div class="tab-content">
                 <div role="tabpanel" class="tab-pane fade in active" id="profile">
                     <form>
-                        <h2 class="text-center heading-font mt-2">Welcome Back</h2>
+                        <h2 class="text-center heading-font mt-2 welcome-text">Welcome Back</h2>
                         <div class="form-group">
                             <div class="input-group">
                                 <span class="input-group-addon">
                                     <i class="fa fa-user m-2"></i>
                                 </span>
-                                <input type="text" class="form-control" name="username" placeholder="Username" required="required">
+                                <input id="current-userName" type="text" class="form-control" name="username" placeholder="Username" required="required">
                             </div>
                         </div>
                         <div class="form-group">
@@ -50,42 +50,34 @@
                                 <span class="input-group-addon">
                                     <i class="fa fa-lock m-2"></i>
                                 </span>
-                                <input type="password" class="form-control" name="password" placeholder="Password" required="required">
+                                <input id="current-UserPassW"  class="form-control" name="password" placeholder="Password" required="required">
                             </div>
                         </div>
                         <div class="form-group">
-                            <button type="submit" class="btn login-btn btn-block">Sign in</button>
+                            <button id="current-UserBtn"  class="btn login-btn btn-block">Sign in</button>
                         </div>
                         <div class="or-seperator">
                             <i>or</i>
                         </div>
                         <p class="text-center content-font">Login with your social media account</p>
                         <div class="text-center social-btn">
-                            <a href="#" class="btn btn-danger">
+                            <a id="google-log-in" class="btn btn-danger">
                                 <i class="fab fa-google">&nbsp; Google</i>
                             </a>
-                        </div>
-                    </form>
+                        </div> 
+                    </form>  
                 </div>
                 <div role="tabpanel" class="tab-pane fade" id="newUser">
-                    <form>
-                        <h2 class="text-center heading-font mt-2">Welcome To Cache-it</h2>
-                        <p class="text-center content-font">Login with your social media account</p>
-                        <div class="text-center social-btn">
-                            <a href="#" class="btn btn-danger btn-block">
-                                <i class="fab fa-google">&nbsp; Google</i>
-                            </a>
-                        </div>
-                        <div class="or-seperator">
-                            <i>or</i>
-                        </div>
-                        <h2 class="text-center heading-font mt-1">Set your cred's!</h2>
+                    <form> 
+                        <h2 class="text-center heading-font mt-2 welcome-text">Welcome To Cache-it</h2>
+                        <hr>
+                        <h4 class="text-center heading-font mt-1">Set your cred's!</h4>
                         <div class="form-group">
                             <div class="input-group">
                                 <span class="input-group-addon">
                                     <i class="fa fa-user m-2"></i>
                                 </span>
-                                <input type="text" class="form-control" name="username" placeholder="Username" required="required">
+                                <input id="new-userName" type="text" class="form-control" name="username" placeholder="Username" required="required">
                             </div>
                         </div>
                         <div class="form-group">
@@ -93,11 +85,11 @@
                                 <span class="input-group-addon">
                                     <i class="fa fa-lock m-2"></i>
                                 </span>
-                                <input type="password" class="form-control" name="password" placeholder="Password" required="required">
+                                <input id="new-userPassW" class="form-control" name="password" placeholder="Password" required="required">
                             </div>
                         </div>
                         <div class="form-group">
-                            <button type="submit" class="btn login-btn btn-block">Sign Up</button>
+                            <button id="new-UserBtn" class="btn login-btn btn-block">Sign Up</button>
                         </div>
                     </form>
                 </div>

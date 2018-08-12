@@ -2,7 +2,7 @@
 <link type="text/css" rel="stylesheet" href="css/home.css"> {{!-- Navbar Styling --}}
 <nav id="navbar" class="navbar">
     <div class="d-flex align-items-center justify-content-between w-100">
-        <a id="logOut-btn" class="p-1 rounded-0 heading-font h5 mr-2" target="_blank">Log Out</a>
+        <a id="logOut-btn" class="p-1 btn rounded-0 heading-font h5 mr-2" target="_blank">Log Out</a>
         <div>
             <img id="landing-logo" src="images/usb_logo.png" class="mr-2 h-50">
             <p class="content-font d-inline text-white h5">User</p>
@@ -18,17 +18,17 @@
     <div id="home-main-content" class="m-2 animated zoomIn p-1">
         <div class="row home-tile-row p-1 m-1 justify-content-center">
             <div class="col-3 home-tile m-2 p-2 d-flex flex-column">
-                <h3 class="text-center heading-font mt-2 tile-header">Cache</h3>
+                <h4 class="text-center heading-font mt-2 tile-header"> My Cache</h4>
                 <img src="images/home-cache.png" class="img-fluid h-50 w-75 rounded mx-auto home-tile-img">
                 <img id="cache-btn" src="images/home-select-arrow.png" class="img-fluid rounded mx-auto p-2 home-arrow animated pulse">
             </div>
             <div class="col-3  home-tile m-2 p-2 d-flex flex-column">
-                <h3 class="text-center heading-font mt-2 tile-header">Projects</h3>
+                <h4 class="text-center heading-font mt-2 tile-header">Projects</h4>
                 <img src="images/home-projs.jpg" class="img-fluid h-50 w-75 rounded mx-auto home-tile-img">
                 <img id="projs-btn" src="images/home-select-arrow.png" class="img-fluid rounded mx-auto p-2 home-arrow animated pulse">
             </div>
             <div class="col-3  home-tile m-2 p-2 d-flex flex-column">
-                <h3 class="text-center heading-font mt-2 tile-header">Reddit</h3>
+                <h4 class="text-center heading-font mt-2 tile-header">Reddit</h4>
                 <img src="images/home-reddit.jpg" class="img-fluid h-50 w-75 rounded mx-auto home-tile-img">
                 <img id="reddit-btn" data-toggle="modal" data-target="#reddit-modal" src="images/home-select-arrow.png" class="img-fluid rounded mx-auto p-2 home-arrow animated pulse">
             </div>
@@ -36,18 +36,28 @@
     </div>
     <div id="cache-div" class="home-main-div mx-auto">
         <nav class="navbar navbar-light bg-white m-2 heading-font">
-            <button class="btn cache-btn my-2 my-sm-0" data-target="#add-snip-modal" data-toggle="modal">Add</button>
-            <form class="form-inline">
-                <input class="form-control mr-md-2" type="search" placeholder="Search Tag" aria-label="Search">
-                <button class="btn cache-btn my-2 my-sm-0">Search</button>
-            </form>
+            <input id="search-tag-input" class="form-control mr-md-2" type="search" placeholder="Search Tag" aria-label="Search">
+            <div class="w-100 d-flex mt-2">
+                <button class="btn btn-sm cache-btn mr-auto" data-target="#add-snip-modal" data-toggle="modal">Add</button>
+                <div>
+                    <label class="checkbox-inline mr-2 h6">
+                        <input type="checkbox" id="search-tag-param" value="">Search tag
+                    </label>
+                    <label class="checkbox-inline ml-2 mr-2 h6">
+                        <input type="checkbox" id="search-text-param" value="">Search text
+                    </label>
+                    <button id="search-snip-btn" class="btn btn-sm cache-btn h-6">Search</button>
+                </div>
+            </div>
         </nav>
         <div class="container-fluid">
             <div class="row p-2">
                 <div class="card-deck">
                     <div class="card main-card rounded-0 p-2 shadow-lg">
                         <div class="card-header pr-0 pl-0 pb-2">
-                            <span class="badge snippet-badge badge-pill badge-warning" value="">Sample Tag</span>
+                            <span class="badge cache-snippet-badge badge-pill badge-warning" value="">Sample Tag</span>
+                            <span class="badge cache-snippet-badge badge-pill badge-warning" value="">J query</span>
+                            <span class="badge cache-snippet-badge badge-pill badge-warning" value="">Github</span>
                         </div>
                         <div class="card-block heading-font">
                             <ul class="nav nav-tabs m-2" role="tablist">
@@ -60,23 +70,23 @@
                             </ul>
                             <div class="tab-content">
                                 <div role="tabpanel" class="tab-pane fade in active p-2" id="action">
-                                    <button class="btn btn-block mt-3 mb-3 btn-danger">Delete Snippet</button>
-                                    <button class="btn btn-block mt-3 mb-3 cache-btn">Remove Tag</button>
+                                    <button class="btn btn-block mt-3 mb-3 btn-danger delete-snippet">Delete Snippet</button>
+                                    <button class="btn remove-cache-tag btn-block mt-3 mb-3 cache-btn">Remove Tag</button>
                                     <div class="input-group mb-3">
-                                        <input id="add-tag-input" class="form-control" type="text" placeholder="Add a tag">
+                                        <input class="form-control add-tag-input" type="text" placeholder="Add a tag">
                                         <div class="input-group-append">
-                                            <button id="add-tag-btn" class="btn cache-btn">Add tag</button>
+                                            <button class="btn add-tag-btn cache-btn">Add tag</button>
                                         </div>
                                     </div>
                                 </div>
                                 <div role="tabpanel" class="tab-pane fade" id="info">
                                     <div class="query-col">
                                         <h5 class="heading-font">
-                                            <a href="#">URL!</a>
+                                            <a target="_blank" class="cache-snip-url" href="">URL!</a>
                                         </h5>
                                     </div>
                                     <div class="query-col">
-                                        <p class="content-font">"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+                                        <p class="cache-snip-text" class="content-font">"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
                                             ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
                                             ullamco laboris nisi ut aliquip ex ea commodo consequat.
                                         </p>
@@ -101,7 +111,7 @@
                 <img class="card-img rounded-0" src="images/proj-card-br.jpg" alt="Card image">
                 <div class="card-img-overlay">
                     <div class="d-flex flex-column justify-content-center align-items-center">
-                        <h5 class="card-title heading-font text-center proj-card">Project Title</h5>
+                        <h5 class="card-title heading-font text-center proj-card home-proj-title">Project Title</h5>
                         <div>
                             <span class="badge snippet-badge badge-pill badge-warning" value="">Sample Tag</span>
                             <span class="badge snippet-badge badge-pill badge-warning" value="">Sample Tag</span>
@@ -110,6 +120,9 @@
                             <span class="badge snippet-badge badge-pill badge-warning" value="">Sample Tag</span>
                             <span class="badge snippet-badge badge-pill badge-warning" value="">Sample Tag</span>
                             <span class="badge snippet-badge badge-pill badge-warning" value="">Sample Tag</span>
+                        </div>
+                        <div class="w-100">
+                            <textarea class="form-control content-font form-rounded mt-5 home-proj-desc" rows="3"> This is a cool project that has some features</textarea>
                         </div>
                         <div class="card-footer text-muted proj-card-footer">
                             <button type="submit" class="btn login-btn btn-block heading-font open-proj-console" data-toggle="modal" data-target=".proj-display-modal">Open Console</button>
@@ -126,194 +139,152 @@
 
 {{!-- Group Showing Modal --}}
 <div class="modal fade proj-display-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg proj-display-pos">
+    <div class="modal-dialog modal-lg proj-display-pos" role="document">
         <div class="modal-content group-modal proj-details p-2">
             <button id="group-settings-btn" type="button" class="mr-auto m-2 btn btn-circle btn-xl m-1 shadow">
                 <i class="fas fa-cogs"></i>
             </button>
-            <div class="mx-auto">
-                <div id="group-modal-settings">
-                    <section id="tabs">
-                        <div class="container heading-font">
-                            <h6 class="section-title h1">Dashboard</h6>
-                            <div class="row">
-                                <div class="col-12 content-font">
-                                    <nav>
-                                        <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
-                                            <a class="nav-item nav-link active m-1" id="nav-home-tab" data-toggle="tab" href="#nav-admin" role="tab" aria-controls="nav-home"
-                                                aria-selected="true">Admin</a>
-                                            <a class="nav-item nav-link m-1" id="nav-profile-tab" data-toggle="tab" href="#nav-users" role="tab" aria-controls="nav-profile"
-                                                aria-selected="false">Users</a>
-                                        </div>
-                                    </nav>
-                                    <div class="tab-content heading-font" id="nav-tabContent">
-                                        <div class="tab-pane fade show active p-4" id="nav-admin" role="tabpanel" aria-labelledby="nav-home-tab">
-                                            <div class="row border mt-2 mb-2 admin-row">
-                                                <div class="col-6 d-flex align-items-center">
-                                                    <h4>Group View</h4>
-                                                </div>
-                                                <div class="col-6 p-3">
-                                                    <div class="form-group mt-3">
-                                                        <div class="toggle-switch">
-                                                            <label for="cb-switch">
-                                                                <input type="checkbox" id="cb-switch" value="">
-                                                                <span>
-                                                                    <small></small>
-                                                                </span>
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                </div>
+            <div class="modal-body" id="group-modal-settings">
+                <section id="tabs">
+                    <div class="container heading-font">
+                        <h6 class="section-title h1">Dashboard</h6>
+                        <div class="row">
+                            <div class="col-12 content-font">
+                                <nav>
+                                    <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+                                        <a class="nav-item nav-link active m-1" id="nav-home-tab" data-toggle="tab" href="#nav-admin" role="tab" aria-controls="nav-home"
+                                            aria-selected="true">Admin</a>
+                                        <a class="nav-item nav-link m-1" id="nav-profile-tab" data-toggle="tab" href="#nav-users" role="tab" aria-controls="nav-profile"
+                                            aria-selected="false">Users</a>
+                                    </div>
+                                </nav>
+                                <div class="tab-content heading-font" id="nav-tabContent">
+                                    <div class="tab-pane fade show active p-4" id="nav-admin" role="tabpanel" aria-labelledby="nav-home-tab">
+                                        <div class="row border mt-2 mb-2 admin-row">
+                                            <div class="col-6 d-flex align-items-center">
+                                                <h5>Group View</h5>
                                             </div>
-                                            <div class="row border mt-2 mb-2 admin-row p-3">
-                                                <div class="col-12 pl-0">
-                                                    <h4 class="d-block">Alter Data</h4>
-                                                </div>
-                                                <form class="mx-auto d-block">
-                                                    <div class="card border-primary rounded-0">
-                                                        <div class="card-body p-3">
-                                                            <div class="form-group">
-                                                                <div class="input-group mb-2">
-                                                                    <div class="input-group-prepend">
-                                                                        <div class="input-group-text alter-data-style">
-                                                                            <i class="fab fa-autoprefixer"></i>
-                                                                        </div>
-                                                                    </div>
-                                                                    <input type="email" class="form-control" id="" name="email" placeholder="Change Project name" required>
-                                                                </div>
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <div class="input-group mb-2">
-                                                                    <div class="input-group-prepend">
-                                                                        <div class="input-group-text  alter-data-style">
-                                                                            <i class="fa fa-comment"></i>
-                                                                        </div>
-                                                                    </div>
-                                                                    <textarea class="form-control" placeholder="Change Project Description" required></textarea>
-                                                                </div>
-                                                            </div>
-                                                            <div class="text-center alter-data-style">
-                                                                <input type="submit" value="Submit Changes" class="btn btn-block rounded-0 admin-alter-btn">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                            <div class="row mt-2 mb-2 border p-4 admin-row">
-                                                <h4>Add and Remove Data</h4>
-                                                <div class="input-group mt-2 mb-2">
-                                                    <span class="input-group-addon">
-                                                        <i class="fas fa-plus-circle m-2 fa-2x text-success"></i>
-                                                    </span>
-                                                    <input type="text" class="form-control" aria-label="Text input with dropdown button" placeholder="Add...">
-                                                    <div class="input-group-append">
-                                                        <button class="btn dropdown-toggle admin-alter-btn" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</button>
-                                                        <div class="dropdown-menu">
-                                                            <a class="dropdown-item" href="#">Tag</a>
-                                                            <a class="dropdown-item" href="#">URL</a>
-                                                            <a class="dropdown-item" href="#">Snippet</a>
-                                                        </div>
+                                            <div class="col-6">
+                                                <div class="form-group mt-3">
+                                                    <div class="toggle-switch">
+                                                        <label for="cb-switch">
+                                                            <input type="checkbox" class="public-view" id="cb-switch" value="">
+                                                            <span>
+                                                                <small></small>
+                                                            </span>
+                                                        </label>
                                                     </div>
                                                 </div>
-                                                <div class="input-group mt-2 mb-2">
-                                                    <span class="input-group-addon">
-                                                        <i class="fas fa-minus-circle m-2 fa-2x text-danger"></i>
-                                                    </span>
-                                                    <input type="text" class="form-control" aria-label="Text input with dropdown button" placeholder="Delete...">
-                                                    <div class="input-group-append">
-                                                        <button class="btn dropdown-toggle admin-alter-btn" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</button>
-                                                        <div class="dropdown-menu">
-                                                            <a class="dropdown-item" href="#">Tag</a>
-                                                            <a class="dropdown-item" href="#">URL</a>
-                                                            <a class="dropdown-item" href="#">Snippet</a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <button type="button" class="btn btn-lg btn-block mt-3 btn-danger text-white">Delete Project</button>
                                             </div>
                                         </div>
-                                        <div class="tab-pane fade" id="nav-users" role="tabpanel" aria-labelledby="nav-profile-tab">
-                                            <div class="container">
-                                                <div class="row custyle">
-                                                    <table class="table table-striped custab">
-                                                        <thead class="t-head-style">
-                                                            <tr>
-                                                                <th>Id</th>
-                                                                <th>Name</th>
-                                                                <th>Auth</th>
-                                                                <th class="text-right">Change</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tr>
-                                                            <td>1</td>
-                                                            <td>Derek</td>
-                                                            <td>Admin</td>
-                                                            <td class="text-right">
-                                                                <a class='btn btn-admin' href="#">
-                                                                    <span></span> Admin</a>
-                                                                <a href="#" class="btn btn-view">
-                                                                    <span></span> View</a>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>2</td>
-                                                            <td>Angelina</td>
-                                                            <td>Admin</td>
-                                                            <td class="text-right">
-                                                                <a class='btn btn-admin' href="#">
-                                                                    <span></span> Admin</a>
-                                                                <a href="#" class="btn btn-view">
-                                                                    <span></span> View</a>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>3</td>
-                                                            <td>Elizabeth</td>
-                                                            <td>Admin</td>
-                                                            <td class="text-right">
-                                                                <a class='btn btn-admin' href="#">
-                                                                    <span></span> Admin</a>
-                                                                <a href="#" class="btn btn-view">
-                                                                    <span></span> View</a>
-                                                            </td>
-                                                        </tr>
-                                                    </table>
+                                        <div class="row border mt-2 mb-2 admin-row pl-3 pr-3 pb-1">
+                                            <div class="col-12 pl-0">
+                                                <h5 class="d-block">Alter Data</h5>
+                                            </div>
+                                            <form class="mx-auto d-block">
+                                                <div class="card border-primary rounded-0">
+                                                    <div class="card-body p-3">
+                                                        <div class="form-group">
+                                                            <div class="input-group mb-2">
+                                                                <div class="input-group-prepend">
+                                                                    <div class="input-group-text alter-data-style">
+                                                                        <i class="fab fa-autoprefixer"></i>
+                                                                    </div>
+                                                                </div>
+                                                                <input class="form-control change-proj-name" id="" name="email" placeholder="Change Project name">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <div class="input-group mb-2">
+                                                                <div class="input-group-prepend">
+                                                                    <div class="input-group-text  alter-data-style">
+                                                                        <i class="fa fa-comment"></i>
+                                                                    </div>
+                                                                </div>
+                                                                <textarea class="form-control change-proj-desc" placeholder="Change Project Description"></textarea>
+                                                            </div>
+                                                        </div>
+                                                        <div class="text-center alter-data-style">
+                                                            <input type="submit" value="Submit Changes" class="btn btn-block rounded-0 admin-alter-btn change-proj-btn">
+                                                        </div>
+                                                    </div>
                                                 </div>
+                                            </form>
+                                        </div>
+                                        <div class="row mt-2 mb-2 border p-2 admin-row">
+                                            <h5>New Snippet</h5>
+                                            <div class="input-group mb-3">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text alter-data-style">URL</span>
+                                                </div>
+                                                <input type="text" class="form-control new-proj-snip-url" placeholder="www.example.com">
+                                            </div>
+                                            <div class="input-group mb-3">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text alter-data-style">Tag</span>
+                                                </div>
+                                                <input type="text" class="form-control new-proj-snip-tag" placeholder="what did you find?">
+                                            </div>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend admin-alter-btn">
+                                                    <span class="input-group-text  p-3 alter-data-style">Text</span>
+                                                </div>
+                                                <textarea class="form-control new-proj-snip-text" aria-label="With textarea" placeholder="Text"></textarea>
+                                            </div>
+                                            <div class=" w-100 alter-data-style mt-3">
+                                                <input type="submit" value="Add Snippet" class="btn new-proj-snip-btn btn-block rounded-0 admin-alter-btn">
+                                            </div>
+                                        </div>
+                                        <button type="button" class="btn btn-lg btn-block mt-3 btn-danger text-white delete-project">Delete Project</button>
+                                    </div>
+                                    <div class="tab-pane fade" id="nav-users" role="tabpanel" aria-labelledby="nav-profile-tab">
+                                        <div class="container">
+                                            <div class="row custyle">
+                                                <table class="table table-striped custab">
+                                                    <thead class="t-head-style">
+                                                        <tr>
+                                                            <th>Id</th>
+                                                            <th>Name</th>
+                                                            <th>Auth</th>
+                                                            <th class="text-right">Change</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tr>
+                                                        <td class="u-id">1</td>
+                                                        <td>Derek</td>
+                                                        <td>Admin</td>
+                                                        <td class="text-right">
+                                                            <a class='btn btn-admin admin-btn' href="">Admin</a>
+                                                            <a class="btn btn-view view-btn" href="">View</a>
+                                                        </td>
+                                                    </tr>
+                                                </table>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div> 
                             </div>
                         </div>
-                </div>
+                    </div>
                 </section>
             </div>
             <div id="group-info-section">
-                
-                <div id="project-tags" class="row w-50 mx-auto mb-2">
+                <div class="row w-75 mx-auto">
                     <div class="input-group mb-2">
-                        <input class="form-control border-right-0 border search" type="text" placeholder="Search Tags">
+                        <input class="form-control border-right-0 border search search-proj-input" type="text" placeholder="What are you looking for?">
                         <span class="input-group-append">
-                            <button type="button" class="btn btn-danger text-white btn-circle btn-xl float-right">
-                                <i class="fas fa-times-circle"></i>
+                            <button type="button" class="btn btn-danger text-white btn-circle btn-xl float-right search-proj-btn">
+                                <i class="fas fa-check"></i>
                             </button>
                         </span>
                     </div>
-                    <div class="col-10 mx-auto proj-tags-div">
-                        <ul class="list">
-                            <li>
-                                <span class="badge badge-pill badge-light projTagBadge">Coding</span>
-                            </li>
-                            <li>
-                                <span class="badge badge-pill badge-light projTagBadge">Javascript</span>
-                            </li>
-                            <li>
-                                <span class="badge badge-pill badge-light projTagBadge">Vacations</span>
-                            </li>
-                            <li>
-                                <span class="badge badge-pill badge-light projTagBadge">Food</span>
-                            </li> 
-                        </ul>
+                    <div class="d-flex justify-content-center w-100">
+                        <label class="checkbox-inline mr-2 h6">
+                            <input type="checkbox" id="proj-search-tag-param" value="">Search tag
+                        </label>
+                        <label class="checkbox-inline ml-2 mr-2 h6">
+                            <input type="checkbox" id="proj-search-text-param" value="">Search text
+                        </label>
                     </div>
                 </div>
                 <div class="row mt-4 mb-4 p-2">
@@ -326,32 +297,20 @@
                                         <img src="images/proj-url.png">
                                     </div>
                                     <div class="user-detail">
-                                        <span class="p-3">Shared: 8/18/2018</span>
+                                        <span class="p-3 url-created-date">Shared: 8/18/2018</span>
                                     </div>
                                     <div style="clear:both;"></div>
                                 </div>
                                 <hr>
                                 <div class="comment-content">
-                                    <span>www.cacheit/isthebest.ca</span>
+                                    <a class="proj-url" href="">www.cacheit/isthebest</a>
                                 </div>
                                 <hr>
                                 <div class="comment-box box">
-                                    <div class="count-btn">
-                                        <button type="button" id="testBtn" class="btn bg-success text-white m-2">
-                                            <i class="fas fa-thumbs-up"></i>
-                                            4</button>
-                                    </div>
-                                    <div class="count-btn">
-                                        <button type="button" id="testBtn" class="btn bg-warning text-white m-2">
-                                            <i class="fas fa-thumbs-down"></i>
-                                            4</button>
-                                    </div>
-                                    <div class="enter-btn m-2">
-                                        <button class="btn bg-danger text-white">
-                                            <i class="far fa-trash-alt"></i>
-                                        </button>
-                                    </div>
-                                    <div style="clear:both;"></div>
+                                    <h6 class="heading-font d-inline mr-2">Delete this URL!</h6>
+                                    <button class="btn bg-danger text-white delete-proj-url d-inline">
+                                        <i class="far fa-trash-alt"></i>
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -360,37 +319,81 @@
                         <h4 class="proj-header heading-font">Snippets</h4>
                         <div class="forum-body row heading-font p-2 mb-2 justify-content-center">
                             <div class="main-section p-2">
-                                <div class="top-section d-flex align-items-center">
-                                    <div class="user-img m-2">
-                                        <img src="images/proj-text.jpg">
+                                <div id="accordion" role="tablist">
+                                    <div class="card">
+                                        <div class="card-header rounded-0 snippet-header" role="tab" id="headingOne">
+                                            <h5 class="mb-0">
+                                                <a data-toggle="collapse" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                                    Snippet Info
+                                                </a>
+                                            </h5>
+                                        </div>
+                                        <div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne" data-parent="#accordion">
+                                            <div class="card-body">
+                                                <div class="top-section d-flex align-items-center">
+                                                    <div class="user-img m-2">
+                                                        <img src="images/proj-text.jpg">
+                                                    </div>
+                                                    <div class="user-detail">
+                                                        <span class="p-3 .projSnipCreated">Shared: 8/18/2018</span>
+                                                    </div>
+                                                    <div style="clear:both;"></div>
+                                                </div>
+                                                <hr>
+                                                <div class="comment-content">
+                                                    <span class=".projText"> Some text about text in the textbox to test for text snippets</span>
+                                                </div>
+                                                <hr>
+                                                <div class="comment-box box">
+                                                    <div style="clear:both;"></div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="user-detail">
-                                        <span class="p-3">Shared: 8/18/2018</span>
+                                    <div class="card">
+                                        <div class="card-header rounded-0 snippet-header" role="tab" id="headingTwo">
+                                            <h5 class="mb-0">
+                                                <a class="collapsed" data-toggle="collapse" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                                    Action
+                                                </a>
+                                            </h5>
+                                        </div>
+                                        <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo" data-parent="#accordion">
+                                            <h5 class="heading-font ml-3 mt-3">Tags</h5>
+                                            <div id="project-tags" class="row w-100 mx-auto mb-2">
+                                                <div class="col-10 mx-auto proj-tags-div">
+                                                    <ul class="list">
+                                                        <li>
+                                                            <span class="badge badge-pill badge-light projTags">Coding</span>
+                                                        </li>
+                                                        <li>
+                                                            <span class="badge badge-pill badge-light projTags">Javascript</span>
+                                                        </li>
+                                                        <li>
+                                                            <span class="badge badge-pill badge-light projTags">Vacations</span>
+                                                        </li>
+                                                        <li>
+                                                            <span class="badge badge-pill badge-light projTags">Food</span>
+                                                        </li>
+                                                    </ul>
+                                                    <div class="input-group mb-2">
+                                                        <input class="form-control input-lg search moveInput-del" placeholder="Delete tag" type="text">
+                                                        <span class="input-group-append">
+                                                            <button type="button" class="btn btn-danger text-white del-proj-tag-btn" target="_blank">
+                                                                <i class="far fa-trash-alt"></i>
+                                                            </button>
+                                                        </span>
+                                                    </div>
+                                                    <div class="input-append span12 w-100 d-flex align-items-center mb-2">
+                                                        <input class="form-control input-lg moveInput-add" placeholder="Add tag" type="text">
+                                                        <button type="button" class="btn btn-success text-white add-proj-tag-btn" target="_blank">
+                                                            <i class="fas fa-plus-circle"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div style="clear:both;"></div>
-                                </div>
-                                <hr>
-                                <div class="comment-content">
-                                    <span> Some text about text in the textbox to test for text snippets</span>
-                                </div>
-                                <hr>
-                                <div class="comment-box box">
-                                    <div class="count-btn">
-                                        <button type="button" id="testBtn" class="btn m-2 bg-success text-white">
-                                            <i class="fas fa-thumbs-up"></i>
-                                            4</button>
-                                    </div>
-                                    <div class="count-btn">
-                                        <button type="button" id="testBtn" class="btn m-2 bg-warning text-white">
-                                            <i class="fas fa-thumbs-down"></i>
-                                            4</button>
-                                    </div>
-                                    <div class="enter-btn m-2">
-                                        <button class="btn bg-danger text-white">
-                                            <i class="far fa-trash-alt"></i>
-                                        </button>
-                                    </div>
-                                    <div style="clear:both;"></div>
                                 </div>
                             </div>
                         </div>
@@ -399,6 +402,7 @@
             </div>
         </div>
     </div>
+</div>
 </div>
 </div>
 
@@ -428,13 +432,12 @@
                     <input id="new-proj-desc" class="form-control" placeholder="Description" required="required">
                 </div>
             </div>
-            <div class="form-group mt-2 mb-2">
-                <div class="input-group">
-                    <span class="input-group-addon">
-                        <i class="fas fa-tags m-2 text-secondary"></i>
-                    </span>
-                    <input id="new-proj-tag" class="form-control" placeholder="Begginner tag">
-                </div>
+            <div class="form-group mt-2 mb-2 d-flex align-items-center">
+                <h6 class="heading-font d-inline ml-2">Disable Public mode?</h6>
+                <label class="switch ml-5">
+                    <input id="public-proj" type="checkbox" checked>
+                    <span class="slider round"></span>
+                </label>
             </div>
             <div class="modal-footer d-flex justify-content-center">
                 <button id="new-proj-btn" class="btn btn-default rounded-0">Start Project!</button>
@@ -459,7 +462,7 @@
                         <form id="custom-search-form" class="form-search form-horizontal w-100">
                             <div class="input-append span12 w-100 d-flex justify-content-center">
                                 <input id="search-reddit-input" type="text" class="search-query w-75" placeholder="Search">
-                                <button type="button" class="btn" target="_blank" id="search-reddit-btn">
+                                <button type="button" id="search-reddit-btn">
                                     <i class="fa fa-search"></i>
                                 </button>
                             </div>
@@ -503,13 +506,29 @@
             </div>
             <div class="modal-body">
                 <form class="heading-font">
-                    <div class="form-group">
-                        <label class="control-label " for="subject">URL</label>
-                        <input class="form-control rounded-0" id="subject" name="subject" type="text" />
+                    <div class="form-group mt-2 mb-2">
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                <i class="fab fa-internet-explorer m-2 text-secondary"></i>
+                            </span>
+                            <input id="new-snip-name" type="text" class="form-control" placeholder="URL" required="required">
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label class="control-label " for="message">Snippet</label>
-                        <textarea class="form-control rounded-0" cols="40" id="message" name="message" rows="10"></textarea>
+                    <div class="form-group mt-2 mb-2">
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                <i class="far fa-comments text-secondary m-2"></i>
+                            </span>
+                            <input id="new-snip-desc" class="form-control form-control-lg" placeholder="Text" required="required">
+                        </div>
+                    </div>
+                    <div class="form-group mt-2 mb-2">
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                <i class="fas fa-tags m-2 text-secondary"></i>
+                            </span>
+                            <input id="new-snip-tag" class="form-control" placeholder="Begginer tag">
+                        </div>
                     </div>
                 </form>
             </div>

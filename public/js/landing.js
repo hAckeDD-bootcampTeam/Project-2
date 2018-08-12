@@ -17,7 +17,43 @@ $(document).ready(function () {
 			$('#landing-page-br').css('filter', 'blur(5px)');
 		}
 	});
-	
+
+
+	// Selectors
+
+	// Login information
+	let newUserName = $('#new-userName'); 
+	let newUserPassW = $('#new-userPassW'); 
+	let newUserBtn = $('#new-UserBtn'); 
+
+	let currUserName = $('#current-userName'); 
+	let currUserPassW = $('#current-UserPassW'); 
+	let currUserBtn = $('#current-UserBtn'); 
+
+	let googleLogIn = $('#google-log-in'); 
+
+
+	// Log in button on click
+		googleLogIn.click(function () {
+			console.log('Google Log In')  
+		})
+
+		newUserBtn.click(function () {
+			event.preventDefault(); 
+			console.log(newUserName.val()); 
+			console.log(newUserPassW.val()); 
+		})
+
+
+		currUserBtn.click(function () {
+			event.preventDefault(); 
+			console.log(currUserName.val()); 
+			console.log(currUserPassW.val()); 
+		})
+
+
+
+
 });
 
 
