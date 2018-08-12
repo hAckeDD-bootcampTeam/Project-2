@@ -8,7 +8,6 @@
             <p class="content-font d-inline text-white h5">User</p>
         </div>
         <a id="projects-btn" href="/projects" class="p-1 rounded-0 heading-font h5 ml-2">Projects</a>
-        {{!-- {{> url-tables this}} --}}
 
     </div>
 </nav>
@@ -53,52 +52,11 @@
         <div class="container-fluid">
             <div class="row p-2">
                 <div class="card-deck">
-                    <div class="card main-card rounded-0 p-2 shadow-lg">
-                        <div class="card-header pr-0 pl-0 pb-2">
-                            <span class="badge cache-snippet-badge badge-pill badge-warning" value="">Sample Tag</span>
-                            <span class="badge cache-snippet-badge badge-pill badge-warning" value="">J query</span>
-                            <span class="badge cache-snippet-badge badge-pill badge-warning" value="">Github</span>
-                        </div>
-                        <div class="card-block heading-font">
-                            <ul class="nav nav-tabs m-2" role="tablist">
-                                <li class="nav-item">
-                                    <a class="nav-link active" href="#action" role="tab" data-toggle="tab">Action</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#info" role="tab" data-toggle="tab">Info</a>
-                                </li>
-                            </ul>
-                            <div class="tab-content">
-                                <div role="tabpanel" class="tab-pane fade in active p-2" id="action">
-                                    <button class="btn btn-block mt-3 mb-3 btn-danger delete-snippet">Delete Snippet</button>
-                                    <button class="btn remove-cache-tag btn-block mt-3 mb-3 cache-btn">Remove Tag</button>
-                                    <div class="input-group mb-3">
-                                        <input class="form-control add-tag-input" type="text" placeholder="Add a tag">
-                                        <div class="input-group-append">
-                                            <button class="btn add-tag-btn cache-btn">Add tag</button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div role="tabpanel" class="tab-pane fade" id="info">
-                                    <div class="query-col">
-                                        <h5 class="heading-font">
-                                            <a target="_blank" class="cache-snip-url" href="">URL!</a>
-                                        </h5>
-                                    </div>
-                                    <div class="query-col">
-                                        <p class="cache-snip-text" class="content-font">"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-                                            ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                                            ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    {{> home-cache-partials}}
                 </div>
             </div>
         </div>
-    </div>
+    </div> 
     <div id="projs-div" class="home-main-div mx-auto">
         <div class="m-2">
             <button id="add-proj-btn" type="button" class="btn btn-circle btn-xl m-1 shadow" data-toggle="modal" data-target="#add-project-modal">
@@ -107,29 +65,7 @@
             <h5 class="tile-header d-inline p-2 mt-5 rounded heading-font">Launch New Project</h5>
         </div>
         <div class="card-deck p-2">
-            <div class="card main-card card-inverse mb-3">
-                <img class="card-img rounded-0" src="images/proj-card-br.jpg" alt="Card image">
-                <div class="card-img-overlay">
-                    <div class="d-flex flex-column justify-content-center align-items-center">
-                        <h5 class="card-title heading-font text-center proj-card home-proj-title">Project Title</h5>
-                        <div>
-                            <span class="badge snippet-badge badge-pill badge-warning" value="">Sample Tag</span>
-                            <span class="badge snippet-badge badge-pill badge-warning" value="">Sample Tag</span>
-                            <span class="badge snippet-badge badge-pill badge-warning" value="">Sample Tag</span>
-                            <span class="badge snippet-badge badge-pill badge-warning" value="">Sample Tag</span>
-                            <span class="badge snippet-badge badge-pill badge-warning" value="">Sample Tag</span>
-                            <span class="badge snippet-badge badge-pill badge-warning" value="">Sample Tag</span>
-                            <span class="badge snippet-badge badge-pill badge-warning" value="">Sample Tag</span>
-                        </div>
-                        <div class="w-100">
-                            <textarea class="form-control content-font form-rounded mt-5 home-proj-desc" rows="3"> This is a cool project that has some features</textarea>
-                        </div>
-                        <div class="card-footer text-muted proj-card-footer">
-                            <button type="submit" class="btn login-btn btn-block heading-font open-proj-console" data-toggle="modal" data-target=".proj-display-modal">Open Console</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            {{> home-proj-partials}}
         </div>
     </div>
     <div class="footer content-font">

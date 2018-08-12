@@ -1,4 +1,3 @@
-
 /* eslint-disable */
 
 // let db = require('../models');
@@ -9,7 +8,7 @@ module.exports = function (app) {
     });   
 
     app.get('/home', function (req, res) {
-        res.render('home', { name: 'david'})
+        res.render('home')
     });
 
     app.get('/projects', function (req, res) {
