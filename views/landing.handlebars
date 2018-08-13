@@ -1,7 +1,5 @@
  {{!-- Landing Page StyleSheet --}}
-<link type="text/css" rel="stylesheet" href="css/landing.css">
-
-{{!-- Navbar --}}
+<link type="text/css" rel="stylesheet" href="css/landing.css"> {{!-- Navbar --}}
 <nav id="navbar" class="navbar navbar-expand-md pt-2">
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup"
         aria-expanded="false" aria-label="Toggle navigation">
@@ -18,9 +16,7 @@
     </div>
 </nav>
 
-{{!-- Modals --}}
-
-{{!-- Sign In modal --}}
+{{!-- Modals --}} {{!-- Sign In modal --}}
 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered rounded-0" role="document">
         <div class="modal-content p-3">
@@ -50,11 +46,11 @@
                                 <span class="input-group-addon">
                                     <i class="fa fa-lock m-2"></i>
                                 </span>
-                                <input id="current-UserPassW"  class="form-control" name="password" placeholder="Password" required="required">
+                                <input id="current-UserPassW" class="form-control" name="password" placeholder="Password" required="required">
                             </div>
                         </div>
                         <div class="form-group">
-                            <button id="current-UserBtn"  class="btn login-btn btn-block">Sign in</button>
+                            <button id="current-UserBtn" class="btn login-btn btn-block">Sign in</button>
                         </div>
                         <div class="or-seperator">
                             <i>or</i>
@@ -64,11 +60,11 @@
                             <a id="google-log-in" class="btn btn-danger">
                                 <i class="fab fa-google">&nbsp; Google</i>
                             </a>
-                        </div> 
-                    </form>  
+                        </div>
+                    </form>
                 </div>
                 <div role="tabpanel" class="tab-pane fade" id="newUser">
-                    <form> 
+                    <form>
                         <h2 class="text-center heading-font mt-2 welcome-text">Welcome To Cache-it</h2>
                         <hr>
                         <h4 class="text-center heading-font mt-1">Set your cred's!</h4>
@@ -78,6 +74,14 @@
                                     <i class="fa fa-user m-2"></i>
                                 </span>
                                 <input id="new-userName" type="text" class="form-control" name="username" placeholder="Username" required="required">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    <i class="fas fa-at m-2"></i>
+                                </span>
+                                <input id="new-userEmail" type="text" class="form-control" name="username" placeholder="Email" required="required">
                             </div>
                         </div>
                         <div class="form-group">
@@ -94,9 +98,9 @@
                     </form>
                 </div>
             </div>
-        </div> 
+        </div>
     </div>
-</div> 
+</div>
 
 {{!-- Content section begins --}}
 <div class="main">
@@ -110,7 +114,7 @@
             <div id="about-div" class="col-lg-6 p-0">
                 <img id="landing-modal-br" src="images/landing_share_data.jpg">
                 <section id="landing-modal-section" class="heading-font p-4 d-flex align-items-center h6">
-                    <div class="w-100"> 
+                    <div class="w-100">
                         Tired of having access to so much information and nowhere to put it?
                         <hr> Cache-it is the last stop on the information superhighway.
                         <hr> Consolidate all things you find interesting on the World Wide Web.
@@ -126,7 +130,7 @@
             <div class="fade-container p-2 h-75 w-100">
                 <img src="images/landing_store_data.jpg" class="landing-tile-img">
             </div>
-            <div class="overlay"> 
+            <div class="overlay">
                 <div class="overlay-info content-font h5 w-100 p-2">
                     Store useful snippets of information from the internet.
                     <hr class="border border-white"> Save the URL where you found it.
@@ -146,7 +150,7 @@
                     <hr class="border border-white"> Everything organized into one group.
                 </div>
             </div>
-        </div> 
+        </div>
         <div class="col-lg-4 col-md-10 tile-container">
             <h2 class="heading-font text-center tile-header rounded">Tag</h2>
             <div class="fade-container p-2 h-75 w-100">

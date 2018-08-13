@@ -16,6 +16,10 @@ $(document).ready(function () {
   let homeBtn = $('#home-btn'); 
   let logOutBtn = $('#logOut-btn'); 
 
+  //button to clear search
+
+  let clearSearchButton = $('.clear-proj-search')
+
   //Search through the tags
   let searchTagBtn = $('.searchTags'); 
 
@@ -47,6 +51,10 @@ $(document).ready(function () {
     console.log(projectJoinName);  
 
 
+  }); 
+
+  clearSearchButton.click(function () {
+    console.log('clear search')
   }); 
 
 
