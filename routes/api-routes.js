@@ -197,4 +197,28 @@ app.post("/addProjURL", function (req, res) {
   res.sendStatus('201');
 }); 
 
+
+app.delete("/delProjSnippet/:snipID", function (req, res) {
+  let snipID = req.params.snipID; 
+
+  console.log(snipID);  
+  res.sendStatus('202');
+}); 
+
+
+app.post("/addProjTag", function (req, res) {
+  let newTag = req.body.tagName; 
+
+  console.log(newTag);  
+
+  res.sendStatus('201');
+}); 
+
+app.delete("/delProjTag/:tagName", function (req, res) {
+  let projTagName = req.params.tagName; 
+
+  console.log(projTagName);  
+  res.sendStatus('202');
+});
+
 };

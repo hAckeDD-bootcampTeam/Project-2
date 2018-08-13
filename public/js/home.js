@@ -428,7 +428,6 @@ $(document).ready(function () {
     // Delete a specific project
     deleteProject.click(function () {
         let projSnipID = '2'; 
-
         $.ajax({
             url: `/delProjSnip/${projSnipID}`,
             type: 'DELETE',
@@ -504,17 +503,21 @@ $(document).ready(function () {
         } else {
             alert('You cannot search an empty value!')
         }
-
-  
-
-    
-        
     });
 
 
     // Delete a snippet from the console of the project you are on
     delProjSnip.click(function () {
-        console.log('Delete this snippet')
+        let projSnipID = '2'; 
+
+        $.ajax({ 
+            url: `/delProjSnippet/${projSnipID}`,
+            type: 'DELETE',
+        }).done((delProjSnip) => {
+            if (delProjSnip === 'Accepted') {
+                console.log(' Project Snippet deleted');
+            }
+        });
     })
 
     // When the delete button is clicked, turn on flag for tag to be deleted and set color to red
@@ -532,15 +535,48 @@ $(document).ready(function () {
     // when you click a project tag, if the delete flag is on, register the tag for a query and turn off the flag
     projTags.click(function () {
         if (removeProjTagBool) {
+            let removedProjTag = $(this).text();
+ 
             projTags.removeClass("bg-danger");
-            console.log($(this).text())
-            removeProjTagBool = false;
-        }
+
+            $.ajax({
+                url: `/delProjTag/${removedProjTag}`,
+                type: 'DELETE',
+            }).done((delProjTag) => {
+                if (delProjTag === 'Accepted') {
+                    console.log('Project Tag deleted');
+                    removeTagBool = false;
+                    projTags.removeClass("bg-danger");
+                }
+            });
+        } 
     });
+
 
     // Add a tag to the snippet in a project console. Grab the value of the input
     addProjTagBtn.click(function () {
-        console.log(addProjTag.val());
+        
+        if (addProjTag.val()) {
+
+            let newProjTag = {
+               tagName: addProjTag.val().trim()
+            }
+
+            $.ajax({
+                url: `/addProjTag`,
+                type: 'POST',
+                data: newProjTag
+            }).done((newProjTag) => {
+                if (newProjTag === 'Created') {
+                    console.log('Project Tag Created');
+                    addProjTag.val('')
+                }
+            });
+
+        } else {
+            alert('You cannot leave change fields empty!')
+        }
+
     });
 
     // Add a URL to a snippet in a project
