@@ -17,23 +17,24 @@ $(document).ready(function () {
   let logOutBtn = $('#logOut-btn');
 
   //button to clear search
-
   let clearSearchButton = $('.clear-proj-search')
-
-  //Search through the tags
-  let searchTagBtn = $('.searchTags');
 
   // specific project selectors. used a class name because each project must be unique
   let projName = $('.proj-name');
   let projDesc = $('.proj-desc');
   let projTags = $('.proj-tags');
+
+  // button to search tag 
+  let searchTagBtn = $('.searchTags')
+
+  // button to join the project
   let joinBtn = $('.join-btn');
 
   // User able to log out
   logOutBtn.click(function () {
     event.preventDefault();
     console.log('Log Out');
-    window.location.href = '/';
+    window.location.href = '/'; // kick the user back to the landing page
   });
 
   // when a tag is clicked register the name and request all projects with that tag
@@ -44,7 +45,7 @@ $(document).ready(function () {
       url: `/filterbytag/${selectedTag}`,
     }).done ((response) => {
       if (response === 'OK') {
-        console.log('Good Update')
+        console.log('Good Selection')
       }
     });  
   }); 
@@ -69,9 +70,9 @@ $(document).ready(function () {
       url: '/joinGroup',
       type: 'PUT',
       data: testObj
-    }).done ((response) => {
+    }).done ((joined) => {
       //if the response is good, status is update (202), for accepted, log good put request
-      if (response === 'Accepted') {
+      if (joined === 'Accepted') {
        console.log('Good put request')
       }
     }); 
@@ -81,8 +82,18 @@ $(document).ready(function () {
   });
 
 
+  // Get request to clear the search by tag name and return all tags
   clearSearchButton.click(function () {
-    console.log('clear search')
+    $.ajax({
+      url: '/allProjects',
+      type: 'GET'
+    }).done ((allProjects) => {
+      //if the response is good, status is update (202), for accepted, log good put request
+      if (allProjects === 'OK') {
+       console.log('All projects retrieved')
+      }
+  
+    }); 
   });
 
 

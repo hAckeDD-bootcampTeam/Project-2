@@ -3,8 +3,6 @@
 
 $(document).ready(function () {
 
-	// Selectors
-
 	// Selectors for the floating icon and background that it shows when clickced
 	let aboutDiv = $("#about-div");
 	let landingQMark = $('#landing-qMark');
@@ -22,10 +20,9 @@ $(document).ready(function () {
 		} else {
 			$('#landing-page-br').css('filter', 'blur(5px)');
 		}
-	});
+	}); 
 
 	// New User Login info
-	let newUserName = $('#new-userName');
 	let newUserEmail = $('#new-userEmail')
 	let newUserPassW = $('#new-userPassW');
 	let newUserBtn = $('#new-UserBtn');
@@ -47,17 +44,22 @@ $(document).ready(function () {
 		console.log('Google Log In')
 	}); 
 
+	// Create anew user with credentials
 	newUserBtn.click(function () {
 		event.preventDefault();
-		console.log(newUserName.val());
 		console.log(newUserEmail.val());
 		console.log(newUserPassW.val());
+
+		// use window.location.redirect = '/home' to send user to their home page
 	}); 
 
+	//Log the user in
 	currUserBtn.click(function () {
 		event.preventDefault();
 		console.log(currUserName.val());
 		console.log(currUserPassW.val());
+
+		// use window.location.redirect = '/home' to send user to their home page
 	}); 
 
 
