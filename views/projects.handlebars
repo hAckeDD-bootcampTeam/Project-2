@@ -28,6 +28,11 @@
                         <div class="col-12">
                             <div class="input-group">
                                 <input class="form-control border-right-0 border search" type="text" placeholder="Search Tags">
+                                <span class="input-group-append">
+                                    <button type="button" class="btn btn-circle btn-xl float-right clear-proj-search">
+                                        <i class="far fa-times-circle"></i>
+                                    </button>
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -50,10 +55,7 @@
         </div>
         <div class="col-md-9 mt-3">
             <div class="card-deck p-3">
-                {{!-- Accordion Start --}}
-         {{> projects-partials}}
-                {{!-- Accordion End --}}
-
+             {{> projects-partials}}
             </div>
         </div>
     </div>

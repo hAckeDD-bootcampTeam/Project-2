@@ -136,6 +136,15 @@ li {
     color: var(--yellow-color);
 }
 
+.clear-proj-search {
+    background-color: var(--blue-color);
+    color: var(--yellow-color);
+}
+
+.clear-proj-search:hover {
+    color: white; 
+}
+
 /* Project Card Styling  */
 
 .accordion {

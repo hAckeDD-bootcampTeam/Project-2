@@ -26,6 +26,7 @@ $(document).ready(function () {
 
 	// New User Login info
 	let newUserName = $('#new-userName');
+	let newUserEmail = $('#new-userEmail')
 	let newUserPassW = $('#new-userPassW');
 	let newUserBtn = $('#new-UserBtn');
 
@@ -38,26 +39,26 @@ $(document).ready(function () {
 	let googleLogIn = $('#google-log-in');
 
 	//variable to store the user Information
-	let userID = 'ID retrieved from database'
+	let userName = 'ID retrieved from database'
 
 
 	// Log in button on click
 	googleLogIn.click(function () {
 		console.log('Google Log In')
-	})
+	}); 
 
 	newUserBtn.click(function () {
 		event.preventDefault();
 		console.log(newUserName.val());
+		console.log(newUserEmail.val());
 		console.log(newUserPassW.val());
-	})
-
+	}); 
 
 	currUserBtn.click(function () {
 		event.preventDefault();
 		console.log(currUserName.val());
 		console.log(currUserPassW.val());
-	})
+	}); 
 
 
 

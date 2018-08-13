@@ -148,7 +148,10 @@ $(document).ready(function () {
     let addProjTag = $('.moveInput-add');
     let delProjTagBtn = $('.del-proj-tag-btn');
     let addProjTagBtn = $('.add-proj-tag-btn');
-    let delProjSnip = $('.delete-proj-snippet') 
+    let delProjSnip = $('.delete-proj-snippet'); 
+
+    let addProjURL = $('.add-proj-url')
+    let addProjURLBtn = $('.add-proj-url-btn')
 
     // Flags for removing tags from projects and personal cache
      let removeTagBool = false ; 
@@ -349,6 +352,11 @@ $(document).ready(function () {
     // Add a tag to the snippet in a project console. Grab the value of the input
     addProjTagBtn.click(function () {
         console.log(addProjTag.val());
+    });
+
+    // Add a URL to a snippet in a project
+    addProjURLBtn.click(function () {
+        console.log(addProjURL.val());
     });
 
 
