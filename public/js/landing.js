@@ -38,7 +38,8 @@ $(document).ready(function () {
 	let googleLogIn = $('#google-log-in');
 
 	//variable to store the user Information
-	let userName = 'ID retrieved from database'
+	//let userName = 'ID retrieved from database'
+	let userInfo = {}; // Object that contains the information about a logged-in user
 
 
 	// Log in button on click
@@ -53,10 +54,9 @@ $(document).ready(function () {
 			email: newUserEmail.val().trim(),
 			password: newUserPassW.val().trim(),
 		};
-		console.log(JSON.stringify(newuser));
 
 		// If there is no email or password given
-		if ( !newuser.email || !newuser.password) {
+		if (!newuser.email || !newuser.password) {
 			console.log('The username or password is empty');
 			return;
 		}
@@ -69,16 +69,17 @@ $(document).ready(function () {
 
 	});
 
+	// When an existing user tries to log in
 	currUserBtn.click(function () {
 		event.preventDefault();
-		console.log(currUserName.val());
-		console.log(currUserPassW.val());
-
 		var currentuser = {
-			username: currUserName.val().trim(),
+			email: currUserName.val().trim(),
 			password: currUserPassW.val().trim(),
 		};
-		console.log(JSON.stringify(currentuser));
+
+		signInUser(currentuser);
+		currUserName.val("");
+		currUserPassW.val("");		
 
 	});
 
@@ -86,14 +87,50 @@ $(document).ready(function () {
 	// Otherwise we log any errors
 	function signUpUser(newuser) {
 
-		alert('Attempting to sign up new user: ' + JSON.stringify(newuser));
+		console.log(`Attempting to sign up new user: ${JSON.stringify(newuser)}`)
+		
+		$.post("/api/signup", newuser, )
+		.then(function (data) {
+			//window.location.replace(data);
+			userInfo.email = data.email;
+			userInfo.id = data.id;
+			userInfo.hashedpassword = data.password; // Not sure if we should be returning just this or the id
+			console.log(`New user info from the database: ${JSON.stringify(userInfo)}`)
+			})
+			.catch(handleLoginErr);
+	}
 
-		$.post("/api/signup", newuser,
-		)
+	function signInUser(user) {
+
+		console.log(`Attempting to sign in existing user: ${JSON.stringify(user)}`)
+
+		//$.get("/api/user_data", user, )
+		$.post("/api/login", user, )
 			.then(function (data) {
 				//window.location.replace(data);
-				console.log('successful post. .then happened with:');
-				console.log(data);
+				//console.log(data);
+				userInfo.email = data.email;
+				userInfo.id = data.id;
+				userInfo.hashedpassword = data.password; // Not sure if we should be returning just this or the id
+
+				console.log(`Existing user info from the database: ${JSON.stringify(userInfo)}`)
+			})
+			.catch(handleLoginErr);
+	}
+
+	function getUserData(user) {
+
+		console.log(`Attempting to get user data for user: ${JSON.stringify(user)}`)
+
+		$.get("/api/user_data", user, )
+			.then(function (data) {
+				//window.location.replace(data);
+				//console.log(data);
+				userInfo.email = data.email;
+				userInfo.id = data.id;
+				userInfo.hashedpassword = data.password; // Not sure if we should be returning just this or the id
+
+				console.log(`Existing user info from the database: ${JSON.stringify(userInfo)}`)
 			})
 			.catch(handleLoginErr);
 	}
