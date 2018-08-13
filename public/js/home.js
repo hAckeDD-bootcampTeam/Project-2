@@ -66,13 +66,14 @@ $(document).ready(function () {
     let redditQueryURL = $('.reddit-query-url')
     let redditQueryText = $('.reddit-query-text')
 
+
+    //SELECTORS FOR PERSONAL CACHE BEGIN
+
     // Selectors for adding a new snippet to personal cache
     let newSnipName = $('#new-snip-name');
     let newSnipDesc = $('#new-snip-desc');
     let newSnipTag = $('#new-snip-tag');
     let addSnipBtn = $('#add-snip-btn');
-
-    //SELECTORS FOR PERSONAL CACHE BEGIN
 
     // Selector for user searching through a snippet in personal cache, filtered by either tag or text param - or both
     let searchTagInput = $('#search-tag-input');
@@ -129,6 +130,11 @@ $(document).ready(function () {
 
     // delete URL snippet from specific project
     let deleteProjUrl = $('.delete-proj-url');
+
+    // leave specific project 
+    let leaveProjBtn = $('.leave-project-btn');
+
+
     //Selectors for populating the URL and created at from a project
     let projURLCreated = $('.url-created-date');
     let projURL = $('.proj-url');
@@ -148,68 +154,136 @@ $(document).ready(function () {
     let addProjTag = $('.moveInput-add');
     let delProjTagBtn = $('.del-proj-tag-btn');
     let addProjTagBtn = $('.add-proj-tag-btn');
-    let delProjSnip = $('.delete-proj-snippet'); 
+    let delProjSnip = $('.delete-proj-snippet');
 
     let addProjURL = $('.add-proj-url')
     let addProjURLBtn = $('.add-proj-url-btn')
 
     // Flags for removing tags from projects and personal cache
-     let removeTagBool = false ; 
-     let removeProjTagBool = false; 
+    let removeTagBool = false;
+    let removeProjTagBool = false;
 
 
     // Allow the user to log out
     logOutBtn.click(function () {
         event.preventDefault();
-        console.log('Log out')
+        console.log('Log out');
+        window.location.href = '/';
     });
 
     // query reddit for some information
     searchredditBtn.click(function () {
         event.preventDefault();
-        console.log(redditQuery.val());
-        console.log('search reddit')
+        if (redditQuery.val()) {
+            console.log(redditQuery.val());
+            console.log('clear Reddit');
+        } else {
+            alert('Cannot have empty query')
+        }
+
     });
 
     // clear the reddit element
     redditClear.click(function () {
         event.preventDefault();
         console.log('clear Reddit');
-    })
+
+    });
+
+    // PERSONAL CACHE FUNTIONALITY BEGINS
 
     // Button click event for when the user adds a snippet to their personal cache
     addSnipBtn.click(function () {
         event.preventDefault();
-        console.log(newSnipName.val());
-        console.log(newSnipDesc.val());
-        console.log(newSnipTag.val());
+
+        if (newSnipName.val() && newSnipDesc.val() && newSnipTag.val()) {
+            let snipObj = {
+                snipName: newSnipName.val().trim(),
+                snipDesc: newSnipDesc.val().trim(),
+                snipTag: newSnipTag.val().trim()
+            }
+
+            $.ajax({
+                url: '/newPersSnip',
+                type: 'POST',
+                data: snipObj
+            }).done((addSnip) => {
+                if (addSnip === 'Created') {
+                    console.log('Good creation'); 
+                    newSnipName.val('');
+                    newSnipDesc.val('');
+                    newSnipTag.val('');
+                }
+
+            });
+
+        } else {
+            alert('No Fields can be empty'); 
+        }
+
     });
 
     // Button click event for searching through cache, if conditions used to verify how they filter their search
     searchSnipBtn.click(function () {
         event.preventDefault();
-        console.log(searchTagInput.val());
 
-        if (searchTagParam.is(':checked')) {
-            console.log('search tag')
+        if (searchTagInput.val()) {
 
+            // Grab the value and set flags for how to filter
+            let tagValue = searchTagInput.val().trim();
+            let filterTag = false;
+            let filterText = false
+
+            if (searchTagParam.is(':checked')) {
+                filterTag = true
+
+            }
+            if (searchTextParam.is(':checked')) {
+                filterText = true;
+            }
+
+            $.ajax({
+                url: `/searchPersSnip/${tagValue}/${filterTag}/${filterText}`
+            }).done((searchSnip) => {
+                if (searchSnip === 'OK') {
+                    console.log('Sucessful search')
+                    searchTagInput.val('')
+                }
+            });
+
+        } else {
+            alert('Cannot search empty tag')
         }
 
-        if (searchTextParam.is(':checked')) {
-            console.log('search text')
-        }
-
-        // Need to build a query based on the text user gave and what they have checked
     });
+
 
     // Add tag click event when adding to personal cache
     addTagBtn.click(function () {
-        console.log(addTagInput.val());
+        if (addTagInput.val()) {
+
+            let newTagObj = {
+                newTag: addTagInput.val().trim(),
+                snipID: '1'
+            }
+
+            $.ajax({
+                url: '/newSnipTag',
+                type: 'POST',
+                data: newTagObj
+            }).done((newTag) => {
+                if (newTag === 'Created') {
+                    console.log('Good Tag creation');
+                    addTagInput.val('')
+                }
+
+            });
+        } else {
+            alert('Cannot add empty Tag')
+        }
     });
 
-
-
-    // remove a tag from a specific snippet in personal cache
+    // Remove a tag from a specific snippet in personal cache
     removeTagBtn.click(function () {
         if (!removeTagBool) {
             removeTagBool = true;
@@ -225,79 +299,202 @@ $(document).ready(function () {
     cacheTag.click(function () {
         if (removeTagBool) {
             let removedTag = $(this).text();
+
             cacheTag.removeClass("bg-danger");
-            console.log(removedTag);
-            removeTagBool = false;
+
+            $.ajax({
+                url: `/delSnipTag/${removedTag}`,
+                type: 'DELETE',
+            }).done((delTag) => {
+                if (delTag === 'Accepted') {
+                    console.log('Tag deleted');
+                    removeTagBool = false;
+                }
+            });
         }
     });
 
 
     // delete a snippet from the users personal cache
     deleteSnip.click(function () {
-        console.log('Delete Snippet')
+        let snipID = 'testID';
+
+        $.ajax({
+            url: `/delFullSnip/${snipID}`,
+            type: 'DELETE',
+        }).done((delSnip) => {
+            if (delSnip === 'Accepted') {
+                console.log('Snippet deleted');
+            }
+        });
+
     });
+
+   // Functionality for the projects element and section 
 
     // Click event for starting a new project, filtered by a check if the user wants it to be public
     newProjBtn.click(function () {
-        event.preventDefault();
-        console.log(newProjDesc.val());
-        console.log(newProjName.val());
 
-        if (projPublicCheck.is(':checked')) {
-            console.log('Public')
+        if (newProjDesc.val() && newProjName.val()) {
+
+            let newProjObj = {
+                projName: newProjName.val(),
+                projDesc: newProjDesc.val(),
+            }
+
+            if (projPublicCheck.is(':checked')) {
+                makePrivate = false;
+            } else {
+                makePrivate = true;
+            }
+
+            $.ajax({
+                url: `/newProj/${makePrivate}`,
+                type: 'POST',
+                data: newProjObj
+            }).done((newProj) => {
+                if (newProj === 'Created') {
+                    console.log('Project Created');
+                    newProjName.val(''),
+                    newProjDesc.val('')
+                }
+            });
+
+        } else {
+            alert('Fields cannot be empty!')
         }
+
+    });
+
+    // Change the view of a project from public to private or vice versa
+    publicViewBtn.click(function () {
+
+        let projID = '2'; 
+
+        if ($(this).is(':checked')) {
+            publicProj = true;
+        } else {
+            publicProj = false
+        }
+
+        $.ajax({
+            url: `/changeProjView/${publicProj}/${projID}`,
+            type: 'PUT',
+        }).done((pubProj) => {
+            if (pubProj === 'OK') {
+                console.log('View Changed');
+            }
+        });
     });
 
 
-
-    //Admin rights for changing a project, filtered
+    //Change the details of a project
     changeProjBtn.click(function () {
         event.preventDefault();
 
-        let changedName = changeProjName.val();
-        let changedDesc = changeProjDesc.val();
-        console.log(changedName);
-        console.log(changedDesc);
-    });
+        if (changeProjName.val() || changeProjDesc.val()) {
 
-    // Change the view of a project froom public to private or vice versa
-    publicViewBtn.click(function () {
+            let newProjInfo = {
+                changedName: changeProjName.val().trim(),
+                changedDesc: changeProjDesc.val().trim()
+            }
 
-        if ($(this).is(':checked')) {
-            console.log('public')
+            $.ajax({
+                url: `/changeProjInfo`,
+                type: 'PUT',
+                data: newProjInfo
+            }).done((newInfo) => {
+                if (newInfo === 'OK') {
+                    console.log('Info Changed');
+                    changeProjName.val(''); 
+                    changeProjDesc.val('')
+                }
+            });
+
         } else {
-            console.log('private')
+            alert('You cannot leave change fields empty!')
         }
     });
-
 
     // Add a new snippet object to a certain project
     newProjSnipBtn.click(function () {
         event.preventDefault();
-        console.log(newProjSnipURL.val());
-        console.log(newProjSnipTag.val());
-        console.log(newProjSnipText.val());
+
+        if (newProjSnipURL.val() && newProjSnipTag.val() && newProjSnipText.val()) {
+
+            let newSnipObj = {
+                newSnipUrl: newProjSnipURL.val().trim(),
+                newSnipTag: newProjSnipTag.val().trim(),
+                newSnipText: newProjSnipText.val().trim()
+            }
+
+            $.ajax({
+                url: `/addSnipObj`,
+                type: 'POST',
+                data: newSnipObj
+            }).done((newProjSnip) => {
+                if (newProjSnip === 'Created') {
+                    console.log('Snippet Created');
+                    newProjSnipURL.val('')
+                    newProjSnipTag.val('')
+                    newProjSnipText.val('')
+                }
+            });
+
+        } else {
+            alert('You cannot leave change fields empty!')
+        }
+
     });
 
     // Delete a specific project
     deleteProject.click(function () {
-        console.log('Delete Project')
+        let projSnipID = '2';
+        $.ajax({
+            url: `/delProjSnip/${projSnipID}`,
+            type: 'DELETE',
+        }).done((delProj) => {
+            if (delProj === 'Accepted') {
+                console.log('Project deleted');
+            }
+        });
     });
+
+
+    // Allow the user to leave a project
+    leaveProjBtn.click(function () {
+
+        let projID = '2';
+
+        $.ajax({
+            url: `/leaveProj/${projID}`,
+            type: 'PUT',
+        }).done((leaveProj) => {
+            if (leaveProj === 'OK') {
+                console.log('You have left the project');
+            }
+        });
+    });
+
 
 
     // Change the rights of each user, button finds the ID of that user to filter query
     [adminBtn, viewBtn].forEach(element => {
         element.click(function () {
             event.preventDefault();
-            selection = $(this);
-            userID = selection.closest('td').siblings('.u-id').text();
-            if (selection.text() === 'View') {
-                console.log(`Viewer rights where user id is ${userID}`)
-            }
 
-            if (selection.text() === 'Admin') {
-                console.log(`Admin rights where user id is ${userID}`)
-            }
+            let selectedView = $(this);
+            let changedUserID = selectedView.closest('td').siblings('.u-id').text();
+
+            $.ajax({
+                url: `/changeMemberRights/${selectedView.text()}/${changedUserID}`,
+                type: 'PUT',
+            }).done((changedRights) => {
+                if (changedRights === 'OK') {
+                    console.log('Viewer ship changed');
+                }
+            });
+
         });
 
 
@@ -306,31 +503,91 @@ $(document).ready(function () {
 
     // click event for deleting a URL from a specific project
     deleteProjUrl.click(function () {
-        console.log('Delete URL');
-    });
+
+        let projURLID = '2';
+
+        $.ajax({
+            url: `/delProjURL/${projURLID}`,
+            type: 'DELETE',
+        }).done((delProjURL) => {
+            if (delProjURL === 'Accepted') {
+                console.log('Snippet deleted');
+            }
+        });
+    }); 
+
 
     // Search through a project with optional parameters
     searchProjBtn.click(function () {
-        console.log(searchProjInput.val());
+        let searchValue = searchProjInput;
+        let filterProjTag = false;
+        let filterProjText = false
 
-        if (searchProjTextParam.is(':checked')) {
-            console.log('search tag')
+        if (searchValue.val()) {
+            if (searchProjTextParam.is(':checked')) {
+                filterProjTag = true
+
+            }
+            if (searchProjTagParam.is(':checked')) {
+                filterProjText = true;
+            }
+
+            $.ajax({
+                url: `/searchProjSnip/${searchValue.val().trim()}/${filterProjTag}/${filterProjText}`
+            }).done((searchProj) => {
+                if (searchProj === 'OK') {
+                    console.log('Sucessful search')
+                    searchProjInput.val('')
+                }
+            });
+
+        } else {
+            alert('You cannot search an empty value!')
+        }
+    });
+
+    
+    // Add a URL to a snippet in a project
+    addProjURLBtn.click(function () {
+        let newURL = {
+            URL: addProjURL.val(), 
+            snipID : '2'
         }
 
-        if (searchProjTagParam.is(':checked')) {
-            console.log('search text')
+        if (addProjURL.val()) {
+            $.ajax({
+                url: `/addProjURL`,
+                type: 'POST',
+                data: newURL
+            }).done((addedURL) => {
+                if (addedURL === 'Created') {
+                    console.log('Sucessfully added URL')
+                    addProjURL.val('');
+                }
+            });
+        } else {
+            alert(' You cannot add an empty URL')
         }
     });
 
 
     // Delete a snippet from the console of the project you are on
     delProjSnip.click(function () {
-        console.log('Delete this snippet')
+        let projSnipID = '2';
+
+        $.ajax({
+            url: `/delProjSnippet/${projSnipID}`,
+            type: 'DELETE',
+        }).done((delProjSnip) => {
+            if (delProjSnip === 'Accepted') {
+                console.log(' Project Snippet deleted');
+            }
+        });
     })
 
     // When the delete button is clicked, turn on flag for tag to be deleted and set color to red
     delProjTagBtn.click(function () {
-        if(!removeProjTagBool) {
+        if (!removeProjTagBool) {
             removeProjTagBool = true;
             projTags.addClass("bg-danger");
         } else {
@@ -343,22 +600,49 @@ $(document).ready(function () {
     // when you click a project tag, if the delete flag is on, register the tag for a query and turn off the flag
     projTags.click(function () {
         if (removeProjTagBool) {
+            let removedProjTag = $(this).text();
+ 
             projTags.removeClass("bg-danger");
-            console.log($(this).text())
-            removeProjTagBool = false;
+
+            $.ajax({
+                url: `/delProjTag/${removedProjTag}`,
+                type: 'DELETE',
+            }).done((delProjTag) => {
+                if (delProjTag === 'Accepted') {
+                    console.log('Project Tag deleted');
+                    removeTagBool = false;
+                    projTags.removeClass("bg-danger");
+                }
+            });
         }
     });
 
+
     // Add a tag to the snippet in a project console. Grab the value of the input
     addProjTagBtn.click(function () {
-        console.log(addProjTag.val());
-    });
 
-    // Add a URL to a snippet in a project
-    addProjURLBtn.click(function () {
-        console.log(addProjURL.val());
-    });
+        if (addProjTag.val()) {
 
+            let newProjTag = {
+                tagName: addProjTag.val().trim()
+            }
+
+            $.ajax({
+                url: `/addProjTag`,
+                type: 'POST',
+                data: newProjTag
+            }).done((newProjTag) => {
+                if (newProjTag === 'Created') {
+                    console.log('Project Tag Created');
+                    addProjTag.val('')
+                }
+            });
+
+        } else {
+            alert('You cannot leave change fields empty!')
+        }
+
+    });
 
 
 });

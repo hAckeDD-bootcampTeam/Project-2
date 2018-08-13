@@ -449,6 +449,14 @@ li {
     color: white;  
 }
 
+.leave-project-btn {
+    background-color: var(--yellow-color); 
+}
+
+.leave-project-btn:hover {
+    background-color: var(--blue-color); 
+}
+
 
 /* Admin Overlay  */
 section {
