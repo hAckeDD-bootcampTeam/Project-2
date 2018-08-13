@@ -114,6 +114,6 @@ db.sequelize.sync({ force: true }).then(function () {
 
 		//below console.log is from passport example
 		// console.log("==> 🌎  Listening on port %s. Visit http://localhost:%s/ in your browser.", PORT, PORT);
-		/*eslint-enable */
+	
 	});
 });

@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 // Requiring our models and passport as we've configured it
 var db = require("../models");
 var passport = require("../config/passport");
@@ -44,12 +46,155 @@ module.exports = function(app) {
     }
     else {
       // Otherwise send back the user's email and id
-      // Sending back a password, even a hashed password, isn't a good idea
+      // Sending back a password,  even a hashed password, isn't a good idea
       res.json({
         email: req.user.email,
         id: req.user.id
       });
     }
   });
+
+
+// PROJECTS PAGE
+ 
+  // Projects page, add a new usr to he group
+  app.put("/joinGroup", function (req, res) {
+    let groupAddedTo = req.body.project_name; 
+    let user = req.body.user_name; 
+
+    res.sendStatus('202');
+  });  
+
+  //route for filtering by tag name 
+  app.get("/filterbytag/:tag", function (req, res) {
+    let filterTag = req.params.tag; 
+
+    res.sendStatus('200')
+  }); 
+
+
+// HOME PAGE 
+
+// Personal cache routes
+
+// add a new snippet
+app.post("/newPersSnip", function (req, res) {
+  let {snipName,  snipDesc, snipTag} = req.body; 
+
+  res.sendStatus('201'); 
+}); 
+
+// search snippet by optional filters
+app.get("/searchPersSnip/:tagValue/:filterTag/:filterText", function (req, res) {
+    let {tagValue, filterTag, filterText} = req.params; 
+
+    console.log(tagValue); 
+    console.log(filterTag); 
+    console.log(filterText); 
+
+    res.sendStatus('200'); 
+}); 
+
+// add a tago a specific snippet
+app.post("/newSnipTag", function (req, res) {
+  let {newTag, snipID} = req.body; 
+
+  res.sendStatus('201'); 
+}); 
+
+// delete a tag from a specific snippet
+app.delete("/delSnipTag/:tagName", function (req, res) {
+  let tagName = req.params.tagName; 
+
+  console.log(tagName); 
+  res.sendStatus('202');
+});  
+
+
+// delete an entire snippet
+app.delete("/delFullSnip/:snipName", function (req, res) {
+  let snipName = req.params.snipName; 
+
+  console.log(snipName); 
+  res.sendStatus('202');
+}); 
+
+// Project routes
+
+app.post("/newProj/:view", function (req, res) {
+  let {projName, projDesc} = req.body; 
+  let isPrivate = req.params.view; 
+
+  console.log(projName); 
+  console.log(projDesc); 
+  console.log(isPrivate); 
+
+  res.sendStatus('201'); 
+}); 
+
+app.put("/changeProjView/:view", function (req, res) {
+  let projView = req.params.view; 
+
+  console.log(projView)
+  res.sendStatus('200');
+}); 
+
+app.put("/changeProjInfo", function (req, res) {
+  let {changedName, changedDesc} = req.body; 
+
+  console.log(changedName);  
+  console.log(changedDesc); 
+  res.sendStatus('200');
+}); 
+
+app.post("/addSnipObj", function (req, res) {
+  let {newSnipUrl, newSnipTag, newSnipText} = req.body; 
+
+  console.log(newSnipUrl);  
+  console.log(newSnipTag);  
+  console.log(newSnipText); 
+  res.sendStatus('201');
+}); 
+
+app.delete("/delProj/:projName", function (req, res) {
+  let projName = req.params.projSnipName; 
+
+  console.log(projName); 
+  res.sendStatus('202');
+}); 
+
+app.put("/changeMemberRights/:viewChanged/:userID", function (req, res) {
+  let {viewChanged, userID} = req.params; 
+
+  console.log(viewChanged);  
+  console.log(userID); 
+
+  res.sendStatus('200');
+}); 
+
+app.delete("/delProjURL/:urlID", function (req, res) {
+  let urlID = req.params.urlID; 
+
+  console.log(urlID); 
+  res.sendStatus('202');
+}); 
+
+app.get("/searchProjSnip/:projTagValue/:projFilterTag/:projFilterText", function (req, res) {
+  let {projTagValue, projFilterTag, projFilterText} = req.params; 
+
+  console.log(projTagValue); 
+  console.log(projFilterTag); 
+  console.log(projFilterText); 
+
+  res.sendStatus('200'); 
+});
+
+app.post("/addProjURL", function (req, res) {
+  let newURL = req.body.URL; 
+
+  console.log(newURL);  
+
+  res.sendStatus('201');
+}); 
 
 };
