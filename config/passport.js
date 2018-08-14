@@ -7,7 +7,9 @@ var db = require("../models");
 passport.use(new LocalStrategy(
   // Our user will sign in using an email, rather than a "username"
   {
-    usernameField: "email"
+  usernameField: 'email',
+  passwordField: 'password',
+  session: false
   },
   function (email, password, done) {
     // When a user tries to sign in this code runs
@@ -33,6 +35,29 @@ passport.use(new LocalStrategy(
     });
   }
 ));
+
+
+
+
+// passport.use(new LocalStrategy(
+//   {
+//     usernameField: 'email',
+//     passwordField: 'password',
+//     session: false
+//   },
+//   function (email, password, done) {
+//     console.log('attempting passport authentication');
+//     db.Users.findOne({ email: email }, 
+//       function (err, user) {
+//       if (err) { return done(err); }
+//       if (!user) { return done(null, false); }
+//       if (!user.verifyPassword(password)) { return done(null, false); }
+//       return done(null, user);
+//     });
+//   }
+// ));
+
+
 
 // In order to help keep authentication state across HTTP requests,
 // Sequelize needs to serialize and deserialize the user

@@ -12,46 +12,95 @@ module.exports = function(app) {
     // Since we're doing a POST with javascript, we can't actually redirect that post into a GET request
     // So we're sending the user back the route to the members page because the redirect will happen on the front end
     // They won't get this or even be able to access this page if they aren't authed
-    res.json("/members");
+    console.log('api/login route');
+    console.log(res.body);    
+    //res.json("/members");
+    res.json({message: 'hello!'});
   });
 
   // Route for signing up a user. The user's password is automatically hashed and stored securely thanks to
   // how we configured our Sequelize User Model. If the user is created successfully, proceed to log the user in,
   // otherwise send back an error
-  app.post("/api/signup", function(req, res) {
-    console.log(req.body);
-    db.User.create({
+  app.post("/api/signup", function (req, res) {
+    //console.log(req.body);
+
+    var newUserInfo = {
+      displayName: req.body.email, // initially the displayName is the same as the email. The user can update it themselves
       email: req.body.email,
       password: req.body.password
-    }).then(function() {
-      res.redirect(307, "/api/login");
-    }).catch(function(err) {
-      console.log(err);
-      res.json(err);
-      // res.status(422).json(err.errors[0].message);
-    });
+    }
+
+    db.Users.create(newUserInfo)
+      .then(function () {
+        var userInfo = db.Users.findAll({
+          where: {
+            email: newUserInfo.email
+          }
+        })
+          .then(function (user) {
+            // User object to return from the database (review what data is actually required)
+            var existinguserObject = {
+              id: user[0].id,
+              displayName: user[0].displayName,
+              email: user[0].email,
+              password: user[0].password,
+              createdAt: user[0].createdAt,
+              updatedAt: user[0].updatedAt
+            };
+
+            //res.json(user).redirect(307, "/api/login");
+            res.json(existinguserObject);
+          });
+
+      }).catch(function (err) {
+        console.log('catching error: ' + err);
+        res.status(422).json(err.errors[0].message);
+      });
   });
 
-  // Route for logging user out
+  // Route for logging user out. 
+  // On the front end whatever calls this should also clear the user cookie on the front end
   app.get("/logout", function(req, res) {
     req.logout();
     res.redirect("/");
   });
 
   // Route for getting some data about our user to be used client side
-  app.get("/api/user_data", function(req, res) {
-    if (!req.user) {
-      // The user is not logged in, send back an empty object
-      res.json({});
-    }
-    else {
-      // Otherwise send back the user's email and id
-      // Sending back a password,  even a hashed password, isn't a good idea
-      res.json({
-        email: req.user.email,
-        id: req.user.id
+  // We pass the hashed password to access the user data? review what should be passed.
+  app.get("/api/user_data", function (req, res) {
+
+    console.log('/api/user_data route');
+    console.log(req);
+
+    var userInfo = db.Users.findAll({
+      where: {
+        email: req.email
+      }
+    })
+      .then(function (user) {
+        console.log('returning user: ' + user);
+
+        if (!user) {
+          // The user is not logged in, send back an empty object
+          console.log('user not found in database');
+          res.json({});
+        }
+        else {
+          // Otherwise send back the user's email and id
+          // Sending back a password, even a hashed password, isn't a good idea
+          
+          var existinguserObject = {
+            id: user[0].id,
+            displayName: user[0].displayName,
+            email: user[0].email,
+            password: user[0].password,
+            createdAt: user[0].createdAt,
+            updatedAt: user[0].updatedAt
+          };          
+          
+          res.json(existinguserObject);
+        }
       });
-    }
   });
 
 
