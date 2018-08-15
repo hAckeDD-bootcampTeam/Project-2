@@ -65,6 +65,15 @@ module.exports = function(app) {
     res.redirect("/");
   });
 
+
+  app.get("/getUserInfo/:userID", function(req, res) {
+   let userID = req.params.userID
+
+   //need database query here  for all user info
+
+   // build handlebars object with what comes back
+  });
+
   // Route for getting some data about our user to be used client side
   // We pass the hashed password to access the user data? review what should be passed.
   app.get("/api/user_data", function (req, res) {

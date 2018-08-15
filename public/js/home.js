@@ -171,6 +171,18 @@ $(document).ready(function () {
     // Flags for removing tags from personal cache
     let removeTagBool = false;
 
+    let uniqueId = 'unique passport identifier'
+
+    $.ajax({
+        url: '/getUserInfo/uniqueID',
+        type: 'GET'
+    }).done((userInfor) => {
+        if (userInfo === 'OK') {
+            console.log(userInfo); 
+        }
+
+    });
+
 
     // Allow the user to log out
     logOutBtn.click(function () {
