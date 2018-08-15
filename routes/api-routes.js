@@ -16,7 +16,7 @@ module.exports = function(app) {
     console.log(res.body);    
     //res.json("/members");
     res.json({message: 'hello!'});
-  });
+  }); 
 
   // Route for signing up a user. The user's password is automatically hashed and stored securely thanks to
   // how we configured our Sequelize User Model. If the user is created successfully, proceed to log the user in,
@@ -105,28 +105,30 @@ module.exports = function(app) {
 
 
 // PROJECTS PAGE
+
+    // REMOVED B/C SCOPE
  
-  // Projects page, add a new usr to he group
-  app.put("/joinGroup", function (req, res) {
+  // // Projects page, add a new usr to he group
+  // app.put("/joinGroup", function (req, res) {
 
-    let groupAddedTo = req.body.project_name; 
-    let user = req.body.user_name; 
+  //   let groupAddedTo = req.body.project_name; 
+  //   let user = req.body.user_name; 
 
-    res.sendStatus('202');
-  });  
+  //   res.sendStatus('202');
+  // });  
  
-  //route for filtering by tag name 
-  app.get("/filterbytag/:tag", function (req, res) {
-    let filterTag = req.params.tag; 
+  // //route for filtering by tag name 
+  // app.get("/filterbytag/:tag", function (req, res) {
+  //   let filterTag = req.params.tag; 
 
-    res.sendStatus('200')
-  }); 
+  //   res.sendStatus('200')
+  // }); 
 
-  // get request for all the tags if the user clears the search bar
-  app.get("/allProjects", function (req, res) {
+  // // get request for all the tags if the user clears the search bar
+  // app.get("/allProjects", function (req, res) {
 
-    res.sendStatus('200')
-  }); 
+  //   res.sendStatus('200')
+  // }); 
 
 
 
@@ -138,17 +140,20 @@ module.exports = function(app) {
 app.post("/newPersSnip", function (req, res) {
   let {snipName,  snipDesc, snipTag} = req.body; 
 
-  res.sendStatus('201'); 
+  if(!snipName || !snipDesc || !snipTag) {
+    res.sendStatus('400');
+  } else {
+    res.sendStatus('201'); 
+  }
 }); 
 
 
 // search snippet by optional filters
-app.get("/searchPersSnip/:tagValue/:filterTag/:filterText", function (req, res) {
-    let {tagValue, filterTag, filterText} = req.params; 
+app.get("/searchPersSnip/:tagValue", function (req, res) {
+    let tagValue = req.params.tagValue;
+    
 
-    console.log(tagValue); 
-    console.log(filterTag); 
-    console.log(filterText); 
+    console.log(tagValue);  
 
     res.sendStatus('200'); 
 }); 
@@ -165,6 +170,12 @@ app.post("/newSnipTag", function (req, res) {
 app.delete("/delSnipTag/:tagName", function (req, res) {
   let tagName = req.params.tagName; 
 
+  if(!tagName) {
+    res.sendStatus('400');
+  } else {
+    res.sendStatus('201'); 
+  }
+
   console.log(tagName); 
   res.sendStatus('202');
 });  
@@ -174,137 +185,142 @@ app.delete("/delSnipTag/:tagName", function (req, res) {
 app.delete("/delFullSnip/:snipName", function (req, res) {
   let snipName = req.params.snipName; 
 
-  console.log(snipName); 
-  res.sendStatus('202');
+  if(!snipName) {
+    res.sendStatus('400');
+  } else {
+    res.sendStatus('202'); 
+  }
 }); 
 
 // Personal Project Routes
 
-// Add a new project, optionally filterred by the private function
-app.post("/newProj/:view", function (req, res) {
-  let {projName, projDesc} = req.body; 
-  let isPrivate = req.params.view; 
+    // REMOVED B/C SCOPE
 
-  console.log(projName); 
-  console.log(projDesc); 
-  console.log(isPrivate); 
+// // Add a new project, optionally filterred by the private function
+// app.post("/newProj/:view", function (req, res) {
+//   let {projName, projDesc} = req.body; 
+//   let isPrivate = req.params.view; 
 
-  res.sendStatus('201'); 
-}); 
+//   console.log(projName); 
+//   console.log(projDesc); 
+//   console.log(isPrivate); 
 
-// change the view of a project if the user is authorized
-app.put("/changeProjView/:view/:projID", function (req, res) {
-  let projView = req.params.view; 
-  let projID = req.params.projID; 
+//   res.sendStatus('201'); 
+// }); 
 
-  console.log(projView)
-  res.sendStatus('200'); 
-}); 
+// // change the view of a project if the user is authorized
+// app.put("/changeProjView/:view/:projID", function (req, res) {
+//   let projView = req.params.view; 
+//   let projID = req.params.projID; 
 
-// change the details of a project
-app.put("/changeProjInfo", function (req, res) {
-  let {changedName, changedDesc} = req.body; 
+//   console.log(projView)
+//   res.sendStatus('200'); 
+// }); 
 
-  console.log(changedName);  
-  console.log(changedDesc); 
-  res.sendStatus('200');
-}); 
+// // change the details of a project
+// app.put("/changeProjInfo", function (req, res) {
+//   let {changedName, changedDesc} = req.body; 
 
-// Add a snippet to an object
-app.post("/addSnipObj", function (req, res) {
-  let {newSnipUrl, newSnipTag, newSnipText} = req.body; 
+//   console.log(changedName);  
+//   console.log(changedDesc); 
+//   res.sendStatus('200');
+// }); 
 
-  console.log(newSnipUrl);  
-  console.log(newSnipTag);  
-  console.log(newSnipText); 
-  res.sendStatus('201');
-}); 
+// // Add a snippet to an object
+// app.post("/addSnipObj", function (req, res) {
+//   let {newSnipUrl, newSnipTag, newSnipText} = req.body; 
 
-// delete an entire project
-app.delete("/delProj/:projName", function (req, res) {
-  let projName = req.params.projSnipName; 
+//   console.log(newSnipUrl);  
+//   console.log(newSnipTag);  
+//   console.log(newSnipText); 
+//   res.sendStatus('201');
+// }); 
 
-  console.log(projName); 
-  res.sendStatus('202');
-}); 
+// // delete an entire project
+// app.delete("/delProj/:projName", function (req, res) {
+//   let projName = req.params.projSnipName; 
 
-
-// user leaves a project
-app.put("/leaveProj/:projID", function (req, res) {
-  let {projID} = req.params; 
-
-  console.log(projID);  
-
-  res.sendStatus('200');
-}); 
+//   console.log(projName); 
+//   res.sendStatus('202');
+// }); 
 
 
-// Allow the admin to change the rights of other users, depending on the ID
-app.put("/changeMemberRights/:viewChanged/:userID", function (req, res) {
-  let {viewChanged, userID} = req.params; 
+// // user leaves a project
+// app.put("/leaveProj/:projID", function (req, res) {
+//   let {projID} = req.params; 
 
-  console.log(viewChanged);  
-  console.log(userID); 
+//   console.log(projID);  
 
-  res.sendStatus('200');
-}); 
-
-// delete a URL from a project, do not delete associated snippets
-app.delete("/delProjURL/:urlID", function (req, res) {
-  let urlID = req.params.urlID; 
-
-  console.log(urlID); 
-  res.sendStatus('202');
-}); 
+//   res.sendStatus('200');
+// }); 
 
 
-//  find all associated URL's and snippets, optionally filtered by tag and text
-app.get("/searchProjSnip/:projTagValue/:projFilterTag/:projFilterText", function (req, res) {
-  let {projTagValue, projFilterTag, projFilterText} = req.params; 
+// // Allow the admin to change the rights of other users, depending on the ID
+// app.put("/changeMemberRights/:viewChanged/:userID", function (req, res) {
+//   let {viewChanged, userID} = req.params; 
 
-  console.log(projTagValue); 
-  console.log(projFilterTag); 
-  console.log(projFilterText); 
+//   console.log(viewChanged);  
+//   console.log(userID); 
 
-  res.sendStatus('200'); 
-});
+//   res.sendStatus('200');
+// }); 
 
-// add a URL to a project
-app.post("/addProjURL", function (req, res) {
-  let {newURL, snipID} = req.body; 
+// // delete a URL from a project, do not delete associated snippets
+// app.delete("/delProjURL/:urlID", function (req, res) {
+//   let urlID = req.params.urlID; 
 
-  console.log(newURL);  
-  console.log(snipID);  
-
-  res.sendStatus('201');
-}); 
-
-// delete a snippet from a project
-app.delete("/delProjSnippet/:snipID", function (req, res) {
-  let snipID = req.params.snipID; 
-
-  console.log(snipID);  
-  res.sendStatus('202');
-}); 
+//   console.log(urlID); 
+//   res.sendStatus('202');
+// }); 
 
 
-// add a tag to a snippet in a project
-app.post("/addProjTag", function (req, res) {
-  let newTag = req.body.tagName; 
+// //  find all associated URL's and snippets, optionally filtered by tag and text
+// app.get("/searchProjSnip/:projTagValue/:projFilterTag/:projFilterText", function (req, res) {
+//   let {projTagValue, projFilterTag, projFilterText} = req.params; 
 
-  console.log(newTag);  
+//   console.log(projTagValue); 
+//   console.log(projFilterTag); 
+//   console.log(projFilterText); 
 
-  res.sendStatus('201');
-}); 
+//   res.sendStatus('200'); 
+// });
+
+// // add a URL to a project
+// app.post("/addProjURL", function (req, res) {
+//   let {newURL, snipID} = req.body; 
+
+//   console.log(newURL);  
+//   console.log(snipID);  
+
+//   res.sendStatus('201');
+// }); 
+
+// // delete a snippet from a project
+// app.delete("/delProjSnippet/:snipID", function (req, res) {
+//   let snipID = req.params.snipID; 
+
+//   console.log(snipID);  
+//   res.sendStatus('202');
+// }); 
 
 
-// delete a tag from a snippet inside a project
-app.delete("/delProjTag/:tagName", function (req, res) {
-  let projTagName = req.params.tagName; 
+// // add a tag to a snippet in a project
+// app.post("/addProjTag", function (req, res) {
+//   let newTag = req.body.tagName; 
 
-  console.log(projTagName);  
-  res.sendStatus('202');
-});
+//   console.log(newTag);  
+
+//   res.sendStatus('201');
+// }); 
+
+
+// // delete a tag from a snippet inside a project
+// app.delete("/delProjTag/:tagName", function (req, res) {
+//   let projTagName = req.params.tagName; 
+
+//   console.log(projTagName);  
+//   res.sendStatus('202');
+// });
 
 
 };

@@ -457,6 +457,11 @@ li {
     background-color: var(--blue-color); 
 }
 
+.blue-border {
+    border-style: inset; 
+    border-color: rgba(3, 17, 56, 0.7); 
+    border-width: thick;
+}
 
 /* Admin Overlay  */
 section {

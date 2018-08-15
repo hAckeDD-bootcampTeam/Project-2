@@ -7,7 +7,9 @@
             <img id="landing-logo" src="images/usb_logo.png" class="mr-2 h-50">
             <p class="content-font d-inline text-white h5">User</p>
         </div>
-        <a id="projects-btn" href="/projects" class="p-1 rounded-0 heading-font h5 ml-2">Projects</a>
+
+        {{!-- REMOVED B/C SCOPE --}}
+        {{!-- <a id="projects-btn" href="/projects" class="p-1 rounded-0 heading-font h5 ml-2">Projects</a> --}}
 
     </div>
 </nav>
@@ -16,17 +18,19 @@
 <div class="main">
     <div id="home-main-content" class="m-2 animated zoomIn p-1">
         <div class="row home-tile-row p-1 m-1 justify-content-center">
-            <div class="col-3 home-tile m-2 p-2 d-flex flex-column">
+            <div class="col-md-3 col-sm-4 home-tile m-2 p-2 d-flex flex-column">
                 <h4 class="text-center heading-font mt-2 tile-header"> My Cache</h4>
                 <img src="images/home-cache.png" class="img-fluid h-50 w-75 rounded mx-auto home-tile-img">
                 <img id="cache-btn" src="images/home-select-arrow.png" class="img-fluid rounded mx-auto p-2 home-arrow animated pulse">
             </div>
-            <div class="col-3  home-tile m-2 p-2 d-flex flex-column">
+{{!-- REMOVED B/C SCOPE --}}
+
+            {{!-- <div class="col-md-3 col-sm-4   home-tile m-2 p-2 d-flex flex-column">
                 <h4 class="text-center heading-font mt-2 tile-header">Projects</h4>
                 <img src="images/home-projs.jpg" class="img-fluid h-50 w-75 rounded mx-auto home-tile-img">
                 <img id="projs-btn" src="images/home-select-arrow.png" class="img-fluid rounded mx-auto p-2 home-arrow animated pulse">
-            </div>
-            <div class="col-3  home-tile m-2 p-2 d-flex flex-column">
+            </div> --}}
+            <div class="col-md-3 col-sm-4   home-tile m-2 p-2 d-flex flex-column">
                 <h4 class="text-center heading-font mt-2 tile-header">Reddit</h4>
                 <img src="images/home-reddit.jpg" class="img-fluid h-50 w-75 rounded mx-auto home-tile-img">
                 <img id="reddit-btn" data-toggle="modal" data-target="#reddit-modal" src="images/home-select-arrow.png" class="img-fluid rounded mx-auto p-2 home-arrow animated pulse">
@@ -34,17 +38,20 @@
         </div>
     </div>
     <div id="cache-div" class="home-main-div mx-auto">
-        <nav class="navbar navbar-light bg-white m-2 heading-font">
+        <nav class="navbar navbar-light bg-white m-2 heading-font blue-border">
             <input id="search-tag-input" class="form-control mr-md-2" type="search" placeholder="Search your cache" aria-label="Search">
             <div class="w-100 d-flex mt-2">
                 <button class="btn btn-sm cache-btn mr-auto" data-target="#add-snip-modal" data-toggle="modal">Add</button>
+                
+                 {{!-- REMOVED B/C SCOPE --}}
+
                 <div>
-                    <label class="checkbox-inline mr-2 h6">
+                    {{!-- <label class="checkbox-inline mr-2 h6">
                         <input type="checkbox" id="search-tag-param" value="">Search tag
                     </label>
                     <label class="checkbox-inline ml-2 mr-2 h6">
                         <input type="checkbox" id="search-text-param" value="">Search text
-                    </label>
+                    </label> --}}
                     <button id="search-snip-btn" class="btn btn-sm cache-btn h-6">Search</button>
                 </div>
             </div>
@@ -57,7 +64,10 @@
             </div>
         </div>
     </div>
-    <div id="projs-div" class="home-main-div mx-auto">
+
+{{!-- REMOVED B/C SCOPE --}}
+
+    {{!-- <div id="projs-div" class="home-main-div mx-auto">
         <div class="m-2">
             <button id="add-proj-btn" type="button" class="btn btn-circle btn-xl m-1 shadow" data-toggle="modal" data-target="#add-project-modal">
                 <i class="fas fa-plus-circle"></i>
@@ -67,7 +77,7 @@
         <div class="card-deck p-2">
             {{> home-proj-partials}}
         </div>
-    </div>
+    </div> --}}
     <div class="footer content-font">
         <i class="far fa-copyright"></i> HACKEDD Development Team 2018
     </div>
@@ -76,7 +86,9 @@
 </div>
 
 {{!-- New Project Modal --}}
-<div class="modal fade" id="add-project-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+    {{!-- REMOVED B/C SCOPE --}}
+{{!-- <div class="modal fade" id="add-project-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-small" role="document">
         <div class="modal-content heading-font p-2">
             <div class="modal-header text-center">
@@ -113,7 +125,7 @@
             </div>
         </div>
     </div>
-</div>
+</div> --}}
 
 {{!-- Query Reddit Modal --}}
 <div class="modal fade" id="reddit-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">

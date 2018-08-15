@@ -90,7 +90,7 @@ $(document).ready(function () {
 
 		console.log(`Attempting to sign up new user: ${JSON.stringify(newuser)}`)
 
-		$.post("/api/signup", newuser, )
+		$.post("/api/signup", newuser)
 			.then(function (data) {
 				//window.location.replace(data);
 				userInfo = {
@@ -129,7 +129,7 @@ $(document).ready(function () {
 
 		console.log(`Attempting to get user data for user: ${JSON.stringify(user)}`)
 
-		$.get("/api/user_data", user, )
+		$.get("/api/user_data", user)
 			.then(function (data) {
 				//window.location.replace(data);
 				userInfo = {

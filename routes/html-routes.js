@@ -1,18 +1,4 @@
 /* eslint-disable */
-
-// let db = require('../models');
-
-// Example of how to pass an object into HB to render properly with partials
-    // let test = {
-    //     users : {
-    //         user1 : {
-    //             name: 'David'
-    //         }, 
-    //         user2 : {
-    //             name: 'John' 
-    //         }
-    //     }
-    // }
  
 module.exports = function (app) {
     // Hit the main route
@@ -25,9 +11,27 @@ module.exports = function (app) {
         res.render('home')
     });
 
+            //GET REQUEST TO RENDER ONLY A PARTIAL AFTER THE PAGE HAS LOADED
+
+            // app.get('/projectView/:search_term', function (req, res) {
+            //     res.render(
+            //         'partials/projPart',
+            //          Object.assign({layout : false}, test)
+            //     );
+            // });
+
+            // FRONT END REQ LOOKS LIKE
+            // $.ajax({
+            //     url: '/theseProjects',
+            //   }).then( function () {
+            
+            //   }); 
+      
+
+    // REMOVED B/C SCOPE
     // hit their projects page
-    app.get('/projects', function (req, res) {
-        res.render('projects')
-    });
+    // app.get('/projects', function (req, res) {
+    //     res.render('projects')
+    // });
 
 };
