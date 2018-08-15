@@ -3,20 +3,75 @@
 // Requiring our models and passport as we've configured it
 var db = require("../models");
 var passport = require("../config/passport");
+// Requiring our custom middleware for checking if a user is logged in
+var isAuthenticated = require("../config/middleware/isAuthenticated");
 
-module.exports = function(app) {
+module.exports = function (app) {
   // Using the passport.authenticate middleware with our local strategy.
   // If the user has valid login credentials, send them to the members page.
   // Otherwise the user will be sent an error
-  app.post("/api/login", passport.authenticate("local"), function(req, res) {
-    // Since we're doing a POST with javascript, we can't actually redirect that post into a GET request
-    // So we're sending the user back the route to the members page because the redirect will happen on the front end
-    // They won't get this or even be able to access this page if they aren't authed
-    console.log('api/login route');
-    console.log(res.body);    
-    //res.json("/members");
-    res.json({message: 'hello!'});
-  });
+  app.post("/api/login",
+    passport.authenticate("local"), function (req, res, message) {
+      // Since we're doing a POST with javascript, we can't actually redirect that post into a GET request
+      // So we're sending the user back the route to the members page because the redirect will happen on the front end
+      // They won't get this or even be able to access this page if they aren't authed
+      console.log('api/login route. This must mean that the authentication works!');
+      //console.log(message);
+      console.log('req.user:');
+      console.log(req.user);
+      //res.json("/home");
+
+      var existinguserObject =
+      {
+        email: req.user.email,
+        id: req.user.id,
+        hashedpassword: req.user.password,
+        createdAt: req.user.createdAt,
+        updatedAt: req.user.updatedAt
+      }
+
+      console.log(existinguserObject);
+      res.json(existinguserObject);
+
+
+
+
+      /*
+      message: authInfo: { message: 'All is well' } },
+      
+            user:
+            Users {
+              dataValues: [Object],     
+      
+      res.req.IncomingMessage
+      
+      */
+
+      //res.json(res);
+    });
+
+
+
+
+
+  // app.post('/api/login', passport.authenticate('local'),
+  //   function (req, res) {
+  //     console.log('authentication successful');
+  //     // If this function gets called, authentication was successful.
+  //     // `req.user` contains the authenticated user.
+  //     //res.redirect('/users/' + req.user.username);
+  //     res.json(req.user);
+  //   });
+
+  //   app.post('/api/login', passport.authenticate('login', function(err, user, info) {
+  //     //if (err) return next(err);
+  //     //if (!user) return next(null, false);
+
+  //     console.log('user:');
+  //     console.log(user);
+  //     //next(null, user);
+  //   })
+  // );    
 
   // Route for signing up a user. The user's password is automatically hashed and stored securely thanks to
   // how we configured our Sequelize User Model. If the user is created successfully, proceed to log the user in,
@@ -60,9 +115,9 @@ module.exports = function(app) {
 
   // Route for logging user out. 
   // On the front end whatever calls this should also clear the user cookie on the front end
-  app.get("/logout", function(req, res) {
+  app.get("/logout", function (req, res) {
     req.logout();
-    res.redirect("/");
+    res.redirect("/"); //redirect to the landing page. On the front end, we need to clear the cookie information
   });
 
   // Route for getting some data about our user to be used client side
@@ -70,7 +125,7 @@ module.exports = function(app) {
   app.get("/api/user_data", function (req, res) {
 
     console.log('/api/user_data route');
-    console.log(req);
+    console.log(req.body);
 
     var userInfo = db.Users.findAll({
       where: {
@@ -88,7 +143,7 @@ module.exports = function(app) {
         else {
           // Otherwise send back the user's email and id
           // Sending back a password, even a hashed password, isn't a good idea
-          
+
           var existinguserObject = {
             id: user[0].id,
             displayName: user[0].displayName,
@@ -96,8 +151,8 @@ module.exports = function(app) {
             password: user[0].password,
             createdAt: user[0].createdAt,
             updatedAt: user[0].updatedAt
-          };          
-          
+          };
+
           res.json(existinguserObject);
         }
       });

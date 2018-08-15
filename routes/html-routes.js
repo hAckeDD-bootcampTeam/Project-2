@@ -22,7 +22,16 @@ module.exports = function (app) {
 
     // hit users home page
     app.get('/home', function (req, res) {
-        res.render('home')
+
+        // here I need to run a sequelize query to find the user info based on the hashed password
+        // the result of that query, or parts of it, is what gets passed to the render below, so that we can add it to the html
+        
+        user = { 
+                name : 'David', 
+                age: '25'
+        }
+        
+        res.render('home', user)
     });
 
     // hit their projects page
