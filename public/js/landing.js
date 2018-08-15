@@ -129,7 +129,7 @@ $(document).ready(function () {
 
 		console.log(`Attempting to get user data for user: ${JSON.stringify(user)}`)
 
-		$.get("/api/user_data", user, )
+		$.get("/api/user_data", user)
 			.then(function (data) {
 
 				userInfo = {

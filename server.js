@@ -26,7 +26,11 @@ app.use(passport.session());
 
 // Set Handlebars.
 const exphbs = require('express-handlebars');
-app.engine('handlebars', exphbs({ defaultLayout: 'main', partialsDir: __dirname + '/views/partials/' }));
+app.engine('handlebars', exphbs({ 
+	defaultLayout: 'main', 
+	partialsDir: __dirname + '/views/partials/', 
+	helpers: require('./public/js/helpers')
+ }));
 app.set('view engine', 'handlebars');
 
 // Import routes and give the server access to them.
