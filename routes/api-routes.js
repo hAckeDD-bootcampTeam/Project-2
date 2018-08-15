@@ -3,8 +3,10 @@
 // Requiring our models and passport as we've configured it
 var db = require("../models");
 var passport = require("../config/passport");
+// Requiring our custom middleware for checking if a user is logged in
+var isAuthenticated = require("../config/middleware/isAuthenticated");
 
-module.exports = function(app) {
+module.exports = function (app) {
   // Using the passport.authenticate middleware with our local strategy.
   // If the user has valid login credentials, send them to the members page.
   // Otherwise the user will be sent an error
@@ -17,6 +19,7 @@ module.exports = function(app) {
     //res.json("/members");
     res.json({message: 'hello!'});
   }); 
+
 
   // Route for signing up a user. The user's password is automatically hashed and stored securely thanks to
   // how we configured our Sequelize User Model. If the user is created successfully, proceed to log the user in,
@@ -60,9 +63,9 @@ module.exports = function(app) {
 
   // Route for logging user out. 
   // On the front end whatever calls this should also clear the user cookie on the front end
-  app.get("/logout", function(req, res) {
+  app.get("/logout", function (req, res) {
     req.logout();
-    res.redirect("/");
+    res.redirect("/"); //redirect to the landing page. On the front end, we need to clear the cookie information
   });
 
 
@@ -79,7 +82,7 @@ module.exports = function(app) {
   app.get("/api/user_data", function (req, res) {
 
     console.log('/api/user_data route');
-    console.log(req);
+    console.log(req.body);
 
     var userInfo = db.Users.findAll({
       where: {
@@ -97,7 +100,7 @@ module.exports = function(app) {
         else {
           // Otherwise send back the user's email and id
           // Sending back a password, even a hashed password, isn't a good idea
-          
+
           var existinguserObject = {
             id: user[0].id,
             displayName: user[0].displayName,
@@ -105,8 +108,8 @@ module.exports = function(app) {
             password: user[0].password,
             createdAt: user[0].createdAt,
             updatedAt: user[0].updatedAt
-          };          
-          
+          };
+
           res.json(existinguserObject);
         }
       });

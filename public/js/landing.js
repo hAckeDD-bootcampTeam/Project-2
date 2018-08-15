@@ -1,6 +1,5 @@
 /* eslint-disable */
 
-
 $(document).ready(function () {
 
 	// Selectors for the floating icon and background that it shows when clickced
@@ -66,7 +65,7 @@ $(document).ready(function () {
 		newUserEmail.val("");
 		newUserPassW.val("");
 
-		// use window.location.redirect = '/home' to send user to their home page?
+		window.location.replace("/home"); //send user to their home page
 	});
 
 	currUserBtn.click(function () {
@@ -81,7 +80,7 @@ $(document).ready(function () {
 		currUserName.val("");
 		currUserPassW.val("");
 
-		// use window.location.redirect = '/home' to send user to their home page
+		window.location.replace("/home"); //send user to their home page
 	});
 
 	// Does a post to the signup route. If successful, we are redirected to the members page
@@ -92,7 +91,7 @@ $(document).ready(function () {
 
 		$.post("/api/signup", newuser)
 			.then(function (data) {
-				//window.location.replace(data);
+
 				userInfo = {
 					email: data.email,
 					id: data.id,
@@ -110,13 +109,13 @@ $(document).ready(function () {
 		console.log(`Attempting to sign in existing user: ${JSON.stringify(user)}`)
 
 		//$.get("/api/user_data", user, )
-		$.post("/api/login", user.email, user.password)
+		$.post("/api/login", { email: user.email, password: user.password })
 			.then(function (data) {
-				//window.location.replace(data);
+				//window.location.replace(data); // in the example code, this returns a link to /members
 				userInfo = {
 					email: data.email,
 					id: data.id,
-					hashedpassword: data.password, // Not sure if we should be returning just this or the id
+					hashedpassword: data.hashedpassword, // Not sure if we should be returning just this or the id
 					createdAt: data.createdAt,
 					updatedAt: data.updatedAt
 				}
@@ -125,13 +124,14 @@ $(document).ready(function () {
 			.catch(handleLoginErr);
 	}
 
+	// Not presently being used:
 	function getUserData(user) {
 
 		console.log(`Attempting to get user data for user: ${JSON.stringify(user)}`)
 
 		$.get("/api/user_data", user)
 			.then(function (data) {
-				//window.location.replace(data);
+
 				userInfo = {
 					email: data.email,
 					id: data.id,
@@ -146,14 +146,9 @@ $(document).ready(function () {
 	}
 
 	function handleLoginErr(err) {
-		// $("#alert .msg").text(err.responseJSON);
-		// $("#alert").fadeIn(500);
 		console.log('handleLoginErr: error detected');
 		console.log(err.responseJSON);
 	}
-
-
-
 
 });
 
