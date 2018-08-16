@@ -192,24 +192,60 @@ $(document).ready(function () {
     });
 
     // query reddit for some information
+    // query reddit for some information
     searchredditBtn.click(function () {
         event.preventDefault();
+        $('.reddit-query-col').empty(); 
+        
         if (redditQuery.val()) {
-            console.log(redditQuery.val());
-            console.log('clear Reddit');
-            redditQuery.val('')
+            let parseQuery = redditQuery.val().replace(/\/./g, ''); // remove all slashes and dots
+            let requrl = "https://www.reddit.com/search.json?&limit=10&sort=hot&sort=new&q=";
+            let fullurl = requrl + parseQuery;
+
+            let queryHTML = '<h4 class="heading-font" style="var(--blue-color)">Results!</h4>'; 
+
+            $.getJSON(fullurl, function (json) {
+                let myList = json.data.children;
+
+                for (var i=0, l=myList.length && 3; i<l; i++) {
+                    let obj = myList[i].data;
+                    let title = obj.title;
+                    let subrdturl = "http://www.reddit.com/r/"+obj.subreddit+"/";
+                    let subrdt = obj.subreddit;
+
+                    queryHTML += `<div class="row reddit-query-row m-2 justify-content-center">
+                                    <div class="col-10 m-2 query-col">
+                                        <h5 class="heading-font reddit-query-title">${subrdt}</h5>
+                                    </div>
+                                    <div class="col-10  m-2 query-col">
+                                        <h5 class="heading-font">
+                                        <a class="reddit-query-url" href="${subrdturl} " target="_blank">URL!</a>
+                                    </h5>
+                                    </div>
+                                    <div class="col-10  m-2 query-col">
+                                        <p class="content-font reddit-query-text">
+                                        ${title}
+                                        </p>
+                                    </div>
+                                </div>`
+                }
+                $('.reddit-query-col').append(queryHTML);
+                redditQuery.val('') 
+            });
         } else {
             alert('Cannot have empty query')
         }
 
-    });
+    }); 
 
     // clear the reddit element
     redditClear.click(function () {
         event.preventDefault();
-        console.log('clear Reddit');
+        $('.reddit-query-col').empty(); 
+        redditQuery.val('') 
 
     });
+
 
     // PERSONAL CACHE FUNTIONALITY BEGINS
 
