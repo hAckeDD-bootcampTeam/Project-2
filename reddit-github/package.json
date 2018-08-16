@@ -1,0 +1,21 @@
+{
+  "name": "chai-mocha-tests",
+  "version": "1.0.0",
+  "description": "chai mocha setup",
+  "main": "test.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "keywords": [
+    "mocha",
+    "chai"
+  ],
+  "author": "Project-2 Team",
+  "license": "ISC",
+  "dependencies": {
+    "chai": "^4.1.2",
+    "mocha": "^5.2.0",
+    "request": "^2.88.0",
+    "should": "^13.2.3"
+  }
+}
