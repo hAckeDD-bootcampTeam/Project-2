@@ -3,9 +3,9 @@ $(document).ready(function () {
 
     //instanitate list filter for searching through projects
     let options = {
-        valueNames: ['projTags']
+        valueNames: ['searchTags']
     };
-    let userList = new List('project-tags', options);
+    let userList = new List('search-tags', options);
 
     // Selectors for the interactive elements on the page 
     let cacheBtn = $('#cache-btn');
@@ -68,14 +68,6 @@ $(document).ready(function () {
     let redditQuery = $('#search-reddit-input');
     let redditClear = $('#reddit-clear-btn');
 
-    // selectors to  populate the div with reddit queries
-    let redditQueryRow = $('.redditQueryRow'); //add a new row with limited amount of queries
-    let redditQueryCol = $('.reddit-query-col'); //append all queries to the row once the query has been made
-    // each selectorsed to populate the new row
-    let redditQueryTitle = $('.reddit-query-title')
-    let redditQueryURL = $('.reddit-query-url')
-    let redditQueryText = $('.reddit-query-text')
-
 
     //SELECTORS FOR PERSONAL CACHE BEGIN
 
@@ -86,21 +78,8 @@ $(document).ready(function () {
     let addSnipBtn = $('#add-snip-btn');
 
     // Selector for user searching through a snippet in personal cache, filtered by either tag or text param - or both
-    let searchTagInput = $('#search-tag-input');
-    let searchSnipBtn = $('#search-snip-btn');
-    let searchTagParam = $('#search-tag-param');
-    let searchTextParam = $('#search-text-param');
-
-    // Add a tag to a specific snnippet in personal cache
-    let addTagInput = $('.add-tag-input');
-    let addTagBtn = $('.add-tag-btn');
-
-    // Remove a tag from snippet in personal cache
-    let removeTagBtn = $('.remove-cache-tag');
-    let cacheTag = $('.cache-snippet-badge ');
-
-    // delete entire snippet from personal cache
-    let deleteSnip = $('.delete-snippet');
+    let searchTag = $('.searchTags');
+    let clearTag = $('.clear-cache-search');
 
 
     // SELECTORS FOR PERSONAL PROJECTS BEGIN    
@@ -249,75 +228,87 @@ $(document).ready(function () {
 
     // PERSONAL CACHE FUNTIONALITY BEGINS
 
+     // allow the user to pull all the caches objects or one selected
+     [searchTag, clearTag].forEach(function (el) {
+        el.click(function () {
+
+            let param;
+            console.log(event.target.nodeName)
+            if (event.target.nodeName === 'BUTTON') {
+                let value = $(this).parents('.input-group').children('.form-control').val();
+                if (value === '') {
+                    param = 'all'
+                }
+            } else {
+                param = $(this).text()
+            }
+
+            $.ajax({
+                url: `/getSnip/${param}`,
+                type: 'GET'
+            }).done((selectedSnips) => {
+
+                $('.card-deck').html(selectedSnips)
+
+            });
+
+        })
+
+    })
+
     // Button click event for when the user adds a snippet to their personal cache
     addSnipBtn.click(function () {
         event.preventDefault();
-
-        let snipID =  $($(this)).closest("[data-ID]").data().id; 
-
-
         if (newSnipName.val() && newSnipDesc.val() && newSnipTag.val()) {
             let snipObj = {
                 snipName: newSnipName.val().trim(),
                 snipDesc: newSnipDesc.val().trim(),
-                snipTag: newSnipTag.val().trim(), 
-                snipID: snipID
+                snipTag: newSnipTag.val().trim(),
             }
 
-            $.ajax({
-                url: '/newPersSnip',
-                type: 'POST',
-                data: snipObj
-            }).done((addSnip) => {
-                if (addSnip === 'Created') {
-                    console.log('Good creation'); 
-                    newSnipName.val('');
-                    newSnipDesc.val('');
-                    newSnipTag.val('');
-                }
+            // make sure it is an email address
+            let expression = /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi;
+            let regex = new RegExp(expression);
+            let url = snipObj.snipName;
 
-            });
-
-        } else {
-            alert('No Fields can be empty'); 
-        }
-
-    });
- 
-    // Button click event for searching through cache, if conditions used to verify how they filter their search
-    searchSnipBtn.click(function () {
-        event.preventDefault();
-
-        if (searchTagInput.val()) {
-
-            // Grab the value and set flags for how to filter
-            let tagValue = searchTagInput.val().trim();
-    
-            $.ajax({
-                url: `/searchPersSnip/${tagValue}`
-            }).done((searchSnip) => {
-                if (searchSnip === 'OK') {
-                    console.log('Sucessful search')
-                    searchTagInput.val('')
-                }
-            });
+            if (url.match(regex)) {
+                $.ajax({
+                    url: '/newPersSnip',
+                    type: 'POST',
+                    data: snipObj
+                }).done((addSnip) => {
+                    if (addSnip === 'Created') {
+                        console.log('Good creation');
+                        newSnipName.val('');
+                        newSnipDesc.val('');
+                        newSnipTag.val('');
+                        window.location.href = '/home';
+                    } else {
+                        alert('Bad Request')
+                    }
+                });
+            } else {
+                alert('That is not a URL');
+            }
 
         } else {
-            alert('Cannot search empty tag')
+            alert('No Fields can be empty');
         }
-
     });
 
 
     // Add tag click event when adding to personal cache
-    addTagBtn.click(function () {
-        if (addTagInput.val()) {
+    $(document).on('click', '.add-tag-btn', function () {
 
-            
-            let snipID =  $($(this)).closest("[data-ID]").data().id; 
+        let snip = $($(this)).closest("[data-ID]");
+        let tagVal = snip.find('input')
+
+        if (tagVal.val()) {
+
+            let snipID = snip.data().id
 
             let newTagObj = {
-                newTag: addTagInput.val().trim(),
+                newTag: tagVal.val().trim(),
                 snipID: snipID
             }
 
@@ -326,9 +317,16 @@ $(document).ready(function () {
                 type: 'POST',
                 data: newTagObj
             }).done((newTag) => {
+
+                console.log(newTag);
+
+
                 if (newTag === 'Created') {
                     console.log('Good Tag creation');
-                    addTagInput.val('')
+                    window.location.href = '/home'
+                    tagVal.val('')
+                } else {
+                    alert('Bad Request')
                 }
 
             });
@@ -337,32 +335,40 @@ $(document).ready(function () {
         }
     });
 
+
+
     // Remove a tag from a specific snippet in personal cache
-    removeTagBtn.click(function () {
-        if (!removeTagBool) {
+    $(document).on('click', '.remove-cache-tag', function () {
+
+        let badges = $(this).parents('.card').find('.cache-snippet-badge');
+
+        for (let i = 0; i < badges.length; i++) {
+            $(badges[i]).addClass("bg-danger");
             removeTagBool = true;
-            cacheTag.addClass("bg-danger");
-        } else {
-            removeTagBool = false;
-            cacheTag.removeClass("bg-danger");
         }
 
-    });
+    })
 
     // once a user has chosen remove tag, all tags become red and can then be selected for deletion
-    cacheTag.click(function () {
-        if (removeTagBool) {
+    $(document).on('click', '.cache-snippet-badge', function () {
+        if (removeTagBool && $(this).hasClass('bg-danger')) {
 
-            let snipID =  $($(this)).closest("[data-ID]").data().id; 
-            let removedTag = $(this).text();
+            let deleteSnip = {
+                snipID: $($(this)).closest("[data-ID]").data().id,
+                removedTag: $(this).text()
+            }
 
-            cacheTag.removeClass("bg-danger");
+            // remove the red from the elements and turn off boolean
+            $(this).removeClass("bg-danger");
+            removedTagBool = false;
 
             $.ajax({
                 url: `/delSnipTag`,
                 type: 'DELETE',
+                data: deleteSnip
             }).done((delTag) => {
                 if (delTag === 'Accepted') {
+                    window.location.href = '/home'
                     console.log('Tag deleted');
                     removeTagBool = false;
                 }
@@ -371,23 +377,23 @@ $(document).ready(function () {
     });
 
 
-    // delete a snippet from the users personal cache
-    deleteSnip.click(function () {
-        let snipID = 'testID'; 
+    $(document).on('click', '.delete-snippet', function () {
 
-        console.log($(this))
+        let snipID = $($(this)).closest("[data-ID]").data().id;
 
-
-        $.ajax({ 
+        $.ajax({
             url: `/delFullSnip/${snipID}`,
             type: 'DELETE',
         }).done((delSnip) => {
             if (delSnip === 'Accepted') {
+                window.location.href = '/home'
                 console.log('Snippet deleted');
             }
         });
 
     });
+
+});
 
    // Functionality for the projects element and section 
 
@@ -705,7 +711,5 @@ $(document).ready(function () {
 
     // });
 
-
-});
 
 

@@ -145,61 +145,182 @@ module.exports = function(app) {
 
 // Personal cache routes
 
-// add a new snippet
-app.post("/newPersSnip", function (req, res) {
-  let {snipName,  snipDesc, snipTag} = req.body; 
+ // add a cache bject
+ app.post("/newPersSnip", function (req, res) {
+  let { snipName, snipDesc, snipTag } = req.body;
 
-  if(!snipName || !snipDesc || !snipTag) {
+  if (!snipName || !snipDesc || !snipTag) {
     res.sendStatus('400');
   } else {
-    res.sendStatus('201'); 
+    res.sendStatus('201');
+    console.log(snipName);
+    console.log(snipDesc);
+    console.log(snipTag);
+
+    db.cacheObj.create({
+      URL: snipName,
+      text: snipDesc,
+    })
+      .then((snipID) => {
+
+        db.tagObj.create({
+          tagName: snipTag,
+          cacheObjId: snipID.dataValues.id
+        });
+      })
+
+
   }
-}); 
+});
 
 
 // search snippet by optional filters
-app.get("/searchPersSnip/:tagValue", function (req, res) {
-    let tagValue = req.params.tagValue;
-    
+app.get("/getSnip/:param", function (req, res) {
+  let param = req.params.param;
 
-    console.log(tagValue);  
+  if (param === 'all') {
+    db.cacheObj.findAll({
+      include: db.tagObj
+    }).then(function (objects) {
 
-    res.sendStatus('200'); 
-}); 
+      let caches = { renderedCaches: {} }
+
+      objects.forEach((el) => {
+        let tags = [];
+        el.dataValues.tagObjs.forEach((el) => {
+          tags.push(el.dataValues.tagName)
+        })
+        let cacheID = el.dataValues.id;
+        let cacheDataObj = {
+          URL: el.dataValues.URL,
+          Text: el.dataValues.text,
+          tagArray: tags, 
+          date: el.dataValues.createdAt
+        }
+        caches.renderedCaches[cacheID] = cacheDataObj;
+      });
+      res.render('partials/home-cache-partials', Object.assign({ layout: false }, caches))
+
+    })
+  } else {
+
+    // find all with a certin tag
+    let cacheIds = [];
+    db.tagObj.findAll({
+      where: {
+        tagName: param
+      },
+      include: db.cacheObj
+    }).then(function (objects) {
+      objects.forEach((el) => {
+        cacheIds.push(el.dataValues.cacheObj.id)
+      });
+    }).then(function () {
+      // get all the cache objects with a matching id to the foreign key of the tags chosen
+      db.cacheObj.findAll({
+        where: {
+          id: cacheIds
+        },
+        include: db.tagObj
+      }).then(function (objects) {
+        // construct an object and render it in the partial
+        let caches = { renderedCaches: {} }
+        objects.forEach((el) => {
+          let tags = [];
+          el.dataValues.tagObjs.forEach((el) => {
+            tags.push(el.dataValues.tagName)
+          })
+          let cacheID = el.dataValues.id;
+          let cacheDataObj = {
+            URL: el.dataValues.URL,
+            Text: el.dataValues.text,
+            tagArray: tags, 
+            tagArray: tags, 
+          }
+          caches.renderedCaches[cacheID] = cacheDataObj;
+        });
+        res.render('partials/home-cache-partials', Object.assign({ layout: false }, caches))
+      });
+
+    });
+  }
+
+
+
+});
+
+
 
 // add a tag to a specific snippet
 app.post("/newSnipTag", function (req, res) {
-  let {newTag, snipID} = req.body; 
+  let { newTag, snipID } = req.body;
 
-  res.sendStatus('201'); 
-}); 
+  db.tagObj.findAll({
+    where: {
+      tagName: newTag,
+      cacheObjId: snipID
+    }
+  }).then((match) => {
+    console.log(match)
+    if (!Array.isArray(match) || !match.length) {
+      if (newTag && snipID) {
+        db.tagObj.create({
+          tagName: newTag,
+          cacheObjId: snipID,
+        })
+          .then((snipID) => {
+            console.log(newTag, snipID)
+            res.sendStatus('201');
+          })
+          .catch(() => res.sendStatus('400'));
+      } else {
+        res.sendStatus('404')
+      }
+    } else {
+      res.sendStatus('409')
+    }
+  })
+});
 
 
 // delete a tag from a specific snippet
-app.delete("/delSnipTag/:tagName", function (req, res) {
-  let tagName = req.params.tagName; 
+app.delete("/delSnipTag/", function (req, res) {
+  let { snipID, removedTag } = req.body;
 
-  if(!tagName) {
-    res.sendStatus('400');
+  if (snipID && removedTag) {
+    db.tagObj.destroy({
+      where: {
+        cacheObjId: snipID,
+        tagName: removedTag
+      }
+    })
+      .then(function () {
+        res.sendStatus('202')
+      });
   } else {
-    res.sendStatus('201'); 
+    res.sendStatus('400');
   }
 
-  console.log(tagName); 
-  res.sendStatus('202');
-});  
+});
 
 
 // delete an entire snippet
-app.delete("/delFullSnip/:snipName", function (req, res) {
-  let snipName = req.params.snipName; 
+app.delete("/delFullSnip/:snipID", function (req, res) {
+  let snipID = req.params.snipID;
 
-  if(!snipName) {
+  if (!snipID) {
     res.sendStatus('400');
   } else {
-    res.sendStatus('202'); 
+    db.cacheObj.destroy({
+      where: {
+        id: snipID
+      }
+    })
+      .then(function () {
+        res.sendStatus('202')
+      });
   }
-}); 
+});
 
 // Personal Project Routes
 

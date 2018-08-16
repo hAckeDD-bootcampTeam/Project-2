@@ -609,6 +609,18 @@ toggle-switch {
     color: white; 
 }
 
+.search-list {
+    background: rgba(3, 17, 56, 0.4);
+    border-style: inset; 
+    border-color: var(--yellow-color);
+  }
+
+  .blue-border {
+    border-style: inset; 
+    border-color: var(--blue-color);
+    border-width: thick;
+  }
+
 .footer {
     position: absolute;
     right: 0;

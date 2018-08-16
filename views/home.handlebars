@@ -37,28 +37,34 @@
         </div>
     </div>
     <div id="cache-div" class="home-main-div mx-auto">
-        <nav class="navbar navbar-light bg-white m-2 heading-font blue-border">
-            <input id="search-tag-input" class="form-control mr-md-2" type="search" placeholder="Search your cache" aria-label="Search">
-            <div class="w-100 d-flex mt-2">
-                <button class="btn btn-sm cache-btn mr-auto" data-target="#add-snip-modal" data-toggle="modal">Add</button>
-
-                {{!-- REMOVED B/C SCOPE --}}
-
-                <div>
-                    {{!--
-                    <label class="checkbox-inline mr-2 h6">
-                        <input type="checkbox" id="search-tag-param" value="">Search tag
-                    </label>
-                    <label class="checkbox-inline ml-2 mr-2 h6">
-                        <input type="checkbox" id="search-text-param" value="">Search text
-                    </label> --}}
-                    <button id="search-snip-btn" class="btn btn-sm cache-btn h-6">Search</button>
+        <nav class="navbar navbar-light bg-white m-2 heading-font">
+            <div id="search-tags" class="w-100">
+                <div class="row mb-3 w-100 justify-content-center">
+                    <div class="col-12">
+                        <div class="input-group d-flex justify-content-center">
+                            <input id="search-tag-input" class="form-control mr-md-2 search" type="search" placeholder="Search the cache" aria-label="Search">
+                            <span class="input-group-append">
+                                <button type="button" class="btn btn-circle btn-xl float-right clear-cache-search">
+                                    <i class="fas fa-globe-americas" style="pointer-events: none;"></i>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
                 </div>
+                <ul class="list search-list p-4 content-font">
+                    <li>
+                        <span class="badge badge-pill badge-light searchTags">Java</span>
+                        <span class="badge badge-pill badge-light searchTags">C++</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="w-100 d-flex mt-2">
+                <button class="btn cache-btn mr-auto" data-target="#add-snip-modal" data-toggle="modal">Add</button>
             </div>
         </nav>
         <div class="container-fluid">
             <div class="row p-2">
-                <div class="card-deck">
+                <div class="card-deck p-2 d-flex justify-content-center">
                     {{> home-cache-partials}}
                 </div>
             </div>
