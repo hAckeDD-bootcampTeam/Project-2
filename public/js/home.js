@@ -79,7 +79,7 @@ $(document).ready(function () {
 
     // Selector for user searching through a snippet in personal cache, filtered by either tag or text param - or both
     let searchTag = $('.searchTags');
-    let clearTag = $('.clear-cache-search');
+    let clearTag = $('.search-proj-cache');
 
 
     // SELECTORS FOR PERSONAL PROJECTS BEGIN    
@@ -268,7 +268,7 @@ $(document).ready(function () {
 
             // make sure it is an email address
             let expression = /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi;
-            let regex = new RegExp(expression);
+            let regex = new RegExp(expression); 
             let url = snipObj.snipName;
 
             if (url.match(regex)) {
@@ -359,7 +359,7 @@ $(document).ready(function () {
             }
 
             // remove the red from the elements and turn off boolean
-            $(this).removeClass("bg-danger");
+            $('.cache-snippet-badge').removeClass("bg-danger");
             removedTagBool = false;
 
             $.ajax({

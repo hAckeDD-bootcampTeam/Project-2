@@ -166,6 +166,9 @@ li {
     padding: 0;
 }
 
+.searchTags:hover {
+    cursor: pointer; 
+}
 
 #custom-search-form .search-query {
     padding-right: 3px;
@@ -614,6 +617,8 @@ toggle-switch {
     border-style: inset; 
     border-color: var(--yellow-color);
   }
+
+
 
   .blue-border {
     border-style: inset; 

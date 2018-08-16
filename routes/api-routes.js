@@ -151,6 +151,10 @@ module.exports = function(app) {
  app.post("/newPersSnip", function (req, res) {
   let { snipName, snipDesc, snipTag } = req.body;
 
+  console.log(snipName)
+  console.log(snipDesc)
+  console.log(snipTag)
+
   // if (!snipName || !snipDesc || !snipTag) {
   //   res.sendStatus('400');
   // } else {
@@ -179,6 +183,8 @@ module.exports = function(app) {
 // search snippet by optional filters
 app.get("/getSnip/:param", function (req, res) {
   let param = req.params.param;
+
+  console.log(param)
 
   if (param === 'all') {
     // db.cacheObj.findAll({
@@ -257,6 +263,9 @@ app.get("/getSnip/:param", function (req, res) {
 app.post("/newSnipTag", function (req, res) {
   let { newTag, snipID } = req.body;
 
+  console.log(newTag)
+  console.log(snipID)
+
   // db.tagObj.findAll({
   //   where: {
   //     tagName: newTag,
@@ -289,6 +298,9 @@ app.post("/newSnipTag", function (req, res) {
 app.delete("/delSnipTag/", function (req, res) {
   let { snipID, removedTag } = req.body;
 
+  console.log(snipID)
+  console.log(removedTag)
+
   // if (snipID && removedTag) {
   //   db.tagObj.destroy({
   //     where: {
@@ -310,6 +322,7 @@ app.delete("/delSnipTag/", function (req, res) {
 app.delete("/delFullSnip/:snipID", function (req, res) {
   let snipID = req.params.snipID;
 
+  console.log(snipID)
   // if (!snipID) {
   //   res.sendStatus('400');
   // } else {
