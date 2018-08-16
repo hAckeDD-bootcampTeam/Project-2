@@ -171,33 +171,38 @@ $(document).ready(function () {
     // Flags for removing tags from personal cache
     let removeTagBool = false;
 
-    let uniqueId = 'unique passport identifier'
 
-    let userInfo =
 
-        //using jquery .load, to populate element with user info on IMMEDIATE page load.  Can be used over again, unlike document ready
-        $("#").load('/getUserInfo/uniqueID', function (userInfo, status) {
-            if (status == 'success') {
-                console.log("content loaded");
-            } else {
-                console.log("Error");
-            };
+    // If the user has logged in (their identifier is in local storage)
+    // then obtain the user info
+    if(localStorage.getItem("userid")){
+
+        console.log('Userid is found in local storage and is: '+ localStorage.getItem("userid"));
+
+        $.ajax({
+            url: '/getUserInfo/'+ localStorage.getItem("userid"),
+            type: 'GET'
+        }).done((userInfo) => {
+            console.log('Returned userinfo from ajax GET: ', userInfo);
+            if (userInfo === 'OK') {
+                console.log('OK: ' + userInfo); 
+            }
         });
+    }
+    else
+        console.log('No user identifier is found in local storage');
 
-    // $.ajax({
-    //     url: '/getUserInfo/uniqueID',
-    //     type: 'GET'
-    // }).done((userInfo) => {
-    //     if (userInfo === 'OK') {
-    //         console.log(userInfo); 
-    //     }
-
-    // });
 
 
     // Allow the user to log out
     logOutBtn.click(function () {
         event.preventDefault();
+
+        // remove the indicators that the user is logged in
+        localStorage.removeItem("userpw");
+        localStorage.removeItem("userid");
+        localStorage.removeItem("useremail");
+
         console.log('Log out');
         window.location.href = '/';
     });

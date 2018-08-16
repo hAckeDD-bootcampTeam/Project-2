@@ -10,14 +10,24 @@ module.exports = function (app) {
   // Using the passport.authenticate middleware with our local strategy.
   // If the user has valid login credentials, send them to the members page.
   // Otherwise the user will be sent an error
-  app.post("/api/login", passport.authenticate("local"), function (req, res) {
-    // Since we're doing a POST with javascript, we can't actually redirect that post into a GET request
-    // So we're sending the user back the route to the members page because the redirect will happen on the front end
-    // They won't get this or even be able to access this page if they aren't authed
-    console.log('api/login route');
-    console.log(res.body);
-    //res.json("/members");
-    res.json({ message: 'hello!' });
+
+
+  app.post("/api/login",
+  passport.authenticate("local"), function (req, res, message) {
+    console.log('api/login route. This must mean that the authentication works!');
+    console.log('req.user:',req.user);
+
+    var existinguserObject =
+    {
+      email: req.user.email,
+      id: req.user.id,
+      hashedpassword: req.user.password,
+      createdAt: req.user.createdAt,
+      updatedAt: req.user.updatedAt
+    }
+
+    console.log(existinguserObject);
+    res.json(existinguserObject);
   });
 
 
@@ -42,6 +52,9 @@ module.exports = function (app) {
         })
           .then(function (user) {
             // User object to return from the database (review what data is actually required)
+
+            console.log('A new user has been created');
+
             var existinguserObject = {
               id: user[0].id,
               displayName: user[0].displayName,
@@ -51,8 +64,10 @@ module.exports = function (app) {
               updatedAt: user[0].updatedAt
             };
 
+            console.log(existinguserObject);
+
             //res.json(user).redirect(307, "/api/login");
-            res.json(existinguserObject);
+            res.status(201).json(existinguserObject);
           });
 
       }).catch(function (err) {
@@ -71,6 +86,7 @@ module.exports = function (app) {
 
   app.get("/getUserInfo/:userID", function (req, res) {
     let userID = req.params.userID
+
 
     //need database query here  for all user info. Need work on tag join
     db.Fullurl.findAll({
@@ -116,6 +132,7 @@ module.exports = function (app) {
       })
     });
     res.json(userInfo)
+
     // build handlebars object with what comes back
   });
 
@@ -193,6 +210,7 @@ module.exports = function (app) {
   // add a new snippet
   app.post("/newPersSnip", function (req, res) {
     let { snipName, snipDesc, snipTag } = req.body;
+
     if (!snipName || !snipDesc || !snipTag) {
       res.sendStatus('400');
     } else {
@@ -225,6 +243,7 @@ module.exports = function (app) {
       }, err => {
         res.status(500).json(err)
       })
+
     }
   });
 
@@ -232,6 +251,7 @@ module.exports = function (app) {
   // search snippet by optional filters
   app.get("/searchPersSnip/:tagValue", function (req, res) {
     let tagValue = req.params.tagValue;
+
 
     // console.log(tagValue);
 
@@ -290,6 +310,10 @@ module.exports = function (app) {
     });
 
 
+    res.sendStatus('201');
+  });
+
+
     // delete a tag from a specific snippet
     app.delete("/delSnipTag/:tagName", function (req, res) {
       let tagName = req.params.tagName;
@@ -318,133 +342,136 @@ module.exports = function (app) {
 
     // Personal Project Routes
 
-    // REMOVED B/C SCOPE
 
-    // // Add a new project, optionally filterred by the private function
-    // app.post("/newProj/:view", function (req, res) {
-    //   let {projName, projDesc} = req.body; 
-    //   let isPrivate = req.params.view; 
+  // REMOVED B/C SCOPE
 
-    //   console.log(projName); 
-    //   console.log(projDesc); 
-    //   console.log(isPrivate); 
+<
+  // // Add a new project, optionally filterred by the private function
+  // app.post("/newProj/:view", function (req, res) {
+  //   let {projName, projDesc} = req.body; 
+  //   let isPrivate = req.params.view; 
 
-    //   res.sendStatus('201'); 
-    // }); 
+  //   console.log(projName); 
+  //   console.log(projDesc); 
+  //   console.log(isPrivate); 
 
-    // // change the view of a project if the user is authorized
-    // app.put("/changeProjView/:view/:projID", function (req, res) {
-    //   let projView = req.params.view; 
-    //   let projID = req.params.projID; 
+  //   res.sendStatus('201'); 
+  // }); 
 
-    //   console.log(projView)
-    //   res.sendStatus('200'); 
-    // }); 
+  // // change the view of a project if the user is authorized
+  // app.put("/changeProjView/:view/:projID", function (req, res) {
+  //   let projView = req.params.view; 
+  //   let projID = req.params.projID; 
 
-    // // change the details of a project
-    // app.put("/changeProjInfo", function (req, res) {
-    //   let {changedName, changedDesc} = req.body; 
+  //   console.log(projView)
+  //   res.sendStatus('200'); 
+  // }); 
 
-    //   console.log(changedName);  
-    //   console.log(changedDesc); 
-    //   res.sendStatus('200');
-    // }); 
+  // // change the details of a project
+  // app.put("/changeProjInfo", function (req, res) {
+  //   let {changedName, changedDesc} = req.body; 
 
-    // // Add a snippet to an object
-    // app.post("/addSnipObj", function (req, res) {
-    //   let {newSnipUrl, newSnipTag, newSnipText} = req.body; 
+  //   console.log(changedName);  
+  //   console.log(changedDesc); 
+  //   res.sendStatus('200');
+  // }); 
 
-    //   console.log(newSnipUrl);  
-    //   console.log(newSnipTag);  
-    //   console.log(newSnipText); 
-    //   res.sendStatus('201');
-    // }); 
+  // // Add a snippet to an object
+  // app.post("/addSnipObj", function (req, res) {
+  //   let {newSnipUrl, newSnipTag, newSnipText} = req.body; 
 
-    // // delete an entire project
-    // app.delete("/delProj/:projName", function (req, res) {
-    //   let projName = req.params.projSnipName; 
+  //   console.log(newSnipUrl);  
+  //   console.log(newSnipTag);  
+  //   console.log(newSnipText); 
+  //   res.sendStatus('201');
+  // }); 
 
-    //   console.log(projName); 
-    //   res.sendStatus('202');
-    // }); 
+  // // delete an entire project
+  // app.delete("/delProj/:projName", function (req, res) {
+  //   let projName = req.params.projSnipName; 
 
-
-    // // user leaves a project
-    // app.put("/leaveProj/:projID", function (req, res) {
-    //   let {projID} = req.params; 
-
-    //   console.log(projID);  
-
-    //   res.sendStatus('200');
-    // }); 
+  //   console.log(projName); 
+  //   res.sendStatus('202');
+  // }); 
 
 
-    // // Allow the admin to change the rights of other users, depending on the ID
-    // app.put("/changeMemberRights/:viewChanged/:userID", function (req, res) {
-    //   let {viewChanged, userID} = req.params; 
+  // // user leaves a project
+  // app.put("/leaveProj/:projID", function (req, res) {
+  //   let {projID} = req.params; 
 
-    //   console.log(viewChanged);  
-    //   console.log(userID); 
+  //   console.log(projID);  
 
-    //   res.sendStatus('200');
-    // }); 
-
-    // // delete a URL from a project, do not delete associated snippets
-    // app.delete("/delProjURL/:urlID", function (req, res) {
-    //   let urlID = req.params.urlID; 
-
-    //   console.log(urlID); 
-    //   res.sendStatus('202');
-    // }); 
+  //   res.sendStatus('200');
+  // }); 
 
 
-    // //  find all associated URL's and snippets, optionally filtered by tag and text
-    // app.get("/searchProjSnip/:projTagValue/:projFilterTag/:projFilterText", function (req, res) {
-    //   let {projTagValue, projFilterTag, projFilterText} = req.params; 
+  // // Allow the admin to change the rights of other users, depending on the ID
+  // app.put("/changeMemberRights/:viewChanged/:userID", function (req, res) {
+  //   let {viewChanged, userID} = req.params; 
 
-    //   console.log(projTagValue); 
-    //   console.log(projFilterTag); 
-    //   console.log(projFilterText); 
+  //   console.log(viewChanged);  
+  //   console.log(userID); 
 
-    //   res.sendStatus('200'); 
-    // });
+  //   res.sendStatus('200');
+  // }); 
 
-    // // add a URL to a project
-    // app.post("/addProjURL", function (req, res) {
-    //   let {newURL, snipID} = req.body; 
+  // // delete a URL from a project, do not delete associated snippets
+  // app.delete("/delProjURL/:urlID", function (req, res) {
+  //   let urlID = req.params.urlID; 
 
-    //   console.log(newURL);  
-    //   console.log(snipID);  
-
-    //   res.sendStatus('201');
-    // }); 
-
-    // // delete a snippet from a project
-    // app.delete("/delProjSnippet/:snipID", function (req, res) {
-    //   let snipID = req.params.snipID; 
-
-    //   console.log(snipID);  
-    //   res.sendStatus('202');
-    // }); 
+  //   console.log(urlID); 
+  //   res.sendStatus('202');
+  // }); 
 
 
-    // // add a tag to a snippet in a project
-    // app.post("/addProjTag", function (req, res) {
-    //   let newTag = req.body.tagName; 
+  // //  find all associated URL's and snippets, optionally filtered by tag and text
+  // app.get("/searchProjSnip/:projTagValue/:projFilterTag/:projFilterText", function (req, res) {
+  //   let {projTagValue, projFilterTag, projFilterText} = req.params; 
 
-    //   console.log(newTag);  
+  //   console.log(projTagValue); 
+  //   console.log(projFilterTag); 
+  //   console.log(projFilterText); 
 
-    //   res.sendStatus('201');
-    // }); 
+  //   res.sendStatus('200'); 
+  // });
+
+  // // add a URL to a project
+  // app.post("/addProjURL", function (req, res) {
+  //   let {newURL, snipID} = req.body; 
+
+  //   console.log(newURL);  
+  //   console.log(snipID);  
+
+  //   res.sendStatus('201');
+  // }); 
+
+  // // delete a snippet from a project
+  // app.delete("/delProjSnippet/:snipID", function (req, res) {
+  //   let snipID = req.params.snipID; 
+
+  //   console.log(snipID);  
+  //   res.sendStatus('202');
+  // }); 
 
 
-    // // delete a tag from a snippet inside a project
-    // app.delete("/delProjTag/:tagName", function (req, res) {
-    //   let projTagName = req.params.tagName; 
+  // // add a tag to a snippet in a project
+  // app.post("/addProjTag", function (req, res) {
+  //   let newTag = req.body.tagName; 
 
-    //   console.log(projTagName);  
-    //   res.sendStatus('202');
-    // });
+  //   console.log(newTag);  
+
+  //   res.sendStatus('201');
+  // }); 
+
+
+  // // delete a tag from a snippet inside a project
+  // app.delete("/delProjTag/:tagName", function (req, res) {
+  //   let projTagName = req.params.tagName; 
+
+  //   console.log(projTagName);  
+  //   res.sendStatus('202');
+  // });
+
 
 
   });
