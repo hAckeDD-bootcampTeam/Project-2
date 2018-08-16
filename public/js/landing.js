@@ -61,26 +61,50 @@ $(document).ready(function () {
 
 		// If we have an email and password, run the signUpUser function
 		// and set the fields on the page to blank
-		signUpUser(newuser);
-		newUserEmail.val("");
-		newUserPassW.val("");
+		signUpUser(newuser)
+			.then(function (userdata) {
+				console.log('The new user\'s info is being added to localStorage');
+				localStorage.setItem("userpw", userdata.hashedpassword);
+				localStorage.setItem("userid", userdata.id);
+				localStorage.setItem("useremail", userdata.email);
+			})
+			.then(function () {
+				newUserEmail.val("");
+				newUserPassW.val("");
+				window.location.replace("/home"); //send user to their home page
+			});
 
-		window.location.replace("/home"); //send user to their home page
 	});
 
+	// An existing user logs in this way
 	currUserBtn.click(function () {
 		event.preventDefault();
+
 		var currentuser = {
 			email: currUserName.val().trim(),
 			password: currUserPassW.val().trim(),
 		};
 
-		console.log(currentuser);
-		signInUser(currentuser);
-		currUserName.val("");
-		currUserPassW.val("");
+		// If there is no email or password given
+		if (!currentuser.email || !currentuser.password) {
+			console.log('The username or password is empty');
+			return;
+		}
 
-		window.location.replace("/home"); //send user to their home page
+		signInUser(currentuser)
+			.then(function (userdata) {
+				console.log('The existing user\'s info is being added to localStorage');
+				localStorage.setItem("userpw", userdata.hashedpassword);
+				localStorage.setItem("userid", userdata.id);
+				localStorage.setItem("useremail", userdata.email);
+			})
+			.then(function () {
+				currUserName.val("");
+				currUserPassW.val("");
+				window.location.replace("/home"); //send user to their home page
+			});
+
+
 	});
 
 	// Does a post to the signup route. If successful, we are redirected to the members page
@@ -89,61 +113,70 @@ $(document).ready(function () {
 
 		console.log(`Attempting to sign up new user: ${JSON.stringify(newuser)}`)
 
-		$.post("/api/signup", newuser)
-			.then(function (data) {
+		return new Promise(function (resolve, reject) {
 
-				userInfo = {
-					email: data.email,
-					id: data.id,
-					hashedpassword: data.password, // Not sure if we should be returning just this or the id
-					createdAt: data.createdAt,
-					updatedAt: data.updatedAt
-				}
-				console.log(`New user info from the database: ${JSON.stringify(userInfo)}`)
-			})
-			.catch(handleLoginErr);
+			$.post("/api/signup", newuser)
+				.then(function (data) {
+
+					//console.log(data);
+					userInfo = {
+						email: data.email,
+						id: data.id,
+						hashedpassword: data.password, // Not sure if we should be returning just this or the id
+						createdAt: data.createdAt,
+						updatedAt: data.updatedAt
+					}
+					console.log(`New user info from the database: ${JSON.stringify(userInfo)}`)
+					resolve(userInfo);
+				})
+				.catch(handleLoginErr);
+		});
 	}
 
 	function signInUser(user) {
 
 		console.log(`Attempting to sign in existing user: ${JSON.stringify(user)}`)
 
-		//$.get("/api/user_data", user, )
-		$.post("/api/login", { email: user.email, password: user.password })
-			.then(function (data) {
-				//window.location.replace(data); // in the example code, this returns a link to /members
-				userInfo = {
-					email: data.email,
-					id: data.id,
-					hashedpassword: data.hashedpassword, // Not sure if we should be returning just this or the id
-					createdAt: data.createdAt,
-					updatedAt: data.updatedAt
-				}
-				console.log(`Existing user info from the database: ${JSON.stringify(userInfo)}`)
-			})
-			.catch(handleLoginErr);
+		return new Promise(function (resolve, reject) {
+
+			$.post("/api/login", { email: user.email, password: user.password })
+				.then(function (data) {
+					console.log('after login check');
+					//console.log(data);
+					userInfo = {
+						email: data.email,
+						id: data.id,
+						hashedpassword: data.hashedpassword, // Not sure if we should be returning just this or the id
+						createdAt: data.createdAt,
+						updatedAt: data.updatedAt
+					}
+					console.log(`Existing user info from the database: ${JSON.stringify(userInfo)}`)
+					resolve(userInfo);
+				})
+				.catch(handleLoginErr);
+		});
 	}
 
 	// Not presently being used:
-	function getUserData(user) {
+	// function getUserData(user) {
 
-		console.log(`Attempting to get user data for user: ${JSON.stringify(user)}`)
+	// 	console.log(`Attempting to get user data for user: ${JSON.stringify(user)}`)
 
-		$.get("/api/user_data", user)
-			.then(function (data) {
+	// 	$.get("/api/user_data", user)
+	// 		.then(function (data) {
 
-				userInfo = {
-					email: data.email,
-					id: data.id,
-					hashedpassword: data.password, // Not sure if we should be returning just this or the id
-					createdAt: data.createdAt,
-					updatedAt: data.updatedAt
-				}
+	// 			userInfo = {
+	// 				email: data.email,
+	// 				id: data.id,
+	// 				hashedpassword: data.password, // Not sure if we should be returning just this or the id
+	// 				createdAt: data.createdAt,
+	// 				updatedAt: data.updatedAt
+	// 			}
 
-				console.log(`Existing user info from the database: ${JSON.stringify(userInfo)}`)
-			})
-			.catch(handleLoginErr);
-	}
+	// 			console.log(`Existing user info from the database: ${JSON.stringify(userInfo)}`)
+	// 		})
+	// 		.catch(handleLoginErr);
+	// }
 
 	function handleLoginErr(err) {
 		console.log('handleLoginErr: error detected');
