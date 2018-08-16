@@ -1,11 +1,6 @@
 module.exports = function (sequelize, DataTypes) {
-    var Fullurls = sequelize.define('Fullurls', {
+    var Fullurl = sequelize.define('Fullurl', {
         url: {
-            type: DataTypes.STRING,
-            allowNull: true,
-            defaultValue: null
-        },
-        pagetitle: {
             type: DataTypes.STRING,
             allowNull: true,
             defaultValue: null
@@ -14,39 +9,19 @@ module.exports = function (sequelize, DataTypes) {
             type: DataTypes.TEXT,
             allowNull: true,
             defaultValue: null
-        }
-        // commentable_id: 
-        // tags_id: 
-        // snippetsid:
-        // ownersid
+        },
+        userid: {
+            type: DataTypes.INTEGER(11),
+            allowNull: false
+        }    
     });
-    Fullurls.associate = function (models) {
-        Fullurls.belongsToMany(models.Tags, {
-            through: {
-                model: models.Taggable,
-                unique: false,
-                scope: {
-                    taggable: 'Fullurls'
-                }
-            },
-            foreignKey: 'taggable_id',
-            constraints: false
-        });
-        //many to many => many urls can have many tags
-        Fullurls.hasMany(models.Commentable, {
-            foreignKey: 'commentable_id',
-            constraints: false,
-            scope: {
-                commentable: 'Fullurls'
-            }
-        });
+    Fullurl.associate = function (model) {
         //one to many => each url can have many comments
-        Fullurls.hasMany(models.Snippets, {
+        Fullurl.hasMany(model.Snippet, {
             //one to many => each url can have many snippets
         });
-        Fullurls.belongsTo(models.Owners, {
-        })
-        //one to one => each url belongs to a certain project
+           
     }
-    return Fullurls;
+    return Fullurl;
 };
+        

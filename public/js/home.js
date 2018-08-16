@@ -15,8 +15,8 @@ $(document).ready(function () {
 
     // User divs and project dashboard
     let cacheDiv = $('#cache-div');
-   
-       // REMOVED B/C SCOPE
+
+    // REMOVED B/C SCOPE
     // let projDiv = $('#projs-div');
     // let groupSettingsDiv = $('#group-modal-settings');
     // let groupInfoSection = $('#group-info-section');
@@ -24,7 +24,7 @@ $(document).ready(function () {
 
     //Hide the divs when the page loads
     cacheDiv.hide();
-    
+
     // REMOVED B/C SCOPE
     // projDiv.hide();
     // groupSettingsDiv.hide();
@@ -38,7 +38,7 @@ $(document).ready(function () {
     });
 
     // Toggle feature for the project div
-        
+
     // REMOVED B/C SCOPE
     // projBtn.click(function () {
     //     projDiv.animate({
@@ -48,8 +48,8 @@ $(document).ready(function () {
     // });
 
     // Dashboard admin features toggle
-       // REMOVED B/C SCOPE
-   
+    // REMOVED B/C SCOPE
+
     // groupDashboardBtn.click(function () {
     //     groupSettingsDiv.animate({
     //         height: 'toggle'
@@ -173,15 +173,26 @@ $(document).ready(function () {
 
     let uniqueId = 'unique passport identifier'
 
-    $.ajax({
-        url: '/getUserInfo/uniqueID',
-        type: 'GET'
-    }).done((userInfor) => {
-        if (userInfo === 'OK') {
-            console.log(userInfo); 
-        }
+    let userInfo =
 
-    });
+        //using jquery .load, to populate element with user info on IMMEDIATE page load.  Can be used over again, unlike document ready
+        $("#").load('/getUserInfo/uniqueID', function (userInfo, status) {
+            if (status == 'success') {
+                console.log("content loaded");
+            } else {
+                console.log("Error");
+            };
+        });
+
+    // $.ajax({
+    //     url: '/getUserInfo/uniqueID',
+    //     type: 'GET'
+    // }).done((userInfo) => {
+    //     if (userInfo === 'OK') {
+    //         console.log(userInfo); 
+    //     }
+
+    // });
 
 
     // Allow the user to log out
@@ -217,15 +228,16 @@ $(document).ready(function () {
     addSnipBtn.click(function () {
         event.preventDefault();
 
-        let snipID =  $($(this)).closest("[data-ID]").data().id; 
-
+        let snipID = $($(this)).closest("[data-ID]").data().id;
+        //need userid
 
         if (newSnipName.val() && newSnipDesc.val() && newSnipTag.val()) {
             let snipObj = {
                 snipName: newSnipName.val().trim(),
                 snipDesc: newSnipDesc.val().trim(),
-                snipTag: newSnipTag.val().trim(), 
+                snipTag: newSnipTag.val().trim(),
                 snipID: snipID
+                ///need userid as opposed to snip id******
             }
 
             $.ajax({
@@ -234,20 +246,19 @@ $(document).ready(function () {
                 data: snipObj
             }).done((addSnip) => {
                 if (addSnip === 'Created') {
-                    console.log('Good creation'); 
+                    console.log('Good creation');
                     newSnipName.val('');
                     newSnipDesc.val('');
                     newSnipTag.val('');
                 }
-
             });
 
         } else {
-            alert('No Fields can be empty'); 
+            alert('No Fields can be empty');
         }
 
     });
- 
+
     // Button click event for searching through cache, if conditions used to verify how they filter their search
     searchSnipBtn.click(function () {
         event.preventDefault();
@@ -256,7 +267,7 @@ $(document).ready(function () {
 
             // Grab the value and set flags for how to filter
             let tagValue = searchTagInput.val().trim();
-    
+
             $.ajax({
                 url: `/searchPersSnip/${tagValue}`
             }).done((searchSnip) => {
@@ -277,8 +288,8 @@ $(document).ready(function () {
     addTagBtn.click(function () {
         if (addTagInput.val()) {
 
-            
-            let snipID =  $($(this)).closest("[data-ID]").data().id; 
+
+            let snipID = $($(this)).closest("[data-ID]").data().id;
 
             let newTagObj = {
                 newTag: addTagInput.val().trim(),
@@ -317,7 +328,7 @@ $(document).ready(function () {
     cacheTag.click(function () {
         if (removeTagBool) {
 
-            let snipID =  $($(this)).closest("[data-ID]").data().id; 
+            let snipID = $($(this)).closest("[data-ID]").data().id;
             let removedTag = $(this).text();
 
             cacheTag.removeClass("bg-danger");
@@ -337,12 +348,12 @@ $(document).ready(function () {
 
     // delete a snippet from the users personal cache
     deleteSnip.click(function () {
-        let snipID = 'testID'; 
+        let snipID = 'testID';
 
         console.log($(this))
 
 
-        $.ajax({ 
+        $.ajax({
             url: `/delFullSnip/${snipID}`,
             type: 'DELETE',
         }).done((delSnip) => {
@@ -353,9 +364,9 @@ $(document).ready(function () {
 
     });
 
-   // Functionality for the projects element and section 
+    // Functionality for the projects element and section 
 
-//    REMOVED B/C SCOPE
+    //    REMOVED B/C SCOPE
 
     // // Click event for starting a new project, filtered by a check if the user wants it to be public
     // newProjBtn.click(function () {
@@ -571,7 +582,7 @@ $(document).ready(function () {
     //     }
     // });
 
-    
+
     // // Add a URL to a snippet in a project
     // addProjURLBtn.click(function () {
     //     let newURL = {
@@ -626,7 +637,7 @@ $(document).ready(function () {
     // projTags.click(function () {
     //     if (removeProjTagBool) {
     //         let removedProjTag = $(this).text();
- 
+
     //         projTags.removeClass("bg-danger");
 
     //         $.ajax({
