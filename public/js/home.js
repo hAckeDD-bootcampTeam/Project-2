@@ -171,22 +171,36 @@ $(document).ready(function () {
     // Flags for removing tags from personal cache
     let removeTagBool = false;
 
-    let uniqueId = 'unique passport identifier'
 
-    $.ajax({
-        url: '/getUserInfo/uniqueID',
-        type: 'GET'
-    }).done((userInfor) => {
-        if (userInfo === 'OK') {
-            console.log(userInfo); 
-        }
+    // If the user has logged in (their identifier is in local storage)
+    // then obtain the user info
+    if(localStorage.getItem("userid")){
 
-    });
+        console.log('Userid is found in local storage and is: '+ localStorage.getItem("userid"));
+
+        $.ajax({
+            url: '/getUserInfo/'+ localStorage.getItem("userid"),
+            type: 'GET'
+        }).done((userInfo) => {
+            console.log('Returned userinfo from ajax GET: ', userInfo);
+            if (userInfo === 'OK') {
+                console.log('OK: ' + userInfo); 
+            }
+        });
+    }
+    else
+        console.log('No user identifier is found in local storage');
 
 
     // Allow the user to log out
     logOutBtn.click(function () {
         event.preventDefault();
+
+        // remove the indicators that the user is logged in
+        localStorage.removeItem("userpw");
+        localStorage.removeItem("userid");
+        localStorage.removeItem("useremail");
+
         console.log('Log out');
         window.location.href = '/';
     });
