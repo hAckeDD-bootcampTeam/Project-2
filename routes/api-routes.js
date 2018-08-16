@@ -10,6 +10,8 @@ module.exports = function (app) {
   // Using the passport.authenticate middleware with our local strategy.
   // If the user has valid login credentials, send them to the members page.
   // Otherwise the user will be sent an error
+
+
   app.post("/api/login",
   passport.authenticate("local"), function (req, res, message) {
     console.log('api/login route. This must mean that the authentication works!');
@@ -85,39 +87,51 @@ module.exports = function (app) {
   app.get("/getUserInfo/:userID", function (req, res) {
     let userID = req.params.userID
 
-    console.log('getUserInfo route. userId: ' + userID);
 
-    var userInfo = db.Users.findAll({
-      where: {
-        id: userID
-      }
-    })
-      .then(function (userInfo) {
+    //need database query here  for all user info. Need work on tag join
+    db.Fullurl.findAll({
+      where:
+      {
+        userid: '1'
+        //need userid
+      },
+      include: [{
+        model: db.Snippet,
+        include: [{
+          model: db.Tag
+        }]
+      }]
+    }).then(urls => {
+      const userInfo = urls.map(url => {
+        console.log("*********" + JSON.stringify(url))
+        //object.assign allows us to organize the raw data by object and choose what gets displayed. ie ignored Created at, id's etc.
+        return Object.assign(
+          {},
+          {
+            url: url.url,
+            userdescription: url.userdescription.map(snippet => {
 
-        if (!userInfo) {
-          // The user is not logged in, send back an empty object
-          console.log('user not found in database');
-          res.json({});
-        }
-        else {
-          // Otherwise send back the user's identifying information
-          // Sending back a password, even a hashed password, isn't a good idea - but we're doing it anyway for now
-          var existinguserObject = {
-            id: userInfo[0].id,
-            displayName: userInfo[0].displayName,
-            email: userInfo[0].email,
-            password: userInfo[0].password,
-            createdAt: userInfo[0].createdAt,
-            updatedAt: userInfo[0].updatedAt
-          };
+              return Object.assign(
+                {},
+                {
+                  snippet: snippet.snippet.map(tag => {
+                    return Object.assign(
+                      {},
+                      {
+                        tag: tag.tag
+                      }
+                    )
+                  })
 
-          console.log('getUserInfo: returning the user object', existinguserObject);
-          res.json(existinguserObject);
-        }
-      });
+                }
+              )
+            })
 
-
-
+          }
+        )
+      })
+    });
+    res.json(userInfo)
 
     // build handlebars object with what comes back
   });
@@ -126,8 +140,8 @@ module.exports = function (app) {
   // We pass the hashed password to access the user data? review what should be passed.
   app.get("/api/user_data", function (req, res) {
 
-    console.log('/api/user_data route');
-    console.log(req.body);
+    // console.log('/api/user_data route');
+    // console.log(req.body);
 
     var userInfo = db.Users.findAll({
       where: {
@@ -135,7 +149,7 @@ module.exports = function (app) {
       }
     })
       .then(function (user) {
-        console.log('returning user: ' + user);
+        // console.log('returning user: ' + user);
 
         if (!user) {
           // The user is not logged in, send back an empty object
@@ -200,7 +214,36 @@ module.exports = function (app) {
     if (!snipName || !snipDesc || !snipTag) {
       res.sendStatus('400');
     } else {
-      res.sendStatus('201');
+      db.Fullurl.create({
+        url: snipName,
+        userid: '1'
+        //need userid as opposed to snip id**********
+
+      }).then(urls => {
+        let furls = [urls]
+        return furls
+      }).then(furls => {
+        db.Snippet.create({
+          snippet: snipDesc,
+        }).then(snips => {
+          let snippets = snips.setFullurls(snips)
+        }).then(snippets => {
+          //snip and tag not joined
+        })
+      })
+      db.Tag.create({
+        tag: snipTag
+      }).then(tags => {
+
+        let taggables = tags.setTags(furls);
+        return taggables
+      }).then(newSnippet => {
+
+        res.status(201).json(newSnippet)
+      }, err => {
+        res.status(500).json(err)
+      })
+
     }
   });
 
@@ -210,49 +253,99 @@ module.exports = function (app) {
     let tagValue = req.params.tagValue;
 
 
-    console.log(tagValue);
+    // console.log(tagValue);
 
-    res.sendStatus('200');
-  });
+    db.Tag.findAll({
+      where: {
+        tag: 'Travel'
+      },
+      include: [{
+        model: db.Snippet,
+        through: {
+          attributes: ['SnippetId'],
+        },
+        include: [{
+          model: db.Fullurl,
+        }]
+      }]
+    }).then(tags => {
+      const tag = tags.map(tags => {
+        
+        //object.assign allows us to organize the raw data by object and choose what gets displayed. ie ignored Created at, id's etc.
+        return Object.assign(
+          {},
+          {
+            //here the requested tag value(s) are assigned to a tag object 
+            tag: newTag.tag(snippet => {
+              // console.log(JSON.stringify(snippet))
+              return Object.assign(
+                {},
+                {
+                  //here the snippets assoc with requested tags are assigned to their own object
+                  snippet: snippet.snippet.map(url => {
+                    return Object.assign(
+                      {},
+                      {
+                        //here the assoc urls are assigned to their own object
+                        url: url.url,
+                        userdescription: url.userdescription.map(userInfo => {
+                        }
+                        )
+                      })
+                  }
+                  )
+                })
+            }
+            )
+          })
+      });
+      res.json(userInfo)
+    });
 
-  // add a tag to a specific snippet
-  app.post("/newSnipTag", function (req, res) {
-    let { newTag, snipID } = req.body;
+    // add a tag to a specific snippet
+    app.post("/newSnipTag", function (req, res) {
+      let { newTag, snipID } = req.body;
+
+      res.sendStatus('201');
+    });
+
 
     res.sendStatus('201');
   });
 
 
-  // delete a tag from a specific snippet
-  app.delete("/delSnipTag/:tagName", function (req, res) {
-    let tagName = req.params.tagName;
+    // delete a tag from a specific snippet
+    app.delete("/delSnipTag/:tagName", function (req, res) {
+      let tagName = req.params.tagName;
 
-    if (!tagName) {
-      res.sendStatus('400');
-    } else {
-      res.sendStatus('201');
-    }
+      if (!tagName) {
+        res.sendStatus('400');
+      } else {
+        res.sendStatus('201');
+      }
 
-    console.log(tagName);
-    res.sendStatus('202');
-  });
-
-
-  // delete an entire snippet
-  app.delete("/delFullSnip/:snipName", function (req, res) {
-    let snipName = req.params.snipName;
-
-    if (!snipName) {
-      res.sendStatus('400');
-    } else {
+      // console.log(tagName);
       res.sendStatus('202');
-    }
-  });
+    });
 
-  // Personal Project Routes
+
+    // delete an entire snippet
+    app.delete("/delFullSnip/:snipName", function (req, res) {
+      let snipName = req.params.snipName;
+
+      if (!snipName) {
+        res.sendStatus('400');
+      } else {
+        res.sendStatus('202');
+      }
+    });
+
+    // Personal Project Routes
+
 
   // REMOVED B/C SCOPE
 
+<
   // // Add a new project, optionally filterred by the private function
   // app.post("/newProj/:view", function (req, res) {
   //   let {projName, projDesc} = req.body; 
@@ -380,4 +473,6 @@ module.exports = function (app) {
   // });
 
 
-};
+
+  });
+}
