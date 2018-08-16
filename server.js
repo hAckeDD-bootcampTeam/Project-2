@@ -41,7 +41,7 @@ require("./routes/api-routes.js")(app);
 
 // Instantiate listener
 //E's testing-seeding table
-db.sequelize.sync({ force: true }).then(function () {
+db.sequelize.sync().then(function () {
 	//db.sequelize.sync().then(function () {
 	// db.Users.bulkCreate([
 	// 	{ displayName: 'Elizabeth', email: 'elizabeth.porter.pevec@gmail.com', hashed_email_pw: 'AABBCC123', google: '', hashed_google_pw: '' },

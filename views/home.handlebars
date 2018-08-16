@@ -52,18 +52,11 @@
                     </div> 
                 </div>
                 <ul class="list search-list p-4 content-font h6">
+                    {{#each tags}}
                     <li>
-                        <span class="badge badge-pill badge-light searchTags">Coding</span>
+                        <span class="badge badge-pill badge-light searchTags">{{this}}</span>
                     </li>
-                    <li>
-                        <span class="badge badge-pill badge-light searchTags">Javascript</span>
-                    </li>
-                    <li>
-                        <span class="badge badge-pill badge-light searchTags">Vacations</span>
-                    </li>
-                    <li>
-                        <span class="badge badge-pill badge-light searchTags">Food</span>
-                    </li>
+                    {{/each}}
                 </ul>
             </div>
             <div class="w-100 d-flex mt-2">
