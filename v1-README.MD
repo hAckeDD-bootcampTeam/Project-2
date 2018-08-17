@@ -11,24 +11,31 @@ https://cache-it.herokuapp.com/
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. Clone the Cache-It repository (https://github.com/...../Cache-It.git) and then create a MySQL database called cache-it_db.
 
 ### NPM Dependencies
-Run npm init. Then run npm install in the terminal:
 
+* bcrypt: 3.0.0
+* bcrypt-nodejs: 0.0.3
 * body-parser: 1.16.0
+* dotenv: 6.0.0
 * express: 4.14.1
 * express-handlebars: 3.0.0
 * express-partials: 0.3.0
 * express-session: 1.15.0
 * method-override: 2.3.7
-* mysql: 2.13.0
-* passport: 0.3.2
-* sequelize: 3.30.1
-* sequelize-cli: 2.5.1
+* mysql2: 1.6.1
+* nodemon: 1.18.3
+* passport: 0.4.0
+* passport-local: 1.0.0
+* path: 0.12.7
+* sequelize: 4.38.0
 * Mocha JavaScript test framework - [Documentation](https://mochajs.org/)
 * Chai assertion library (v3.2.0) - [Documentation](http://www.chaijs.com/)
 
 ## Step-by-Step
 
-* Run node server.js (starts the server, creates the tables in cache-it_db)
+* Update the settings in the "config.json" file for the database connection
+* Copy the code from the "schema.sql" file and paste it to a new SQL tab in "MySQL Workbench". This sets up the cache_it.db database
+* Run => "npm install" in the terminal to install the dependecies from the package.json file
+* Run => "node server" in the terminal to start the server and connect to the database
 * Visit localhost: 8080
 
 ## What the app does?
@@ -37,7 +44,7 @@ Run npm init. Then run npm install in the terminal:
 Reddit API 
 ```
   
-  The app récupère the five most recent and voted posts on reddit.com, based on the uers's interests. How does it work? The ussers type the keyword(s) of interest in the search box, and the app lists the five most recent and voted posts on reddit.com, including post title and the date it was created, and links to view the posts, the reddit link and the source link.
+  The app récupère the five most recent and voted posts on reddit.com, based on the user's interests. How does it work? The user types the keyword(s) of interest in the search box, and the app lists the five most recent and voted posts on reddit.com, including post title and the date it was created, and links to view the posts, the reddit link and the source link.
 
 ![picReddit](public/assets/images/picReddit.png)
 
