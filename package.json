@@ -1,0 +1,49 @@
+{
+  "name": "group-project-2",
+  "version": "1.0.0",
+  "description": "One Paragraph of project description goes here",
+  "main": "server.js",
+  "scripts": {
+    "test": "npm run lint && cross-env NODE_ENV=test mocha -u tdd --reporter spec --exit",
+    "lint": "eslint **/*.js --quiet",
+    "start": "node server.js",
+    "watch": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hAckeDD-bootcampTeam/Project-2.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hAckeDD-bootcampTeam/Project-2/issues"
+  },
+  "homepage": "https://github.com/hAckeDD-bootcampTeam/Project-2#readme",
+  "dependencies": {
+    "bcrypt": "^3.0.0",
+    "bcrypt-nodejs": "0.0.3",
+    "dotenv": "^6.0.0",
+    "express": "^4.16.3",
+    "express-handlebars": "^3.0.0",
+    "express-session": "^1.15.6",
+    "mysql2": "^1.6.1",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0",
+    "path": "^0.12.7",
+    "request": "^2.88.0",
+    "sequelize": "^4.38.0"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "chai-http": "^4.0.0",
+    "cross-env": "^5.2.0",
+    "eslint": "^4.19.1",
+    "eslint-config-prettier": "^2.9.0",
+    "eslint-plugin-prettier": "^2.6.2",
+    "mocha": "^5.2.0",
+    "nodemon": "^1.18.3",
+    "prettier": "^1.14.2",
+    "should": "^13.2.3",
+    "util": "^0.11.0"
+  }
+}
