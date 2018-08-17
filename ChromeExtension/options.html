@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/lumen/bootstrap.min.css">
+  <link rel="stylesheet" href="style.css">
+  <title>CacheIt</title>
+</head>
+
+<body>
+
+  <nav class="navbar navbar-default">
+    <div class="container-fluid">
+      <div class="navbar-header">
+      </div>
+    </div>
+  </nav>
+
+  <!-- Signing Up -->
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 col-md-offset-3">
+        <h2>CacheIt Settings</h2>
+        <form class="saveSettings">
+          <div class="form-group">
+            <label for="cacheItURL">CacheIt URL</label>
+            <input type="text" class="form-control" id="cacheItURL" placeholder="http://">
+            <br>
+            <label for="cacheItDefaultTag">Default Tag For New Snippets</label>
+            <input type="text" class="form-control" id="cacheItDefaultTag" placeholder="Unsorted">
+          </div>
+          <button type="submit" class="btn btn-default">Save</button>
+        </form>
+        <br />
+      </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="jquery-3.3.1.min.js"></script>
+    <script src="options.js"></script>
+</body>
+
+</html>

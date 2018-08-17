@@ -1,0 +1,28 @@
+{
+  "manifest_version": 2,
+  "name": "CacheIt",
+  "version": "1.0.0",
+  "description": "CacheIt - Save and organize content from the Internet into searcable snippets",
+  "icons": {
+    "128": "cacheitlogo128.png"
+  },
+  "browser_action": {
+    "default_Icon": "cacheitlogo16.png",
+    "default_popup": "index.html"
+  },
+  "options_page": "options.html",
+  "background": {
+    "scripts": [
+      "eventpage.js"
+    ],
+    "persistent": false
+  },
+  "permissions": [
+    "storage",
+    "notifications",
+    "contextMenus",
+    "tabs",
+    "http://*/*",
+    "https://*/*"
+  ]
+}
