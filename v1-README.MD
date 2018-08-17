@@ -29,7 +29,7 @@ Run npm init. Then run npm install in the terminal:
 ## Step-by-Step
 
 * Run node server.js (starts the server, creates the tables in cache-it_db)
-* Visit localhost: 3000???
+* Visit localhost: 8080
 
 ## What the app does?
 
@@ -81,7 +81,7 @@ https://cache-it.heroku.com/addons/jawsdb
 
 ## Authors
 
-* **Elizabeth Porter** - (https://github.com/elizabethporter)
+* **Elizabeth Porter** - (https://github.com/ela-p-p)
 * **Derek Irwin** - (https://github.com/derekirwin)
 * **David Lapadula** - (https://github.com/davidlapadula)
 * **Angelina Davies** - (https://github.com/angelyna)
