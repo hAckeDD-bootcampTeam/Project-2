@@ -22,7 +22,7 @@ $(document).ready(function () {
             'cacheItURL': urlInput.val().trim(),
             'cacheItDefaultTag': defaultSnippetTag.val().trim()
         });
-
+        close();
     });
 });
 
