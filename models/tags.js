@@ -1,29 +1,24 @@
-module.exports = function (sequelize, DataTypes) {
-    var Tags = sequelize.define('Tags', {
-        tag: {
+// snippet object model
+
+module.exports = function(sequelize, DataTypes) {
+    let tagObj = sequelize.define('tagObj', {
+        tagName: {
             type: DataTypes.STRING,
-            allowNull: true
+            allowNull: false, 
+            validate: {
+                len: [1, 20]
+            }
         }
     });
-    //one to one=> each tag belongs to a certain snippet or many
-    Tags.associate = function (models) {
-        Tags.belongsToMany(models.Snippets, {
-            through: {
-                model: models.Taggable,
-                unique: false
-            },
-            foreignKey: 'tag_id',
-            constraints: false
-        });
-        Tags.belongsToMany(models.Fullurls, {
-            through: {
-                model: models.Taggable,
-                unique: false
-            },
-            foreignKey: 'tag_id',
-            constraints: false
-        });
-    }
-    //many to many=> each tag belongs to one url or many
-    return Tags;
+
+    tagObj.associate = function(models) {
+        tagObj.belongsTo(models.cacheObj, { 
+        foreignKey: {
+          allowNull: false, 
+        },
+        onDelete: 'cascade'
+      }); 
+    };  
+ 
+    return tagObj;
 };

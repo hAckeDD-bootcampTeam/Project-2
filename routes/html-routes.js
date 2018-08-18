@@ -1,46 +1,38 @@
-/* eslint-disable */
 
-var db = require("../models");
+
+var db = require('../models');
+
 module.exports = function (app) {
+
     // Hit the main route
     app.get('/', function (req, res) {
-        res.render('landing')
+        res.render('landing');
     });
 
-    // hit users home page
     // hit users home page
     app.get('/home', function (req, res) {
         //get all the tags from the database
-        let renderObject = {}
 
-        db.userTest.find({
-            where: {
-                id: '1'
-            }
-        }).then(function (users) {
-            console.log(users.dataValues)
-            db.snipTest.findAll({
-                where: {
-                    userTestId: users.dataValues.id
-                }
-            }) .then(function (snips) {
-                console.log(snips.dataValues, 'bla')
-                db.tagTest.findAll({
-                    where: {
-                        snipTestId: snips[0].dataValues.userTestId
+        setTimeout(function () {
+            db.tagObj.findAll({
+            }).then(function (tags) {
+                let tagArray = [];
+                // store the tags in an array without duplicates
+                tags.forEach((tag) => {
+                    let tagName = tag.dataValues.tagName;
+                    if (tagArray.indexOf(tagName) === -1) {
+                        tagArray.push(tagName);
                     }
-                }).then(function (tags) {
-                    console.log(tags[0].dataValues)
-                    res.render('home')
-    
+
                 });
-
+                // pass the array into handlebars
+                let tagObject = {
+                    tags: tagArray,
+                };
+                // render the home page with the tags
+                res.render('home', tagObject);
             });
-        });
-
-        // res.render('home')
-
+        }, 300);
+ 
     });
-
 };
-
