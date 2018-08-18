@@ -7,19 +7,32 @@ chrome.contextMenus.create(contextMenusI); //this will show our app context menu
 
 chrome.contextMenus.onClicked.addListener(function (clicked) {
 
-  // Get the present URL, and the add that and the snippet text into an object
-  getCurrentURL()
+  // before the cache object can be stored to the application, we first
+  // read the extension settings to get the URL of the app, and the default tag to use.
+  // Any new snippet that gets added will be tagged with whatever is set for the default tag.
+  var step1 = getStoredSettings(); // get the settings for default tag, and app URL
+  var step2 = getCurrentURL();     // the URL where the copied snippet was found
+
+  Promise.all([step1, step2])
+    .then(values => {
+
+      var extensionSettingsAndPresentURL = {
+        cacheItURL: values[0].cacheItURL,
+        cacheItDefaultTag: values[0].cacheItDefaultTag,
+        tabURL: values[1]
+      }
+      return extensionSettingsAndPresentURL;
+    })
     .then(function (response) {
 
       var snippetObject = {
-        snipName: response,                // URL
-        snipDesc: clicked.selectionText,   // Snippet of text
-        snipTag: 'Untagged'                // Default tag
+        snipName: response.tabURL,           // URL
+        snipDesc: clicked.selectionText,     // Snippet of text
+        snipTag: response.cacheItDefaultTag  // Default tag
       }
-      //alert(JSON.stringify(snippetObject));
 
       // Send the new cache object to the cacheIt application
-      fetch('http://localhost:8080/newPersSnip', {
+      fetch(`${response.cacheItURL}/newPersSnip`, {
         method: 'post',
         body: JSON.stringify(snippetObject)
       })
@@ -37,13 +50,9 @@ chrome.contextMenus.onClicked.addListener(function (clicked) {
           });
         })
         .then(
-          reloadMatchingOpenTabs('http://localhost:8080/*')
+          reloadMatchingOpenTabs(`${response.cacheItURL}/*`)
         );
-
-      //chrome.notifications.create("notifyCopiedText",notificationOptions,notifyCopiedText);
-      //chrome.notifications.create(notifyCopiedText);
     });
-
 });
 
 // get the URL of the presently selected tab.
@@ -99,8 +108,24 @@ function reloadMatchingOpenTabs(baseurl) {
   });
 }
 
-      // Just for testing
-      // getMatchingOpenTabs('http://localhost:8080/*')
-      //   .then(function (sendingVal) {
-      //     alert(sendingVal);
-      //   });
+// Get the settings stored in chrome extension storage, so that
+// we can use them in the application
+function getStoredSettings() {
+  return new Promise(function (resolve, reject) {
+
+    chrome.storage.sync.get(["cacheItURL", "cacheItDefaultTag"], function (result) {
+      var cacheItSettings = {
+        cacheItURL: result.cacheItURL,
+        cacheItDefaultTag: result.cacheItDefaultTag,
+      }
+
+      if ((result.cacheItURL == undefined) || (result.cacheItDefaultTag == undefined)) {
+        alert('You must add the cacheIt URL and default tag in Options!');
+        reject();
+      } else {
+        resolve(cacheItSettings);
+      }
+    });
+  });
+}
+
